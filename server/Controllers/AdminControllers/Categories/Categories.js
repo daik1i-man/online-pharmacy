@@ -73,9 +73,33 @@ async function deleteCategory(req, res) {
     }
 }
 
+async function getCategoryById(req, res) {
+    const { id } = req.query
+
+    try {
+        const category = await db.query('SELECT * FROM categories WHERE id = $1', [id])
+        if (category.rows.length > 0) {
+            res.status(200).json({
+                message: `Category where id = ${id} fetched successfully`,
+                category: category.rows[0].name
+            })
+        } else {
+            res.status(404).json({
+                message: `Category not found where id = ${id}`
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Something went wrong",
+            error: error.message
+        })
+    }
+}
+
 module.exports = {
     getAllCategories,
     addCategory,
     updateCategory,
-    deleteCategory
+    deleteCategory,
+    getCategoryById
 }

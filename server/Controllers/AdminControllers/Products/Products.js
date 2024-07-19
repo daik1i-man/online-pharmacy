@@ -2,8 +2,9 @@ const db = require('../../../Database/config')
 const { v4: uuidv4 } = require('uuid')
 
 async function getAllProdcusts(req, res) {
+    const { limit } = req.query
     try {
-        const allProducts = await db.query('SELECT * FROM products')
+        const allProducts = await db.query('SELECT * FROM products LIMIT $1', [limit])
         if (allProducts.rows.length > 0) {
             res.status(200).json({
                 message: "Products retrieved successfully",
@@ -41,7 +42,7 @@ async function addProduct(req, res) {
 }
 
 async function updateProduct(req, res) {
-    const {img_url, category, price, quantity, id, name, description } = req.body
+    const { img_url, category, price, quantity, id, name, description } = req.body
 
     try {
         const updatedProduct = await db.query('UPDATE products SET img_url = $1, category = $2, price = $3, quantity = $4, name = $5, description = $6  WHERE id = $7 RETURNING *', [img_url, category, price, quantity, name, description, id])
@@ -73,9 +74,56 @@ async function deleteProduct(req, res) {
     }
 }
 
+async function getProductsByCategory(req, res) {
+    const { category, limit } = req.query
+
+    try {
+        const products = await db.query('SELECT * FROM products WHERE category = $1 LIMIT $2', [category, limit])
+        if (products.rows.length > 0) {
+            res.status(200).json({
+                message: `Fetched products where category = ${category}`,
+                products: products.rows
+            })
+        } else {
+            res.status(200).json({
+                message: `Not found products where category = ${category}`
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Something went wrong",
+            error: error.message
+        })
+    }
+}
+
+async function getProductById(req, res) {
+    const { id } = req.query
+
+    try {
+        const response = await db.query('SELECT * FROM products WHERE id = $1', [id])
+        if (response.rows.length > 0) {
+            res.status(200).json({
+                product: response.rows[0]
+            })
+        } else {
+            res.status(404).json({
+                message: "Product not found"
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: "Something went wrong",
+            error: error.message
+        })
+    }
+}
+
 module.exports = {
     getAllProdcusts,
     addProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getProductsByCategory,
+    getProductById
 }
