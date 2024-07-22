@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { FaTelegram, FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa"
-import { Label, Textarea } from "flowbite-react";
+import { Textarea } from "flowbite-react";
 import { Button } from "@nextui-org/react";
 
 export default function Footer() {

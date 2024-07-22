@@ -1,3 +1,4 @@
+import Favourites from './favourites/page';
 export interface childrenProps {
     children: React.ReactNode
 }
@@ -16,7 +17,9 @@ export interface MainPageProductsProps {
     id: string,
     img_url: string,
     name: string,
-    description: string
+    description: string,
+    cart: boolean,
+    favourites: boolean
 }
 
 export interface basketProductsProps {
@@ -25,5 +28,16 @@ export interface basketProductsProps {
     imageUrl: string,
     name: string,
     quantity: string,
-    price: string
+    price: string,
+    cart: boolean
+}
+
+export interface productCardDatasProps {
+    name: string,
+    id: string,
+    img_url: string,
+    price: string,
+    cart: boolean,
+    favourites: boolean,
+    quantity: number
 }

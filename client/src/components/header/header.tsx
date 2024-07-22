@@ -32,7 +32,7 @@ export default function Header() {
                         <h1 className="font-bold">Online Pharmacy</h1>
                     </Link>
                 </NavbarBrand>
-                <NavbarItem className="space-x-5">
+                <NavbarItem className="space-x-5 mx-56">
                     <Link href="/" className={`text-gray-900 text-[14px] font-medium ${pathName === '/' && 'text-[#0295a9]'}`}>
                         Main
                     </Link>
@@ -46,9 +46,11 @@ export default function Header() {
             </NavbarContent>
 
             <NavbarContent justify="end">
-                <Button className="bg-[#0295a9] text-white rounded-md py-2.5 px-10">
-                    Sign in
-                </Button>
+                <Link href='/auth/login'>
+                    <Button className="bg-[#0295a9] text-white rounded-md py-2.5 px-10">
+                        Sign in
+                    </Button>
+                </Link>
             </NavbarContent>
 
             <NavbarMenu>

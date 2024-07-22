@@ -1,9 +1,9 @@
 'use client'
 
 import React from "react";
-import { Card, CardHeader, CardBody, CardFooter, Avatar, Button } from "@nextui-org/react";
+import { Card, CardHeader, Avatar } from "@nextui-org/react";
 import { MainPageCategoriesProps } from "../types";
-import { getAllCaregories } from "../functions";
+import { getAllCaregories } from "../functions/functions";
 import Link from "next/link";
 
 export default function Categories() {

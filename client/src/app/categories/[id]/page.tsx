@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { getCategoryById, getProductsByCategoryName } from "@/app/functions";
+import { getCategoryById, getProductsByCategoryName } from "../../functions/functions";
 import ProductsCard from "@/components/productCard/productsCard";
 import SkeletoComponent from "@/components/skeletonComponent/skeletonComponent";
 import { Button } from "@nextui-org/react";

@@ -24,11 +24,11 @@ async function getAllProdcusts(req, res) {
 }
 
 async function addProduct(req, res) {
-    const { img_url, category, price, quantity, name, description } = req.body
+    const { img_url, category, price, quantity, name, description, cart, favourites } = req.body
     const id = uuidv4()
 
     try {
-        const newProduct = await db.query('INSERT INTO products (category, price, quantity, id, img_url, name, description) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *', [category, price, quantity, id, img_url, name, description])
+        const newProduct = await db.query('INSERT INTO products (category, price, quantity, id, img_url, name, description, cart, favourites) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *', [category, price, quantity, id, img_url, name, description, cart, favourites])
         res.status(200).json({
             message: 'Product added successfully',
             newProduct: newProduct.rows[0]

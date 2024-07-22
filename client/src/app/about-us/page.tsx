@@ -1,7 +1,9 @@
+import { Button } from 'primereact/button';
+
 function About() {
     return (
         <div>
-            Enter
+            <Button label="Check" icon="pi pi-check" />
         </div>
     );
 }

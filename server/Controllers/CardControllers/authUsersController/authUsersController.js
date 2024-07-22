@@ -2,6 +2,9 @@ const db = require("../../../Database/config");
 
 async function addProductToCart(req, res) {
   const { id, userId, image_url, name, quantity, price } = req.body;
+
+  console.log('this user authorized');
+
   try {
     const newProduct = await db.query(
       "INSERT INTO basket (id, user_id, image_url, name, quantity, price) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
@@ -21,6 +24,8 @@ async function addProductToCart(req, res) {
 
 async function deleteProductFromCart(req, res) {
   const productId = req.query.productId;
+
+  console.log('this user authorized');
 
   try {
     await db.query("DELETE FROM basket WHERE id = $1", [productId]);

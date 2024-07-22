@@ -1,18 +1,55 @@
 const db = require("../../../Database/config");
-const crypto = require("crypto");
+
+async function getFavourites(req, res) {
+  try {
+
+    if (!req.session.favourites) {
+      req.session.favourites = []
+    }
+
+    const favourites = req.session.favourites
+
+    const productsId = req.session.favourites.map(item => item.id)
+
+    if (productsId.length > 0) {
+      const products = await db.query('SELECT * FROM products WHERE id = ANY($1::uuid[])', [productsId])
+      const favouritesWithDetails = favourites.map(item => {
+        const product = products.rows.find(p => p.id === item.id)
+
+        return {
+          ...item,
+          product: product || null
+        }
+      })
+      res.status(200).json(favouritesWithDetails)
+    } else {
+      res.status(200).json(favourites)
+    }
+
+  } catch (error) {
+    res.status(500).json({
+      error: error.message
+    })
+  }
+}
 
 async function addProductToFavourites(req, res) {
-  const { id, img_url, name, price, state } = req.body;
-  const user_id = crypto.randomBytes(64).toString("hex");
+  const { id } = req.body;
 
   try {
-    const newProduct = await db.query(
-      "INSERT INTO favourites (id, img_url, name, price, state, user_id) VALUES ($1, $2, $3, $4, $5, $6)",
-      [id, img_url, name, price, state, user_id]
-    );
-    res.state(200).json({
-      message: "Product added to favourites",
-      newProduct: newProduct.rows[0],
+    if (!req.session.favourites) {
+      req.session.favourites = [];
+    }
+
+    const isFavourite = req.session.favourites.some(item => item.id === id);
+    if (!isFavourite) {
+      req.session.favourites.push({ id });
+    }
+
+    await db.query('UPDATE products SET favourites = $1 WHERE id = $2', [true, id]);
+
+    res.status(200).json({
+      message: "Product added to favourites"
     });
   } catch (error) {
     res.status(500).json({
@@ -23,12 +60,17 @@ async function addProductToFavourites(req, res) {
 }
 
 async function deleteProductFromFavourites(req, res) {
-  const productId = req.query.productId;
+  const id = req.query.id;
 
   try {
-    await db.query("DELETE FROM favourites where id = $1", [productId]);
+    if (req.session.favourites) {
+      req.session.favourites = req.session.favourites.filter(item => item.id !== id);
+    }
+
+    await db.query('UPDATE products SET favourites = $1 WHERE id = $2', [false, id]);
+
     res.status(200).json({
-      message: `Product where id = ${productId} deleted successfully`,
+      message: `Product where id = ${id} deleted successfully`,
     });
   } catch (error) {
     res.status(500).json({
@@ -38,7 +80,10 @@ async function deleteProductFromFavourites(req, res) {
   }
 }
 
+
+
 module.exports = {
   addProductToFavourites,
   deleteProductFromFavourites,
+  getFavourites
 };

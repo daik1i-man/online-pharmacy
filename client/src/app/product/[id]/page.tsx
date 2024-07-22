@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Image, Button } from "@nextui-org/react";
-import { getProductById } from "@/app/functions";
+import { getProductById } from "@/app/functions/functions";
 import { MainPageProductsProps } from "@/app/types";
 
 export default function Page() {

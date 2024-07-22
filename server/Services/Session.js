@@ -7,7 +7,7 @@ const sessionConfig = new session({
   secret: secretKey,
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false },
+  cookie: { secure: false, httpOnly: true, sameSite: 'strict' },
 });
 
 module.exports = sessionConfig;
