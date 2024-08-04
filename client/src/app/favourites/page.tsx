@@ -15,6 +15,8 @@ export default function Favourites() {
         queryFn: () => getFavourites(),
     })
 
+    console.log(favourites)
+
     return (
         <div>
             {favourites?.length === 0 ? (
@@ -32,13 +34,13 @@ export default function Favourites() {
                         "item".repeat(1).split("").map((el, index) => <SkeletoComponent key={index} />)
                     ) : (favourites?.map((product: any) => (
                         <ProductsCard
-                            key={product?.product.id}
-                            name={product?.product.name}
-                            price={product?.product.price}
-                            id={product?.product.id}
-                            img_url={product?.product.img_url}
-                            cart={product?.product.cart}
-                            favourites={product?.product.favourites}
+                            key={product?.id}
+                            name={product?.name}
+                            price={product?.price}
+                            id={product?.id}
+                            img_url={product?.img_url}
+                            cart={product?.cart}
+                            favourites={product?.favourites || product?.state}
                             quantity={1}
                         />)))}
                 </div>

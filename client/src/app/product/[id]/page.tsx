@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import { Image, Button } from "@nextui-org/react";
 import { getProductById } from "@/app/functions/functions";
 import { MainPageProductsProps } from "@/app/types";
+import { Image, Button } from "@nextui-org/react";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
 export default function Page() {
     const [count, setCount] = useState(1)

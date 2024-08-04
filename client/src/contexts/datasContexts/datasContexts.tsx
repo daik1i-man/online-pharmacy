@@ -1,16 +1,37 @@
 'use client'
 
-import { createContext, useState } from 'react'
-import { basketDatasContextProps } from '../contextsType';
-import { basketProductsProps, childrenProps } from '@/app/types';
+import { stateContextProps, statesProps } from '../contextsType';
+import { useQuery } from '@tanstack/react-query';
+import { createContext, useContext, useState } from 'react'
+import { getUser } from '@/app/functions/functions';
+import { childrenProps } from '@/app/types';
 
-const basketProductsDatasContext = createContext<basketDatasContextProps | null>(null)
+export const statesContext = createContext<stateContextProps | undefined>(undefined)
 
-export default function DatasContextsComponent({ children }: childrenProps) {
-    const [basketDatas, setBasketDatas] = useState<basketProductsProps | null>(null)
+export const useStatesContext = () => {
+    const context = useContext(statesContext)
+
+    if (context === undefined) {
+        throw new Error('useStatesContext must be used within a StatesContextProvider');
+    }
+
+    return context
+}
+
+export default function StateDatasContext({ children }: childrenProps) {
+    const [state, setState] = useState<statesProps>({
+        phoneNumber: '',
+        otp: '',
+        password: '',
+        currentStep: 0,
+        error: '',
+        loading: false,
+        show: false
+    })
+
     return (
-        <basketProductsDatasContext.Provider value={{ basketDatas, setBasketDatas }}>
+        <statesContext.Provider value={{ state, setState }}>
             {children}
-        </basketProductsDatasContext.Provider>
+        </statesContext.Provider>
     );
 }

@@ -23,20 +23,20 @@ export default function RootLayout({
     <html lang="en" className={LexendExa.className}>
       <body
       >
-        <Header />
-        <ContextsProvider>
-          <PrimeReactProvider>
-            <NextUIProviderComponent>
-              <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
+          <ContextsProvider>
+            <Header />
+            <PrimeReactProvider>
+              <NextUIProviderComponent>
                 <Provider>
                   {children}
                 </Provider>
-              </QueryClientProvider>
-            </NextUIProviderComponent>
-          </PrimeReactProvider>
-        </ContextsProvider>
-        <Toaster />
-        <Footer />
+              </NextUIProviderComponent>
+            </PrimeReactProvider>
+            <Toaster />
+            <Footer />
+          </ContextsProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );

@@ -1,10 +1,13 @@
 import { childrenProps } from "@/app/types";
-import DatasContextsComponent from "@/contexts/datasContexts/datasContexts";
+import StateDatasContext from "@/contexts/datasContexts/datasContexts";
+import ActionContexts from "@/contexts/actionsContext/actionContexts";
 
 export default function ContextsProvider({ children }: childrenProps) {
     return (
-        <DatasContextsComponent>
-            {children}
-        </DatasContextsComponent>
+        <ActionContexts>
+            <StateDatasContext>
+                {children}
+            </StateDatasContext>
+        </ActionContexts>
     );
 }

@@ -3,10 +3,8 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 const authRouter = require("./Routers/AuthRouter/AuthRouter");
 const adminRouter = require("./Routers/AdminRouter/AdminRouter");
-const notAuthUsersCardRouter = require("./Routers/cardRouter/notAuthUsersProductsRouter/cardRouter");
-const authUsersCardRouter = require("./Routers/cardRouter/authUsersProductsRouter/cardRouter");
-const authUsersFavourites = require('./Routers/favouritesRouter/authUsersFavouritesRouter/authUserFavouritesRouter')
-const notAuthUsersFavourites = require('./Routers/favouritesRouter/notAuthUsersFavouritesRouter/notAuthUserFavouritesRouter')
+const cartRouter = require("./Routers/cartRouter/cartRouter");
+const favouritesRouter = require('./Routers/favouritesRouter/favouritesRouter')
 const sessionConfig = require("./Services/Session");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -25,10 +23,9 @@ app.use(
 
 app.use("/auth", authRouter);
 app.use("/admin-controll", adminRouter);
-app.use("/not-auth-users/card", notAuthUsersCardRouter);
-app.use("/auth-users/card", authUsersCardRouter);
-app.use("/auth-users/favourites", authUsersFavourites);
-app.use("/not-auth-users/favourites", notAuthUsersFavourites);
+app.use("/users/cart", cartRouter);
+app.use("/users/favourites", favouritesRouter);
+
 
 app.listen(PORT, () => {
   console.log(`Server started on : http://localhost:${PORT}`);

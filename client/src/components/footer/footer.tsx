@@ -5,7 +5,7 @@ import { Button } from "@nextui-org/react";
 
 export default function Footer() {
     return (
-        <div className="w-full h-[412px] bg-[#fcf7f7] mt-12">
+        <div className="w-full h-[412px] bg-[#fcf7f7]">
             <div className="max-w-7xl mx-auto">
                 <div className="flex justify-between items-center border-b border-gray-400">
                     <div>

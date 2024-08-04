@@ -1,9 +1,9 @@
 const express = require('express')
 const authRouter = express.Router();
-const SMSVerficationRouter = require('../SMSVerificationRouter/SMSVerificationRouter')
+const usersAuthRouter = require('./usersAuthRouter/usersAuthRouter')
 const AdminAuthRouter = require('../AuthRouter/AdminAuthRouter/AdminAuthRouter')
 
-authRouter.use('/register', SMSVerficationRouter)
+authRouter.use('/user', usersAuthRouter)
 authRouter.use('/admin', AdminAuthRouter)
 
 module.exports = authRouter;

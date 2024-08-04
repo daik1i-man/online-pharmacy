@@ -1,5 +1,6 @@
 import { axiosInstance } from "@/configs/axios.config";
-import Cookies from "js-cookie"
+import { updatePrifleDatasProps, stateProps } from "../types";
+import axios from "axios";
 
 export const getAllCaregories = async () => {
     try {
@@ -64,15 +65,12 @@ export const getProductById = async (id: string | string[]) => {
 }
 
 
-export async function addProductToCart(id: string, quantity: number) {
-    const user = Cookies.get('userId')
-
-    const url = user === undefined ? '/not-auth-users/card/add' : '/auth-users/card/add'
-
+export async function addProductToCart(id: string, quantity: number, price: string) {
     try {
-        const response = await axiosInstance.post(url, {
+        const response = await axiosInstance.post('/users/cart/add', {
             productId: id,
-            quantity: quantity
+            quantity: quantity,
+            price: price
         })
         return response.data
     } catch (error) {
@@ -81,28 +79,17 @@ export async function addProductToCart(id: string, quantity: number) {
 }
 
 export const deleteProductFromCart = async (id: string) => {
-    const user = Cookies.get('userId')
-
-    const url = user === undefined ? `/not-auth-users/card/delete?productId=${id}` : `/auth-users/card/delete?productId=${id}`
-
     try {
-        const response = await axiosInstance.get(url)
-        if (response.status === 200) {
-            console.log(response.data.message);
-        }
-        return response.data
+        const response = await axiosInstance.get(`/users/cart/delete?productId=${id}`)
+        return response.data.message
     } catch (error) {
         return (error as Error).message
     }
 }
 
 export const addProductToFavourites = async (id: string) => {
-    const user = Cookies.get('userId')
-
-    const url = user === undefined ? '/not-auth-users/favourites/add' : '/auth-users/favourites/add'
-
     try {
-        const response = await axiosInstance.post(url, { id: id })
+        const response = await axiosInstance.get(`/users/favourites/add?id=${id}`)
 
         return response.data.message
     } catch (error) {
@@ -111,12 +98,8 @@ export const addProductToFavourites = async (id: string) => {
 }
 
 export const deleteProductFromFavourites = async (id: string) => {
-    const user = Cookies.get('userId')
-
-    const url = user === undefined ? `/not-auth-users/favourites/delete?id=${id}` : `/auth-users/favourites/delete?id=${id}`
-
     try {
-        const response = await axiosInstance.get(url)
+        const response = await axiosInstance.get(`/users/favourites/delete?id=${id}`)
         return response.data.message
     } catch (error) {
         return (error as Error).message
@@ -124,29 +107,180 @@ export const deleteProductFromFavourites = async (id: string) => {
 }
 
 export const getCart = async () => {
-    const user = Cookies.get('userId')
-
-    const url = user === undefined ? '/not-auth-users/card/get-cart' : '/auth-users/card/get-cart'
-
-
     try {
-        const response = await axiosInstance.get(url)
-
-        return response.data
+        const response = await axiosInstance.get('/users/cart/get-cart')
+        return response?.data?.products
     } catch (error) {
         return (error as Error).message
     }
 }
 
 export const getFavourites = async () => {
-    const user = Cookies.get('userId')
-
-    const url = user === undefined ? '/not-auth-users/favourites/get-favourites' : '/auth-users/favourites/get-favourites';
-
     try {
-        const response = await axiosInstance.get(url)
-        return response.data
+        const response = await axiosInstance.get('/users/favourites/get-favourites')
+
+        return response?.data?.favourites
     } catch (error) {
         return (error as Error).message
+    }
+}
+
+export const getUserNumber = async (phone_number: string) => {
+    const formattedNumber = phone_number.replace(/\s+/g, '')
+    try {
+        const response = await axiosInstance.post('/auth/user/get-number', {
+            phone_number: `998${formattedNumber}`
+        })
+        return response
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return error.response
+        }
+        throw error
+    }
+}
+
+export const verification = async (otp: string) => {
+    try {
+        const response = await axiosInstance.post('/auth/user/verification', {
+            userOtp: otp
+        })
+        return response
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return error.response
+        }
+        throw error
+    }
+}
+
+export const getUserPassword = async (password: string) => {
+    try {
+        const response = await axiosInstance.post('/auth/user/get-password', {
+            password: password
+        })
+        return response
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return error.response
+        }
+        throw error
+    }
+}
+
+export const login = async (phone_number: string, password: string) => {
+    const formatted = phone_number.replace(/\s+/g, '')
+    try {
+        const response = await axiosInstance.post('/auth/user/login', {
+            phone_number: `998${formatted}`,
+            password: password
+        })
+
+        return response
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return error.response
+        }
+
+        throw error
+    }
+}
+
+export const logout = async () => {
+    try {
+        const response = await axiosInstance.get('/auth/user/logout')
+        return response
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return error.response
+        }
+
+        throw error
+    }
+}
+
+export const getUser = async () => {
+    try {
+        const response = await axiosInstance.get('/auth/user/get-user')
+        return response?.data?.user
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return error.response?.data?.user
+        }
+
+        throw error
+    }
+}
+
+export const updateProfile = async ({ phoneNumber, firstName, lastName, imgUrl }: updatePrifleDatasProps) => {
+    const formattedNumber = phoneNumber?.replace(/\s+/g, '')
+    try {
+        const response = await axiosInstance.post('/auth/user/update-profile', {
+            number: `998${formattedNumber}`,
+            first_name: firstName,
+            last_name: lastName,
+            img_url: imgUrl
+        })
+        return response?.data?.user
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return error.response
+        }
+
+        throw error
+    }
+}
+
+
+export const getOrders = async () => {
+    try {
+        const response = await axiosInstance.get('/admin-controll/orders/get-user-orders')
+        return response?.data?.orders
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return error.response
+        }
+
+        throw error
+    }
+}
+
+export const cancelOrder = async (id: string) => {
+    try {
+        const response = await axiosInstance.post('/admin-controll/orders/delete', {
+            id: id
+        })
+        return response
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return error.response
+        }
+
+        throw error
+    }
+}
+
+export const checkout = async ({ ...props }: stateProps) => {
+
+    const date = new Date().toLocaleDateString()
+    const { firstName, lastName, phoneNumber, paymentType, cardNumber, totalPrice } = props
+
+    try {
+        await axiosInstance.post('/admin-controll/orders/add', {
+            phoneNumber: phoneNumber,
+            total_price: totalPrice,
+            ordered_time: date,
+            status: 'Getting ready',
+            firstName: firstName,
+            lastName: lastName,
+            paymentType: paymentType,
+            cardNumber: cardNumber
+        })
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            return error.response
+        }
+
+        throw error
     }
 }

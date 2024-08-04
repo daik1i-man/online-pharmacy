@@ -28,7 +28,7 @@ export default function ProductsCard({ name, id, img_url, price, cart, favourite
     }
 
     const addProductToCartMutation = useMutation({
-        mutationFn: (id: string) => addProductToCart(id, 1),
+        mutationFn: (id: string) => addProductToCart(id, 1, price),
         onSuccess: () => {
             toast({
                 title: "Product added to cart",
@@ -166,11 +166,13 @@ export default function ProductsCard({ name, id, img_url, price, cart, favourite
             className="max-w-xl relative my-4 shadow-none p-4"
         >
             <Link href={`/product/${id}`}>
-                <img
-                    className='w-full h-64'
-                    alt={name}
-                    src={img_url}
-                />
+                <Button className="bg-white h-auto w-auto focus:bg-white">
+                    <img
+                        className='w-full h-64'
+                        alt={name}
+                        src={img_url}
+                    />
+                </Button>
             </Link>
             <div className="absolute top-3 right-3">
                 {favourites ? (
