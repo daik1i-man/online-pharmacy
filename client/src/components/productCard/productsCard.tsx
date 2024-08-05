@@ -1,12 +1,12 @@
 'use client'
 
-import { Card } from "flowbite-react";
-import { Button } from "@nextui-org/react";
-import { productCardDatasProps } from "@/app/types";
-import Link from "next/link";
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { productCardDatasProps } from "@/app/types";
 import { useToast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"
+import { Button } from "@nextui-org/react";
+import { Card } from "flowbite-react";
+import Link from "next/link";
 import {
     addProductToCart,
     addProductToFavourites,
