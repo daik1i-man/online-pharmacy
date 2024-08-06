@@ -1,60 +1,45 @@
 'use client'
 
-import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
 import { getCategoryById, getProductsByCategoryName } from "../../functions/functions";
-import ProductsCard from "@/components/productCard/productsCard";
 import SkeletoComponent from "@/components/skeletonComponent/skeletonComponent";
+import ProductsCard from "@/components/productCard/productsCard";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
 import { Button } from "@nextui-org/react";
-import { MainPageProductsProps } from "@/app/types";
 import Link from "next/link";
 
 export default function Page() {
     const { id } = useParams()
-    const [loading, setLoading] = useState(false)
-    const [products, setProducts] = useState<MainPageProductsProps[]>([])
-    const [category, setCategory] = useState<string | undefined>(undefined)
 
-    useEffect(() => {
+    const { data: category } = useQuery({
+        queryKey: ['category'],
+        queryFn: () => getCategoryById(id)
+    })
 
-        const fetchDatas = async () => {
-            setLoading(true)
-            const categoryName = await getCategoryById(id)
-            setCategory(categoryName)
-            const products = await getProductsByCategoryName(categoryName)
-            setProducts(products)
-            setLoading(false)
-        }
-
-        fetchDatas()
-
-        const intervalId = setInterval(fetchDatas, 1000)
-
-        if (intervalId) {
-            clearInterval(intervalId)
-        }
-
-    }, [id])
+    const { data: product, isLoading: productLoading } = useQuery({
+        queryKey: ['product'],
+        queryFn: () => getProductsByCategoryName(category)
+    })
 
     return (
         <>
             <div className="my-12 max-w-7xl mx-auto">
                 <h1 className="text-2xl font-medium">{category}</h1>
             </div>
-            {products ?
+            {product ?
                 (< div className="max-w-7xl mx-auto grid grid-cols-4 gap-4">
-                    {loading ? (
+                    {productLoading ? (
                         "item".repeat(3).split("").map((el, index) => <SkeletoComponent key={index} />)) :
-                        (products && products.map((product) => (
+                        (product && product.map((item: any) => (
                             <ProductsCard
-                                key={product.id}
-                                category={""}
-                                price={product.price}
-                                quantity={""}
-                                id={product.id}
-                                img_url={product.img_url}
-                                name={product.name}
-                                description={""}
+                                key={item.id}
+                                price={item.price}
+                                quantity={1}
+                                id={item.id}
+                                img_url={item.img_url}
+                                name={item.name}
+                                cart={item?.cart}
+                                favourites={item?.favourites}
                             />
                         )))
                     }
