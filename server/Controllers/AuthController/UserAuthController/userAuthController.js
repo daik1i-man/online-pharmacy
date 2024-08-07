@@ -14,11 +14,11 @@ async function getUserNumber(req, res) {
             return res.status(409).json({ message: 'User already exists' })
         }
 
-        res.cookie('phone_number', phone_number, { httpOnly: false })
+        res.cookie('phone_number', phone_number, { httpOnly: false, secure: true, sameSite: 'None', path: '/' })
 
         const otp = await main(phone_number)
         if (otp) {
-            res.cookie('otp', otp, { httpOnly: true })
+            res.cookie('otp', otp, { httpOnly: true, secure: true, sameSite: 'None', path: '/' })
         }
 
         res.status(200).send({ message: 'Phone number and OTP saved in cookies' });
@@ -51,9 +51,9 @@ async function getUserPassword(req, res) {
 
     try {
         const insert = await insertUser(phone_number, password)
-        res.clearCookie('otp')
-        res.clearCookie('phone_number')
-        res.cookie('userId', insert.id, { maxAge: 2147483647545487, httpOnly: true })
+        res.clearCookie('otp', { httpOnly: true, secure: true, sameSite: 'None', path: '/' })
+        res.clearCookie('phone_number', { httpOnly: true, secure: true, sameSite: 'None', path: '/' })
+        res.cookie('userId', insert.id, { maxAge: 2147483647545487, httpOnly: true, secure: true, sameSite: 'None', path: '/' })
         res.status(200).json({ message: 'user created successsfully', user: insert })
     } catch (error) {
         res.status(500).send(`error: ${error.message}`)
@@ -76,7 +76,7 @@ async function login(req, res) {
             return res.status(302).json({ message: 'Invalid password' })
         }
 
-        res.cookie('userId', user.id, { maxAge: 2147483647545487, httpOnly: true })
+        res.cookie('userId', user.id, { maxAge: 2147483647545487, httpOnly: true, secure: true, sameSite: 'None', path: '/' })
         res.status(200).json({ message: 'User logged successfully' })
     } catch (error) {
         console.log(error.message);
@@ -103,7 +103,7 @@ async function getCurrentUser(req, res) {
 
 async function logout(req, res) {
     try {
-        res.clearCookie('userId')
+        res.clearCookie('userId', { httpOnly: true, secure: true, sameSite: 'None', path: '/' })
         res.status(200).json({ message: 'user logged out!' })
     } catch (error) {
         console.log(error.message);

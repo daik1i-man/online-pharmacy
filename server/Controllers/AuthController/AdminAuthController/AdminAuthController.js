@@ -35,6 +35,8 @@ async function AdminLogin(req, res) {
                 res.setHeader('Set-Cookie', cookie.serialize('admin_id', adminRow.id, {
                     maxAge: 24 * 60 * 60 * 1000,
                     httpOnly: true,
+                    secure: true,
+                    sameSite: 'None',
                     path: '/'
                 }))
                 res.status(200).json({
@@ -82,7 +84,7 @@ async function getCurrentAdmin(req, res) {
 }
 
 async function logout(req, res) {
-    res.clearCookie('admin_id')
+    res.clearCookie('admin_id', { httpOnly: true, secure: true, sameSite: 'None', path: '/' })
     res.redirect('http://localhost:3000/login')
 }
 

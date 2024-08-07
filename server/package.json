@@ -7,7 +7,7 @@
     "start": "nodemon index.js",
     "dev": "nodemon index.js",
     "test": "nodemon index.js",
-    "build": "echo 'No build step needed'"
+    "build": "echo 'No build step necessary'"
   },
   "keywords": [],
   "author": "",

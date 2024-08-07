@@ -1,3 +1,4 @@
+require('dotenv').config({ path: './Services/.env/.env' })
 const express = require("express");
 const PORT = process.env.PORT || 5000;
 const app = express();
@@ -15,7 +16,7 @@ app.use(sessionConfig);
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: ["https://online-pharmacy-client.vercel.app"],
     credentials: true,
     optionSuccessStatus: 200,
   })
