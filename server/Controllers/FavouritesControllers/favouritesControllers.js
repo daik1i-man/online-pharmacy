@@ -2,27 +2,16 @@ const db = require("../../Database/config");
 
 async function getFavourites(req, res) {
     const { userId } = req.cookies
+    const connectSID = req.cookies['connect.sid']
 
     try {
         if (userId === undefined) {
-            const favourites = req.session.favourites ? req.session.favourites || [] : []
+            const response = await db.query('SELECT * FROM not_auth_user_favourites WHERE user_secret_key = $1', [connectSID])
 
-            const productsId = favourites.map(item => item.id)
-
-            if (productsId.length > 0) {
-                const products = await db.query('SELECT * FROM products WHERE id = ANY($1::uuid[])', [productsId])
-
-                return res.status(200).json({
-                    title: 'not auth user favourite products',
-                    favourites: products.rows
-                })
-
-            } else {
-                res.status(200).json({
-                    title: 'not auth user favourite products',
-                    favourites: favourites
-                })
-            }
+            res.status(200).json({
+                title: 'not auth user favourite products',
+                favourites: response.rows
+            })
         } else {
             const response = await db.query('SELECT * FROM favourites WHERE user_id = $1', [userId])
 
@@ -43,18 +32,25 @@ async function getFavourites(req, res) {
 async function addProductToFavourites(req, res) {
     const id = req.query.id
     const { userId } = req.cookies
+    const connectSID = req.cookies['connect.sid']
 
     try {
         if (userId === undefined) {
-            if (!req.session.favourites) {
-                req.session.favourites = []
+            const favouritesResult = await db.query('SELECT * FROM products WHERE id = $1', [id])
+            const product = favouritesResult.rows[0]
+
+            if (!product) {
+                return res.status(404).json({ message: 'product not found' })
             }
 
-            req.session.favourites.push({ id })
-            
+            await db.query(
+                'INSERT INTO not_auth_user_favourites (product_id, user_secret_key, img_url, name, price, state) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+                [product.id, connectSID, product.img_url, product.name, product.price, product.favourites]
+            )
+
             await db.query('UPDATE products SET favourites = $1 WHERE id = $2', [true, id]);
 
-            return res.status(200).json({
+            res.status(200).json({
                 message: 'not auth user added product to favourites'
             })
         } else {
@@ -88,16 +84,14 @@ async function deleteProductFromFavourites(req, res) {
 
     try {
         if (userId === undefined) {
+            await db.query('DELETE FROM not_auth_user_favourites WHERE product_id = $1', [id])
+
             await db.query('UPDATE products SET favourites = $1 WHERE id = $2', [false, id]);
-            const favourites = req.session.favourites ? req.session.favourites : []
 
-            if (favourites) {
-                req.session.favourites = req.session.favourites.filter(item => item.id !== id);
-            }
-
-            return res.status(200).json({
-                message: 'not auth user deleted product from session storage',
+            res.status(200).json({
+                message: 'not auth user deleted product from favourites',
             })
+
         } else {
             await db.query('DELETE FROM favourites WHERE id = $1', [id])
             await db.query('UPDATE products SET favourites = $1 WHERE id = $2', [false, id]);

@@ -29,7 +29,7 @@ app.use(session({
   secret: secretKey,
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: isProduction, httpOnly: true },
+  cookie: { secure: true, httpOnly: true },
 }))
 
 app.use("/auth", authRouter);
