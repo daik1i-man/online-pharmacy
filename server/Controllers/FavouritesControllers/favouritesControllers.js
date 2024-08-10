@@ -3,9 +3,7 @@ const db = require("../../Database/config");
 async function getFavourites(req, res) {
     const { userId } = req.cookies
 
-
     try {
-
         if (userId === undefined) {
             const favourites = req.session.favourites ? req.session.favourites || [] : []
 
@@ -92,7 +90,7 @@ async function deleteProductFromFavourites(req, res) {
         if (userId === undefined) {
             await db.query('UPDATE products SET favourites = $1 WHERE id = $2', [false, id]);
             const favourites = req.session.favourites ? req.session.favourites : []
-            console.log(favourites)
+
             if (favourites) {
                 req.session.favourites = req.session.favourites.filter(item => item.id !== id);
             }

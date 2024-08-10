@@ -1,18 +1,17 @@
-require('dotenv').config({ path: './Services/.env/.env' })
-const express = require("express");
-const PORT = process.env.PORT || 5000;
-const app = express();
-const authRouter = require("./Routers/AuthRouter/AuthRouter");
-const adminRouter = require("./Routers/AdminRouter/AdminRouter");
-const cartRouter = require("./Routers/cartRouter/cartRouter");
 const favouritesRouter = require('./Routers/favouritesRouter/favouritesRouter')
-const sessionConfig = require("./Services/Session");
+const adminRouter = require("./Routers/AdminRouter/AdminRouter");
+const authRouter = require("./Routers/AuthRouter/AuthRouter");
+const cartRouter = require("./Routers/cartRouter/cartRouter");
+require('dotenv').config({ path: './Services/.env/.env' })
 const cookieParser = require("cookie-parser");
+const session = require('express-session');
+const PORT = process.env.PORT || 5000;
+const express = require("express");
 const cors = require("cors");
+const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(sessionConfig);
 
 app.use(
   cors({
@@ -21,6 +20,17 @@ app.use(
     optionSuccessStatus: 200,
   })
 );
+
+const secretKey = process.env.SESSION_SECRET
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+app.use(session({
+  secret: secretKey,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: isProduction, httpOnly: true },
+}))
 
 app.use("/auth", authRouter);
 app.use("/admin-controll", adminRouter);
