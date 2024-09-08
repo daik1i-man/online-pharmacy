@@ -15,12 +15,10 @@ export default function Favourites() {
         queryFn: () => getFavourites(),
     })
 
-    console.log(favourites)
-
     return (
         <div>
             {favourites?.length === 0 ? (
-                <div className='text-center justify-center'>
+                <div className='text-center justify-center my-8'>
                     <Image className='w-[400px] mx-auto my-4' src={EmptyFavourites} alt='Empty Image' />
                     <h1 className='text-2xl text-center font-semibold'>Add what you like</h1>
                     <p className='text-center w-[550px] mx-auto my-2'>Click on ♡ in the product. Log in to your account and all your favorites will be saved.</p>
@@ -29,9 +27,9 @@ export default function Favourites() {
                     </Link>
                 </div>
             ) : (
-                <div className="max-w-7xl mx-auto my-12 space-x-4 grid grid-cols-2 sm:grid-cols-4">
+                <div className="max-w-7xl mx-auto my-12 gap-4 grid grid-cols-2 sm:grid-cols-5">
                     {loadingFavourites ? (
-                        "item".repeat(1).split("").map((el, index) => <SkeletoComponent key={index} />)
+                        "items".repeat(1).split("").map((el, index) => <SkeletoComponent key={index} />)
                     ) : (favourites?.map((product: any) => (
                         <ProductsCard
                             key={product?.id}

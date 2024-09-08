@@ -27,7 +27,7 @@ export default function Page() {
                 <h1 className="text-2xl font-medium">{category}</h1>
             </div>
             {product ?
-                (< div className="max-w-7xl mx-auto grid grid-cols-4 gap-4">
+                (< div className="max-w-7xl mx-auto grid grid-cols-5 gap-4 my-8">
                     {productLoading ? (
                         "item".repeat(3).split("").map((el, index) => <SkeletoComponent key={index} />)) :
                         (product && product.map((item: any) => (
@@ -47,7 +47,7 @@ export default function Page() {
                 ) : (
                     <div>
                         <img className="mx-auto w-96 my-4" src="https://i.pinimg.com/564x/eb/61/41/eb614141450093184d1b657697047b5f.jpg" alt="" />
-                        <div className="text-center">
+                        <div className="text-center mb-4">
                             <h1 className="text-lg font-medium">No products found in this category</h1>
                             <p className="text-small font-light">Look at other categories</p>
                             <Link href="/categories">

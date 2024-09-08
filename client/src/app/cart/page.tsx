@@ -3,19 +3,26 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteProductFromCart, getCart } from '../functions/functions';
 import { useToast } from "@/components/ui/use-toast"
+import { getUser } from "@/app/functions/functions";
 import EmptyImage from '../../image/basket.png'
+import { useRouter } from 'next/navigation';
 import { Button } from '@nextui-org/react';
-import { useState } from 'react'
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Cart() {
+    const router = useRouter()
     const queryClient = useQueryClient()
     const { toast } = useToast()
 
     const { data: cart, isLoading: cartProductLoading } = useQuery({
         queryKey: ['cart'],
         queryFn: () => getCart(),
+    })
+
+    const { data: user } = useQuery({
+        queryKey: ['user'],
+        queryFn: () => getUser()
     })
 
     const deleteProductFromCartMutation = useMutation({
@@ -65,8 +72,19 @@ export default function Cart() {
 
     const formattedTotalPrice = displayTotalPrice(totalPrice)
 
+    const checkUser = () => {
+        if (user === undefined) {
+            router.push('/auth/login')
+            toast({
+                title: "Please log in to place your order!"
+            })
+        } else {
+            router.push('/checkout')
+        }
+    }
+
     return (
-        <div className="w-full justify-center py-24  relative items-center" >
+        <div className="w-full justify-center py-24  relative items-center mb-44" >
             {cart?.length === 0 ? (
                 <div className='text-center justify-center'>
                     <Image className='w-[500px] mx-auto my-4' src={EmptyImage} alt='Empty Image' />
@@ -165,9 +183,7 @@ export default function Cart() {
                                         <h1 className='text-xl'>{`${formattedTotalPrice} UZS`}</h1>
                                     </div>
                                 </div>
-                                <Link href='/checkout'>
-                                    <Button className='w-full rounded-md bg-[#0295a9] text-gray-50'>Go to checkout</Button>
-                                </Link>
+                                <Button className='w-full rounded-md bg-[#0295a9] text-gray-50' onClick={checkUser}>Go to checkout</Button>
                             </div>
                         </div>
                     )}

@@ -1,39 +1,23 @@
 'use client'
 
-import React from "react";
 import { Card, CardHeader, Avatar } from "@nextui-org/react";
-import { MainPageCategoriesProps } from "../types";
 import { getAllCaregories } from "../functions/functions";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import React from "react";
 
 export default function Categories() {
-    const [categories, setCategories] = React.useState<MainPageCategoriesProps[]>([])
-    const [loading, setLoading] = React.useState(false)
-
-    React.useEffect(() => {
-        const fetchAllcategories = async () => {
-            setLoading(true)
-            const response = await getAllCaregories()
-            setCategories(response)
-            setLoading(false)
-        }
-
-        fetchAllcategories()
-
-        const id = setInterval(fetchAllcategories, 1000)
-
-        if (id) {
-            clearInterval(id)
-        }
-
-    }, [])
+    const { data: categories, isLoading: loading } = useQuery({
+        queryKey: ['categories'],
+        queryFn: () => getAllCaregories()
+    })
 
     return (
         <div className="max-w-7xl mx-auto">
             <div className="my-16 text-2xl font-normal">
                 Categories
             </div>
-            <div className="grid grid-cols-4 gap-4 mt-28">
+            <div className="grid grid-cols-4 gap-4 my-28">
                 {loading ? "item".repeat(2).split("").map((el, index) => (
                     <Card key={index} className="max-w-[340px] h-48 shadow-none border justify-center">
                         <CardHeader className="justify-between">
@@ -46,7 +30,7 @@ export default function Categories() {
                         </CardHeader>
                     </Card>
                 )) :
-                    (categories && categories.map((category) => (
+                    (categories && categories.map((category: any) => (
                         <Link key={category.id} href={`/categories/${category.id}`}>
                             <Card className="max-w-[340px] h-48 shadow-none py-8 border justify-center">
                                 <CardHeader className="justify-between">

@@ -1,28 +1,32 @@
 const db = require("../../Database/config");
+const jwt = require('jsonwebtoken');
 
 async function getFavourites(req, res) {
-    const { userId } = req.cookies
-    const connectSID = req.cookies['connect.sid']
+    const token = req.cookies['user.auth.token'];
+    const { ensureGuestKey } = req.cookies
 
     try {
-        if (userId === undefined) {
-            const response = await db.query('SELECT * FROM not_auth_user_favourites WHERE user_secret_key = $1', [connectSID])
+        if (!token) {
+            const response = await db.query('SELECT * FROM not_auth_user_favourites WHERE user_secret_key = $1', [ensureGuestKey])
 
-            res.status(200).json({
+            return res.status(200).json({
                 title: 'not auth user favourite products',
                 favourites: response.rows
             })
         } else {
-            const response = await db.query('SELECT * FROM favourites WHERE user_id = $1', [userId])
+            const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+            const response = await db.query('SELECT * FROM favourites WHERE user_id = $1', [decoded.id])
 
-            res.status(200).json({
+            if (!response) {
+                return res.status(404).json({ message: 'User not found!' });
+            }
+
+            return res.status(200).json({
                 title: 'auth user favourite products',
                 favourites: response.rows
             })
         }
-
     } catch (error) {
-        console.error('Error fetching favourites:', error.message);
         res.status(500).json({
             error: error.message
         })
@@ -31,11 +35,11 @@ async function getFavourites(req, res) {
 
 async function addProductToFavourites(req, res) {
     const id = req.query.id
-    const { userId } = req.cookies
-    const connectSID = req.cookies['connect.sid']
+    const token = req.cookies['user.auth.token'];
+    const { ensureGuestKey } = req.cookies
 
     try {
-        if (userId === undefined) {
+        if (!token) {
             const favouritesResult = await db.query('SELECT * FROM products WHERE id = $1', [id])
             const product = favouritesResult.rows[0]
 
@@ -43,18 +47,21 @@ async function addProductToFavourites(req, res) {
                 return res.status(404).json({ message: 'product not found' })
             }
 
-            await db.query(
-                'INSERT INTO not_auth_user_favourites (product_id, user_secret_key, img_url, name, price, state) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-                [product.id, connectSID, product.img_url, product.name, product.price, product.favourites]
+            const response = await db.query(
+                'INSERT INTO not_auth_user_favourites (id, user_secret_key, img_url, name, price, state) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+                [product.id, ensureGuestKey, product.img_url, product.name, product.price, true]
             )
 
-            await db.query('UPDATE products SET favourites = $1 WHERE id = $2', [true, id]);
+            if (response.rows.length === 0) {
+                return res.status(409).json({ error: 'Error adding favourites to database!' });
+            } else {
+                await db.query('UPDATE products SET favourites = $1 WHERE id = $2', [true, id]);
 
-            res.status(200).json({
-                message: 'not auth user added product to favourites'
-            })
+                return res.status(200).json({
+                    message: 'not auth user added product to favourites'
+                })
+            }
         } else {
-            await db.query('UPDATE products SET favourites = $1 WHERE id = $2', [true, id]);
             const favouritesResult = await db.query('SELECT * FROM products WHERE id = $1', [id])
             const product = favouritesResult.rows[0]
 
@@ -62,13 +69,22 @@ async function addProductToFavourites(req, res) {
                 return res.status(404).json({ message: 'product not found' })
             }
 
-            await db.query(
-                'INSERT INTO favourites (id, img_url, name, price, user_id, state) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
-                [product.id, product.img_url, product.name, product.price, userId, product.favourites])
+            const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-            res.status(200).json({
-                message: 'auth user added product to favourites'
-            })
+            const response = await db.query(
+                'INSERT INTO favourites (id, img_url, name, price, user_id, state) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
+                [product.id, product.img_url, product.name, product.price, decoded.id, true]
+            )
+
+            if (response.rows.length === 0) {
+                return res.status(409).json({ error: 'Error adding product to database!' });
+            } else {
+                await db.query('UPDATE products SET favourites = $1 WHERE id = $2', [true, id]);
+
+                return res.status(200).json({
+                    message: 'auth user added product to favourites'
+                })
+            }
         }
     } catch (error) {
         res.status(500).json({
@@ -80,25 +96,33 @@ async function addProductToFavourites(req, res) {
 
 async function deleteProductFromFavourites(req, res) {
     const id = req.query.id
-    const { userId } = req.cookies
+    const token = req.cookies['user.auth.token'];
 
     try {
-        if (userId === undefined) {
-            await db.query('DELETE FROM not_auth_user_favourites WHERE product_id = $1', [id])
+        if (!token) {
+            const response = await db.query('DELETE FROM not_auth_user_favourites WHERE id = $1', [id])
 
-            await db.query('UPDATE products SET favourites = $1 WHERE id = $2', [false, id]);
+            if (response.rowCount === 0) {
+                return res.status(409).json({ error: 'Error deleting product from favourites!' });
+            } else {
+                await db.query('UPDATE products SET favourites = $1 WHERE id = $2', [false, id]);
 
-            res.status(200).json({
-                message: 'not auth user deleted product from favourites',
-            })
-
+                return res.status(200).json({
+                    message: 'not auth user deleted product from favourites',
+                })
+            }
         } else {
-            await db.query('DELETE FROM favourites WHERE id = $1', [id])
-            await db.query('UPDATE products SET favourites = $1 WHERE id = $2', [false, id]);
+            const response = await db.query('DELETE FROM favourites WHERE id = $1', [id])
 
-            res.status(200).json({
-                message: 'auth user deleted product from favourites',
-            })
+            if (response.rowCount === 0) {
+                return res.status(409).json({ error: 'Error deleting product from favourites!' });
+            } else {
+                await db.query('UPDATE products SET favourites = $1 WHERE id = $2', [false, id]);
+
+                return res.status(200).json({
+                    message: 'auth user deleted product from favourites',
+                })
+            }
         }
     } catch (error) {
         res.status(500).json({

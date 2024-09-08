@@ -35,7 +35,7 @@ export default function Footer() {
                                             type="email"
                                             autoComplete="email"
                                             required
-                                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-[#0295a9] sm:text-sm sm:leading-6"
+                                            className="block w-full ring-1 ring-gray-200 rounded-md border-0 focus:ring-gray-300 outline-none py-1.5 px-3 text-gray-900 shadow-sm placeholder:text-gray-400  sm:text-sm sm:leading-6"
                                         />
                                     </div>
                                 </div>
@@ -43,7 +43,7 @@ export default function Footer() {
                                     <label htmlFor="comment" className="block text-xs mb-2 font-light leading-6 text-gray-900">
                                         Your complaint or suggestion
                                     </label>
-                                    <Textarea id="comment" autoComplete="comment" required rows={4} className="focus:ring-1 focus:ring-inset focus:ring-[#0295a9]" />
+                                    <Textarea id="comment" autoComplete="comment" required rows={4} className="block w-full ring-1 ring-gray-200 rounded-md border-0 focus:ring-gray-300 outline-none py-1.5 px-3 text-gray-900 shadow-sm placeholder:text-gray-400  sm:text-sm sm:leading-6" />
                                 </div>
                                 <Button type="submit" className="bg-[#0295a9] text-gray-50 my-4 rounded-md px-8">
                                     Send
@@ -52,8 +52,8 @@ export default function Footer() {
                         </div>
                     </div>
                 </div>
-                <div>
-                    <p className="mx-auto text-center my-2 mb-4 text-xs font-light">© 2024 Online shop <Link href='/' className="text-[#0295a9]">opharm.uz</Link> : All rights reserved.</p>
+                <div className="py-1.5">
+                    <p className="mx-auto text-center text-xs font-light">© 2024 Online shop <Link href='/' className="text-[#0295a9]">opharm.uz</Link> : All rights reserved.</p>
                 </div>
             </div>
         </div>

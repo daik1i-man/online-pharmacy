@@ -51,7 +51,7 @@ export default function layout({ children }: childrenProps) {
         }
         return null
     }
-
+    
     return (
         <div className="max-w-7xl mx-auto">
             <div className="border my-4 rounded-md px-4">

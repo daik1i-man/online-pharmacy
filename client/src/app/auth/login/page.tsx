@@ -8,7 +8,6 @@ import { login } from '@/app/functions/functions'
 import { AsYouType } from 'libphonenumber-js'
 import { useRouter } from 'next/navigation'
 import { Button } from '@nextui-org/react'
-import Cookies from "js-cookie"
 import Link from "next/link";
 import React from "react"
 
@@ -54,7 +53,6 @@ export default function LoginPage() {
             if (response?.status === 200) {
                 router.push('/')
                 queryClient.invalidateQueries({ queryKey: ['user'] })
-                Cookies.set('logged', 'true', { expires: 365 })
             } else if (response?.status === 404) {
                 setState({ ...state, loading: false })
                 toast({
@@ -103,7 +101,6 @@ export default function LoginPage() {
                                     value={state?.phoneNumber}
                                     type="text"
                                     required
-                                    autoComplete="phoneNumber"
                                     maxLength={12}
                                     onChange={onChange}
                                     className="block w-full rounded-md border-0 p-3 text-gray-900 ring-0 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-0 outline-none focus:ring-gray-300 sm:text-sm sm:leading-6"
@@ -112,16 +109,9 @@ export default function LoginPage() {
                         </div>
 
                         <div className='relative'>
-                            <div className="flex items-center justify-between">
-                                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Password
-                                </label>
-                                <div className="text-sm">
-                                    <a href="#" className="font-semibold text-[#0295a9] text-xs hover:opacity-85">
-                                        Forgot password?
-                                    </a>
-                                </div>
-                            </div>
+                            <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                                Password
+                            </label>
                             <div className="mt-2">
                                 <input
                                     id="password"
@@ -130,7 +120,6 @@ export default function LoginPage() {
                                     value={state?.password}
                                     placeholder="********"
                                     required
-                                    autoComplete="password"
                                     onChange={onChange}
                                     className="block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 outline-gray-300 focus:ring-gray-300 sm:text-sm sm:leading-6"
                                 />
@@ -162,9 +151,7 @@ export default function LoginPage() {
                     <p className="mt-4 text-center text-sm text-gray-900">
                         You have not account yet ?{' '}
                         <Link href='/auth/register' className="font-semibold leading-6 text-[#0295a9] hover:opacity-85">
-                            <Button className='p-0 bg-white text-[#0295a9]'>
-                                Create account
-                            </Button>
+                            Create account
                         </Link>
                     </p>
                 </div>

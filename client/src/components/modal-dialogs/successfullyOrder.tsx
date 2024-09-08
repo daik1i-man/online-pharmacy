@@ -28,7 +28,7 @@ export default function SuccessfullyOrder() {
                                 </svg>
                                 <div className='my-2'>
                                     <h1>You have successfully placed your order</h1>
-                                    <span className='text-xs'>Go to my orders to see your order status  </span>
+                                    <span className='text-xs'>Go to my orders to see your order status</span>
                                 </div>
                                 <Link href='/user/orders'>
                                     <Button className='bg-gray-200 mt-4 mb-2'>
