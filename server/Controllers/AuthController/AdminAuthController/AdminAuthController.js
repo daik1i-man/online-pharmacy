@@ -87,8 +87,12 @@ async function getCurrentAdmin(req, res) {
 }
 
 async function logout(req, res) {
-    res.clearCookie('admin_id', { httpOnly: true, secure: true, sameSite: 'None', path: '/' })
-    res.redirect('http://localhost:3000/login')
+    res.clearCookie('admin.auth.token', {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'Lax'
+    })
+    res.status(200).send('Admin logged successfully!')
 }
 
 

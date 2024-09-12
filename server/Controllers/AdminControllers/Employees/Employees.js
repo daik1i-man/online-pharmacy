@@ -57,7 +57,7 @@ async function updateEmployee(req, res) {
 }
 
 async function deleteEmployee(req, res) {
-    const { id } = req.body
+    const { id } = req.query
 
     try {
         await db.query('DELETE FROM employees WHERE id = $1', [id])
@@ -72,9 +72,31 @@ async function deleteEmployee(req, res) {
     }
 }
 
+async function getEmployeeById(req, res) {
+    const { id } = req.query
+
+    try {
+        const response = await db.query('SELECT * FROM employees WHERE id = $1', [id])
+
+        if (response.rows.length < 0) {
+            return res.status(404).send('Employee not found!')
+        }
+
+        return res.status(200).json({
+            message: 'Employee datas fetched successfully!',
+            employee: response.rows[0]
+        })
+    } catch (error) {
+        res.status(500).json({
+            error: error.message
+        })
+    }
+}
+
 module.exports = {
     getAllEmployees,
     addEmployee,
     updateEmployee,
-    deleteEmployee
+    deleteEmployee,
+    getEmployeeById
 }
