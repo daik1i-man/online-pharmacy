@@ -4,7 +4,7 @@ const { getAllOrders, addOrder, deleteOrder, getUserOrders } = require('../../..
 
 ordersRouter.get('/get-all', getAllOrders)
 ordersRouter.post('/add', addOrder)
-ordersRouter.post('/delete', deleteOrder)
+ordersRouter.get('/delete', deleteOrder)
 ordersRouter.get('/get-user-orders', getUserOrders)
 
 

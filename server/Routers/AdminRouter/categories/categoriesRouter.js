@@ -5,7 +5,7 @@ const { getAllCategories, addCategory, updateCategory, deleteCategory, getCatego
 categoriesRouter.get('/get-all', getAllCategories)
 categoriesRouter.post('/add', addCategory)
 categoriesRouter.post('/update', updateCategory)
-categoriesRouter.post('/delete', deleteCategory)
+categoriesRouter.get('/delete', deleteCategory)
 categoriesRouter.get('/category', getCategoryById)
 
 module.exports = categoriesRouter;

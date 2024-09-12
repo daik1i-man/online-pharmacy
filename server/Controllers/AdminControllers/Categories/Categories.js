@@ -58,7 +58,7 @@ async function updateCategory(req, res) {
 }
 
 async function deleteCategory(req, res) {
-    const { id } = req.body
+    const id = req.query.id
 
     try {
         await db.query('DELETE FROM categories WHERE id = $1', [id])
@@ -81,7 +81,7 @@ async function getCategoryById(req, res) {
         if (category.rows.length > 0) {
             res.status(200).json({
                 message: `Category where id = ${id} fetched successfully`,
-                category: category.rows[0].name
+                category: category.rows[0]
             })
         } else {
             res.status(404).json({

@@ -5,7 +5,7 @@ const { getAllProdcusts, addProduct, updateProduct, deleteProduct, getProductsBy
 productsRouter.get('/get-all', getAllProdcusts)
 productsRouter.post('/add', addProduct)
 productsRouter.post('/update', updateProduct)
-productsRouter.post('/delete', deleteProduct)
+productsRouter.get('/delete', deleteProduct)
 productsRouter.get('/get-products', getProductsByCategory)
 productsRouter.get('/product', getProductById)
 

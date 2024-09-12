@@ -4,7 +4,7 @@ const { AdminRegister, AdminLogin, getCurrentAdmin, logout } = require('../../..
 
 AdminAuthRouter.post('/register', AdminRegister)
 AdminAuthRouter.post('/login', AdminLogin)
-AdminAuthRouter.post('/current-admin', getCurrentAdmin)
+AdminAuthRouter.get('/current-admin', getCurrentAdmin)
 AdminAuthRouter.get('/logout', logout)
 
 module.exports = AdminAuthRouter;

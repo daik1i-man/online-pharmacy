@@ -1,8 +1,8 @@
-const bcrypt = require('bcrypt')
+const { generateToken } = require('../../../functions/generateToken')
 const db = require('../../../Database/config')
 const { v4: uuidv4 } = require('uuid')
-const cookie = require('cookie')
-const session = require('express-session')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 async function AdminRegister(req, res) {
     const { name, phoneNumber, password } = req.body
@@ -32,24 +32,24 @@ async function AdminLogin(req, res) {
             const comparePassword = await bcrypt.compare(password, adminRow.password)
 
             if (comparePassword) {
-                res.setHeader('Set-Cookie', cookie.serialize('admin_id', adminRow.id, {
-                    maxAge: 24 * 60 * 60 * 1000,
+                const token = generateToken(adminRow)
+                res.cookie('admin.auth.token', token, {
+                    maxAge: 2147483647,
                     httpOnly: true,
-                    secure: true,
-                    sameSite: 'None',
-                    path: '/'
-                }))
+                    secure: false,
+                    sameSite: 'Lax'
+                })
                 res.status(200).json({
                     message: 'Admin logged successfully',
                     admin: adminRow
                 })
             } else {
-                res.status(302).json({
+                res.status(409).json({
                     message: 'Invalid password'
                 })
             }
         } else {
-            res.status(401).json({
+            res.status(404).json({
                 message: 'Admin not found'
             })
         }
@@ -61,20 +61,23 @@ async function AdminLogin(req, res) {
 }
 
 async function getCurrentAdmin(req, res) {
-    const { id } = req.body
+    const token = req.cookies['admin.auth.token'];
+
+    if (!token) {
+        return res.status(401).send('Unauthorized!');
+    }
 
     try {
-        const result = await db.query('SELECT * FROM admin WHERE id = $1', [id])
-        if (result.rows.length > 0) {
-            res.status(200).json({
-                message: "Current admin fetched successfully",
-                currentAdmin: result.rows[0]
-            })
-        } else {
-            req.status(302).json({
-                message: "Wrong id"
-            })
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const response = await db.query('SELECT * FROM admin WHERE id = $1', [decoded.id])
+        if (!response) {
+            return res.status(404).json({ message: 'User not found!' });
         }
+
+        return res.status(200).json({
+            message: 'Admin fetched successfully!',
+            admin: response.rows
+        })
     } catch (error) {
         res.status(500).json({
             message: "Something went wrong",

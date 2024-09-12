@@ -75,7 +75,7 @@ async function addOrder(req, res) {
 }
 
 async function deleteOrder(req, res) {
-    const { id } = req.body
+    const { id } = req.query
     try {
         await db.query('DELETE FROM orders WHERE id = $1', [id])
         res.status(200).json({
