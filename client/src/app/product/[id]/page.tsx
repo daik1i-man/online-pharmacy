@@ -137,7 +137,7 @@ export default function Page() {
                 <ReactQuill
                     rrefferef={ref}
                     content={product?.description}
-                    className='my-12'
+                    className='my-16'
                     ReadOnly
                 />
             </div>
