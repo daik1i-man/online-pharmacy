@@ -4,6 +4,7 @@ import DeleteCategoryModal from "@/components/modals/categoryModals/deleteCatego
 
 
 export default function layout({ children }: Readonly<{ children: React.ReactNode }>) {
+    console.log(process.env.NEXT_PUBLIC_MESSAGE)
     return (
         <>
             <AddCategoryModal /> <EditCategoryModal /> <DeleteCategoryModal />

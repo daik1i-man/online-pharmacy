@@ -9,7 +9,6 @@ import "./globals.css";
 const queryClient = new QueryClient();
 
 export default function RootLayout({ children }: childrenProps) {
-
   return (
     <html lang="en">
       <head>

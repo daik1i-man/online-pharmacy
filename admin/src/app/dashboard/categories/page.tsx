@@ -23,7 +23,7 @@ export default function CategoriesPage() {
 
     const rowsPerPage = 6;
 
-    const pages = Math.ceil(categories?.length / rowsPerPage);
+    const pages = categories ? Math.ceil(categories?.length / rowsPerPage) : 1;
 
     const items = React.useMemo(() => {
         const start = (page - 1) * rowsPerPage;
@@ -90,29 +90,29 @@ export default function CategoriesPage() {
                     </TableHeader>
                     <TableBody emptyContent={"No rows to display."} items={items}>
                         {items?.map((category: any, i: number) => (
-                            <TableRow key={category.id} className="border-b">
+                            <TableRow key={category?.id} className="border-b">
                                 <TableCell
                                     className="font-medium text-gray-900 dark:text-white w-20 text-center"
                                 >
                                     {i + 1}
                                 </TableCell>
                                 <TableCell className="text-lg font-semibold text-gray-900">
-                                    {category.name && category.name}
+                                    {category?.name && category?.name}
                                 </TableCell>
                                 <TableCell className="text-center">
                                     <Image
                                         width={60}
                                         alt="NextUI hero Image"
-                                        src={category.img_url}
+                                        src={category?.img_url}
                                         className="rounded-md"
                                     />
                                 </TableCell>
                                 <TableCell className="text-md font-semibold text-gray-900">
-                                    {category.created_date}
+                                    {category?.created_date}
                                 </TableCell>
                                 <TableCell>
                                     <Button
-                                        onClick={() => openEditModal(category.id)}
+                                        onClick={() => openEditModal(category?.id)}
                                         className="bg-white outline-none -ml-2 my-1"
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
@@ -122,7 +122,7 @@ export default function CategoriesPage() {
                                 </TableCell>
                                 <TableCell className="text-center">
                                     <Button
-                                        onClick={() => openDeleteModal(category.id, category.img_url)}
+                                        onClick={() => openDeleteModal(category?.id, category?.img_url)}
                                         className="bg-white outline-none text-red-600 hover:text-red-500"
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
