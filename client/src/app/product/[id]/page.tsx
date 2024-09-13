@@ -6,14 +6,19 @@ import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from "@/components/ui/toast";
 import { useParams } from "next/navigation";
 import { Button } from "@nextui-org/react";
-import { useState } from "react";
+import dynamicImport from "next/dynamic";
+import { useRef, useState } from "react";
 import Link from 'next/link';
+const ReactQuill = dynamicImport(() => import("@/components/editor/Quill"), {
+    ssr: false,
+});
 
 export default function Page() {
     const [count, setCount] = useState(1);
     const queryClient = useQueryClient();
     const { toast } = useToast();
     const { id } = useParams();
+    const ref = useRef(null)
 
     const options = {
         queryKey: ['product', id],
@@ -129,6 +134,12 @@ export default function Page() {
                         </div>
                     </div>
                 )}
+                <ReactQuill
+                    rrefferef={ref}
+                    content={product?.description}
+                    className='my-12'
+                    ReadOnly
+                />
             </div>
         </div>
     );
