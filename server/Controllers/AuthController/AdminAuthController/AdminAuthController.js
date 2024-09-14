@@ -36,8 +36,8 @@ async function AdminLogin(req, res) {
                 res.cookie('admin.auth.token', token, {
                     maxAge: 2147483647,
                     httpOnly: true,
-                    secure: false,
-                    sameSite: 'Lax'
+                    secure: true,
+                    sameSite: 'None'
                 })
                 res.status(200).json({
                     message: 'Admin logged successfully',
