@@ -3,6 +3,7 @@
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import ContextsProvider from "@/context/context";
 import { childrenProps } from "@/types/types";
+import { CookiesProvider } from 'react-cookie'
 import { Providers } from "./providers";
 import "./globals.css";
 
@@ -14,15 +15,16 @@ export default function RootLayout({ children }: childrenProps) {
       <head>
         <title>Admin Panel - Online Pharmacy</title>
         <meta name="description" content="Admin Panel - Online Pharmacy" />
-        <link rel="shortcut icon" href="/medicines.svg" />
       </head>
       <body>
         <QueryClientProvider client={queryClient}>
-          <ContextsProvider>
-            <Providers>
-              {children}
-            </Providers>
-          </ContextsProvider>
+          <CookiesProvider>
+            <ContextsProvider>
+              <Providers>
+                {children}
+              </Providers>
+            </ContextsProvider>
+          </CookiesProvider>
         </QueryClientProvider>
       </body>
     </html>

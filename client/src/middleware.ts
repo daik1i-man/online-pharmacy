@@ -3,14 +3,14 @@ import { cookies } from "next/headers";
 
 export function middleware(req: NextRequest) {
     const cookieStorage = cookies();
-    const userAuthToken = cookieStorage.get('user.auth.token');
+    const user = cookieStorage.get('user');
     const url = req.nextUrl;
 
-    if (userAuthToken && url.pathname.startsWith('/auth')) {
+    if (user && url.pathname.startsWith('/auth')) {
         return NextResponse.redirect(new URL('/', req.url));
     }
 
-    if (!userAuthToken && (url.pathname.startsWith('/user') || url.pathname === '/checkout')) {
+    if (!user && (url.pathname.startsWith('/user') || url.pathname === '/checkout')) {
         return NextResponse.redirect(new URL('/', req.url));
     }
 

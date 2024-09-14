@@ -87,7 +87,10 @@ async function getUserPassword(req, res) {
                 sameSite: 'None'
             })
 
-            res.status(200).json({ message: 'user created successsfully' })
+            res.status(200).json({
+                message: 'user created successsfully',
+                user: user
+            })
         }
     } catch (error) {
         res.status(500).send(`error: ${error.message}`)
@@ -124,7 +127,10 @@ async function login(req, res) {
             secure: true,
             sameSite: 'None'
         })
-        return res.status(200).json({ message: 'User logged in successfully' });
+        return res.status(200).json({
+            message: 'User logged in successfully',
+            user: user
+        });
     } catch (error) {
         res.status(500).json({ message: 'Something went wrong!' })
     }

@@ -4,9 +4,11 @@ import { loginRequest } from '@/requestFunctions/login.request';
 import { useRouter, usePathname } from "next/navigation";
 import { AsYouType } from 'libphonenumber-js'
 import { Button } from "@nextui-org/react";
+import { useCookies } from 'react-cookie'
 import React from "react";
 
 export default function LoginPage() {
+    const [cookies, setCookie] = useCookies(['admin'])
     const pathname = usePathname()
     const router = useRouter()
     const [state, setState] = React.useState({
@@ -64,6 +66,7 @@ export default function LoginPage() {
                     errorMessage: 'Invalid password!'
                 }))
             } else if (response.status === 200) {
+                setCookie('admin', response.data?.admin.id)
                 router.push('dashboard/categories')
                 if (pathname === '/dashboard/categories') {
                     setState({ ...state, loading: false })

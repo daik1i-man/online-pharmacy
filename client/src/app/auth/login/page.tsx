@@ -8,10 +8,12 @@ import { login } from '@/app/functions/functions'
 import { AsYouType } from 'libphonenumber-js'
 import { useRouter } from 'next/navigation'
 import { Button } from '@nextui-org/react'
+import { useCookies } from 'react-cookie'
 import Link from "next/link";
 import React from "react"
 
 export default function LoginPage() {
+    const [cookie, setCookie] = useCookies(['user'])
     const { state, setState } = useStatesContext()
     const queryClient = useQueryClient()
     const { toast } = useToast()
@@ -51,6 +53,7 @@ export default function LoginPage() {
         try {
             const response = await login(state.phoneNumber, state.password)
             if (response?.status === 200) {
+                setCookie('user', response.data?.user.id, { path: '/' })
                 router.push('/')
                 queryClient.invalidateQueries({ queryKey: ['user'] })
             } else if (response?.status === 404) {

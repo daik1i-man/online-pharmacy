@@ -7,9 +7,11 @@ import { usePathname, useRouter } from "next/navigation";
 import { logout } from "../functions/functions";
 import { Button } from "@nextui-org/react";
 import { childrenProps } from "../types";
+import { useCookies } from "react-cookie";
 import Link from 'next/link'
 
 export default function layout({ children }: childrenProps) {
+    const [cookie, setCookie, removeCookie] = useCookies(['user'])
     const pathname = usePathname()
     const router = useRouter()
     const queryClient = useQueryClient()
@@ -33,6 +35,7 @@ export default function layout({ children }: childrenProps) {
         mutationKey: ['user'],
         mutationFn: () => logout(),
         onSuccess: () => {
+            removeCookie('user', { path: '/' })
             router.push('/')
             queryClient.removeQueries({ queryKey: ['user'] })
         }
@@ -51,7 +54,7 @@ export default function layout({ children }: childrenProps) {
         }
         return null
     }
-    
+
     return (
         <div className="max-w-7xl mx-auto">
             <div className="border my-4 rounded-md px-4">

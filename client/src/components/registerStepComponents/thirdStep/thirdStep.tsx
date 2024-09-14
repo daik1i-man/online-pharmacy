@@ -5,9 +5,10 @@ import { getUserPassword } from "@/app/functions/functions";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
-import Cookies from 'js-cookie'
+import { useCookies } from "react-cookie";
 
 export default function ThirdStep() {
+    const [cookie, setCookie] = useCookies(['user'])
     const { state, setState } = useStatesContext()
     const queryClient = useQueryClient()
     const { toast } = useToast()
@@ -29,6 +30,7 @@ export default function ThirdStep() {
         try {
             const response = await getUserPassword(state.password)
             if (response?.status === 200) {
+                setCookie('user', response.data?.user.id, { path: '/' })
                 setState({ ...state, currentStep: state.currentStep + 1 })
                 queryClient.invalidateQueries({ queryKey: ['user'] })
             }

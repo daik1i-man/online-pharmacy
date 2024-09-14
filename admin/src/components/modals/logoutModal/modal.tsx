@@ -6,11 +6,14 @@ import { axiosInstance } from '@/configs/axios.config'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { Button } from '@nextui-org/react'
+import { useCookies } from 'react-cookie'
 import { useState } from 'react'
+import path from 'path'
 
 
 
 export default function LogoutModal() {
+    const [cookie, setCookie, removeCookie] = useCookies(['admin'])
     const router = useRouter()
     const [loading, setLoading] = useState(false)
 
@@ -20,6 +23,7 @@ export default function LogoutModal() {
         mutationKey: ['logout'],
         mutationFn: async () => await axiosInstance.get('/auth/admin/logout'),
         onSuccess: () => {
+
             setLoading(false)
             router.push('/')
             setOpenLogoutModal(false)
@@ -28,6 +32,7 @@ export default function LogoutModal() {
 
     const onClick = () => {
         setLoading(true)
+        removeCookie('admin', { path: '/' })
         onClickMutation.mutate()
     }
 
