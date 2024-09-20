@@ -18,7 +18,7 @@ export default function OrdersPage() {
         setTakeCurrentOrder(id)
     }
 
-    const rowsPerPage = 6;
+    const rowsPerPage = 10;
 
     const pages = Math.ceil(orders?.length / rowsPerPage);
 
@@ -30,14 +30,15 @@ export default function OrdersPage() {
     }, [page, orders]);
 
     return (
-        <div className="w-full h-screen px-8">
-            <div className="xl:mt-28">
-                <div className="max-w-7xl my-8 mx-auto">
+        <div className="px-6 h-screen overflow-y-scroll">
+            <div className="">
+                <div className="sm:max-w-6xl xl:max-w-screen-2xl mx-auto mt-24 mb-4">
                     <h1 className="text-2xl font-regular">Orders</h1>
                 </div>
                 <Table
-                    isHeaderSticky
-                    className="max-w-7xl mx-auto"
+                    shadow="none"
+                    border={1}
+                    className="sm:max-w-6xl xl:max-w-screen-2xl mx-auto border rounded-lg mb-8"
                     aria-label="Example static collection table"
                     bottomContent={
                         <div className="flex w-full justify-center">

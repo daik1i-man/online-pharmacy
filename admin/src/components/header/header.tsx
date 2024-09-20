@@ -24,7 +24,7 @@ export default function Header() {
                             <div>
                                 <h1 className="text-[16px] font-medium">{admin.name}</h1>
                             </div>
-                            <div className="w-12 h-12 rounded-full bg-[#0076FF] text-[20px] font-bold text-gray-50 py-[9] px-[19px]">{admin.name.substring(0, 1)}</div>
+                            <div className="rounded-full bg-[#0076FF] text-[20px] font-bold text-gray-50 py-[10px] px-[20px]">{admin.name.substring(0, 1)}</div>
                         </div>
                     )}
                 </div>

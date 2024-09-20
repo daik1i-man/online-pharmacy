@@ -152,24 +152,24 @@ export default function Edit() {
     }
 
     return (
-        <div>
-            <div className="mt-32 max-w-7xl mx-auto">
+        <div className='h-screen overflow-y-scroll'>
+            <div className="mt-32 max-w-7xl mx-auto px-8">
                 <h1 className="font-semibold text-3xl leading-6 text-gray-900">
                     Edit Product
                 </h1>
             </div>
-            <div className="max-w-7xl mt-12 mx-auto">
+            <div className="max-w-7xl mt-12 mx-auto px-8">
                 <form className="space-y-6" method="POST" onSubmit={onSubmit}>
                     <div className='flex items-center justify-between'>
                         <div className='w-[550px]'>
                             <div className={`my-2 border rounded-md relative`}>
                                 {state.file === null ? (
                                     (loading ? (
-                                        <div className='w-full h-[360px] bg-gray-200 animate-pulse' />
+                                        <div className='w-full h-[300px] bg-gray-200 animate-pulse' />
                                     ) : (
                                         <div>
                                             <img
-                                                className='w-[360px] mx-auto'
+                                                className='w-[300px] mx-auto'
                                                 src={product?.img_url}
                                                 alt=""
                                             />
@@ -201,7 +201,7 @@ export default function Edit() {
                             </div>
                             <FileInput id="dropzone-file" name='file' onChange={onChange} className="hidden" />
                         </div>
-                        <div>
+                        <div className='w-1/2'>
                             <div>
                                 <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
                                     Name
@@ -219,7 +219,7 @@ export default function Edit() {
                                     />
                                 </div>
                             </div>
-                            <div className="flex items-center justify-between gap-x-12 my-4">
+                            <div className="flex items-center justify-between my-4">
                                 <div>
                                     <label htmlFor="email" className="block mb-3 text-sm font-medium leading-6 text-gray-900">
                                         Category
@@ -228,7 +228,7 @@ export default function Edit() {
                                         isRequired
                                         name='select'
                                         label='Product category'
-                                        className="w-[300px]"
+                                        className="w-[350px]"
                                         onChange={onChange}
                                         placeholder={product?.category}
                                     >
@@ -244,7 +244,7 @@ export default function Edit() {
                                         Price
                                     </label>
                                     <div className="mt-2">
-                                        <div className="flex w-36 items-center border-0 ring-1 ring-gray-300 rounded-md p-1 px-4 border-gray-900">
+                                        <div className="flex w-48 items-center border-0 ring-1 ring-gray-300 rounded-md p-1 px-4 border-gray-900">
                                             <input
                                                 id="price"
                                                 name="price"

@@ -126,7 +126,7 @@ export default function Add() {
     }
 
     return (
-        <div>
+        <div className='h-screen overflow-y-scroll'>
             <div className="mt-32 max-w-7xl mx-auto px-8">
                 <h1 className="font-semibold text-3xl leading-6 text-gray-900">
                     Add Product
@@ -182,7 +182,7 @@ export default function Add() {
                                 </div>
                             )}
                         </div>
-                        <div>
+                        <div className='w-1/2'>
                             <div>
                                 <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
                                     Name
@@ -200,7 +200,7 @@ export default function Add() {
                                     />
                                 </div>
                             </div>
-                            <div className="flex items-center justify-between gap-x-12 my-4">
+                            <div className="flex items-center justify-between my-4">
                                 <div>
                                     <label htmlFor="email" className="block mb-3 text-sm font-medium leading-6 text-gray-900">
                                         Category
@@ -209,7 +209,7 @@ export default function Add() {
                                         isRequired
                                         name='select'
                                         label="Select a Category"
-                                        className="w-[300px]"
+                                        className="w-96"
                                         onChange={onChange}
                                     >
                                         {categories?.map((category: any) => (
@@ -224,14 +224,14 @@ export default function Add() {
                                         Price
                                     </label>
                                     <div className="mt-2">
-                                        <div className="flex w-36 items-center border-0 ring-1 ring-gray-300 rounded-md p-1 px-4 border-gray-900">
+                                        <div className="flex w-48 items-center border-0 ring-1 ring-gray-300 rounded-md p-1 px-4 border-gray-900">
                                             <input
                                                 id="price"
                                                 name="price"
                                                 type="text"
-                                                placeholder='10 000 000'
+                                                placeholder='00 000 000'
                                                 autoComplete="price"
-                                                value={state.price}
+                                                value={state.price} 
                                                 onChange={onChange}
                                                 required
                                                 className="block w-full py-2.5 border-none focus:outline-none focus:ring-0 text-gray-900"

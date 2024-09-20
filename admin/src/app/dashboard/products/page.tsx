@@ -1,13 +1,13 @@
 'use client'
 
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination } from "@nextui-org/react";
+import { Table, TableHeader, TableColumn, Image, TableBody, TableRow, TableCell, Pagination } from "@nextui-org/react";
+import { useDeleteProductContext } from "@/context/productActionsContext/deleteProduct/deleteProduct";
 import { useEditProductContext } from "@/context/productActionsContext/editProduct/editProduct";
 import { getProducts } from "@/requestFunctions/get.products";
-import { Button, Image } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
+import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import React from "react";
-import { useDeleteProductContext } from "@/context/productActionsContext/deleteProduct/deleteProduct";
 
 export default function ProductsPage() {
     const { setDeleteCurrentProduct, setOpenDeleteProductModal } = useDeleteProductContext()
@@ -19,7 +19,7 @@ export default function ProductsPage() {
         queryFn: getProducts
     })
 
-    const rowsPerPage = 6;
+    const rowsPerPage = 10;
 
     const pages = products ? Math.ceil(products.length / rowsPerPage) : 1;
 
@@ -37,21 +37,21 @@ export default function ProductsPage() {
         setDeleteCurrentProduct(id)
     }
     return (
-        <div className="w-full h-screen px-8">
-            <div className="xl:mt-28">
-                <div className="max-w-7xl mx-auto my-8">
-                    <h1 className="text-2xl font-regular">Products</h1>
-                </div>
+        <div className="px-6 h-screen overflow-y-scroll">
+            <div className="sm:max-w-6xl xl:max-w-screen-2xl mx-auto mt-24 mb-4">
+                <h1 className="text-2xl font-regular">Products</h1>
+            </div>
+            <div className="">
                 <Table
-                    isHeaderSticky
-                    className="sm:max-w-7xl mx-auto"
+                    shadow="none"
+                    border={1}
+                    className="sm:max-w-6xl xl:max-w-screen-2xl mx-auto border rounded-lg mb-8"
                     aria-label="Example static collection table"
                     bottomContent={
                         <div className="flex w-full justify-center">
                             <Pagination
-                                isCompact
+                                className="text-gray-50"
                                 showControls
-                                showShadow
                                 color="default"
                                 page={page}
                                 total={pages}
@@ -62,10 +62,10 @@ export default function ProductsPage() {
                     <TableHeader>
                         <TableColumn className="text-center">#</TableColumn>
                         <TableColumn className="px-12 w-80">Photo</TableColumn>
-                        <TableColumn className="w-80">Category</TableColumn>
-                        <TableColumn className="px-12 w-80">Price</TableColumn>
+                        <TableColumn className="w-80 text-center">Category</TableColumn>
+                        <TableColumn className="text-center w-80">Price</TableColumn>
                         <TableColumn className="">Quantity</TableColumn>
-                        <TableColumn className="text-center">
+                        <TableColumn>
                             <Link href='products/add'>
                                 <Button
                                     className="my-2 bg-foreground text-gray-50 rounded-md"
@@ -75,7 +75,7 @@ export default function ProductsPage() {
                             </Link>
                         </TableColumn>
                     </TableHeader>
-                    <TableBody emptyContent="No products to display" items={items || []}>
+                    <TableBody emptyContent="No products to display" items={items || []} className="h-screen overflow-y-scroll">
                         {items?.map((product: any, i: number) => (
                             <TableRow key={product.id} className="border-b">
                                 <TableCell
@@ -85,7 +85,7 @@ export default function ProductsPage() {
                                 </TableCell>
                                 <TableCell className="px-8">
                                     <Image
-                                        width={60}
+                                        width={55}
                                         alt="NextUI hero Image"
                                         src={product.img_url}
                                         className="rounded-md border shadow-sm"
@@ -94,7 +94,7 @@ export default function ProductsPage() {
                                 <TableCell className="text-base font-semibold text-gray-900">
                                     {product?.category}
                                 </TableCell>
-                                <TableCell className="text-base font-semibold text-gray-900">
+                                <TableCell className="text-base font-semibold text-gray-900 text-center">
                                     {product?.price} UZS
                                 </TableCell>
                                 <TableCell className="text-base px-8 font-semibold text-gray-900">

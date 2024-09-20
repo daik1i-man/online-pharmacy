@@ -15,6 +15,7 @@ export default function RootLayout({ children }: childrenProps) {
       <head>
         <title>Admin Panel - Online Pharmacy</title>
         <meta name="description" content="Admin Panel - Online Pharmacy" />
+        <link rel="shortcut icon" href="/medicines.svg" type="image/x-icon" />
       </head>
       <body>
         <QueryClientProvider client={queryClient}>
