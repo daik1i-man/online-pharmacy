@@ -26,7 +26,7 @@ export const getCategoryById = async (id: string | string[]) => {
     try {
         const response = await axiosInstance.get(`/admin-controll/categories/category?id=${id}`)
         if (response.data) {
-            return response.data.category
+            return response.data.category[0]
         } else {
             return []
         }
@@ -36,7 +36,7 @@ export const getCategoryById = async (id: string | string[]) => {
     }
 }
 
-export const getProductsByCategoryName = async (name: string) => {
+export const getProductsByCategoryName = async (name: string | undefined) => {
     try {
         const response = await axiosInstance.get(`/admin-controll/products/get-products?category=${name}`)
         if (response.data) {

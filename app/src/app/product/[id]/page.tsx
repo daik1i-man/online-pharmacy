@@ -1,13 +1,14 @@
 'use client'
 
-import { addProductToCart, getProductById, addProductToFavourites } from '@/app/functions/functions';
+import { addProductToCart, getProductById, addProductToFavourites, getCart } from '@/app/functions/functions';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useParams, useRouter } from "next/navigation";
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from "@/components/ui/toast";
-import { useParams } from "next/navigation";
 import { Button } from "@nextui-org/react";
 import dynamicImport from "next/dynamic";
 import { useRef, useState } from "react";
+import '../../../response.css'
 import Link from 'next/link';
 const ReactQuill = dynamicImport(() => import("@/components/editor/Quill"), {
     ssr: false,
@@ -16,8 +17,9 @@ const ReactQuill = dynamicImport(() => import("@/components/editor/Quill"), {
 export default function Page() {
     const [count, setCount] = useState(1);
     const queryClient = useQueryClient();
-    const { toast } = useToast();
-    const { id } = useParams();
+    const { toast } = useToast()
+    const { id } = useParams()
+    const router = useRouter()
     const ref = useRef(null)
 
     const options = {
@@ -63,71 +65,72 @@ export default function Page() {
     })
 
     const incrementHandler = () => {
-        setCount(count + 1);
+        setCount(prevCount => prevCount + 1)
     }
 
     const decrementHandler = () => {
-        setCount(count - 1);
+        setCount(prevCount => prevCount - 1)
+    }
+
+    const backHandler = () => {
+        router.back()
     }
 
     return (
         <div>
-            <div className="max-w-6xl mx-auto">
+            <div className="mx-auto w-[600px] p-8 main relative">
+                <div className='w-6 h-6 px-0.5 py-1 my-8 absolute bg-gray-100 rounded-full cursor-pointer' onClick={backHandler}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                    </svg>
+                </div>
                 {productLoading ? (
-                    <div className="my-12 flex gap-8">
+                    <div className="gap-8 my-12">
                         <div className="">
-                            <div className='w-96 h-96 bg-gray-200 animate-pulse rounded-md' />
+                            <div className='mx-auto bg-gray-200 rounded-md w-96 h-96 animate-pulse' />
                         </div>
                         <div className="flex flex-col">
-                            <div className="my-8 w-full h-12 bg-gray-200 animate-pulse rounded-md" />
+                            <div className="w-full h-6 my-8 bg-gray-200 rounded-md animate-pulse" />
                             <div className="flex items-center justify-between">
-                                <div className="w-36 h-4 bg-gray-200 animate-pulse rounded-md" />
-                                <div className="w-20 h-4 bg-gray-200 animate-pulse rounded-md" />
-                            </div>
-                            <div className="">
-                            </div>
-                            <hr className="my-4" />
-                            <div className="mb-16">
-                                <div className="text-xs my-4 w-24 h-4 bg-gray-200 rounded-md animate-pulse" />
-                                <div className="flex items-center border w-44 rounded-md h-12 bg-gray-200 animate-pulse" />
+                                <div className="mb-8">
+                                    <div className="w-24 h-4 my-4 text-xs bg-gray-200 rounded-md animate-pulse" />
+                                    <div className="flex items-center h-12 bg-gray-200 border rounded-md w-44 animate-pulse" />
+                                </div>
+                                <div className="h-4 bg-gray-200 rounded-md w-28 animate-pulse" />
                             </div>
                             <div className="flex items-center gap-4">
-                                <div className="flex items-center border w-44 rounded-md h-12 bg-gray-200 animate-pulse" />
-                                <div className="flex items-center border w-44 rounded-md h-12 bg-gray-200 animate-pulse" />
+                                <div className="flex items-center h-12 bg-gray-200 border rounded-md w-44 animate-pulse" />
+                                <div className="flex items-center h-12 bg-gray-200 border rounded-md w-44 animate-pulse" />
                             </div>
                         </div>
                     </div>
                 ) : (
-                    <div className="my-12 flex gap-8">
+                    <div className="my-12">
                         <div className="">
-                            <img src={product?.img_url} alt={product?.name} />
+                            <img className='w-[350px] mx-auto' src={product?.img_url} alt={product?.name} />
                         </div>
                         <div className="flex flex-col">
-                            <h1 className="text-4xl my-8 mt-20 font-medium">{product?.name}</h1>
-                            <div className="flex items-center justify-between">
-                                <span>{`${product?.price} UZS`}</span>
-                                <p className="text-xs text-[#0295a9]">{`In stock ${product?.quantity}`}</p>
-                            </div>
-                            <div className="">
-                            </div>
-                            <hr className="my-4" />
-                            <div className="mb-24">
-                                <h3 className="text-xs my-4">Quantities</h3>
-                                <div className="flex items-center border w-44 rounded-md">
-                                    <Button disabled={count === 1} className="bg-white disabled:opacity-25 disabled:hover:text-gray-500 text-xl disabled:cursor-pointer" onClick={decrementHandler}>
-                                        -
-                                    </Button>
-                                    <p>{count}</p>
-                                    <Button className="bg-white text-xl" onClick={incrementHandler}>
-                                        +
-                                    </Button>
+                            <h1 className="mt-20 text-[26px] font-medium">{product?.name}</h1>
+                            <div className='mt-2 mb-12'>
+                                <h3 className="my-4 text-xs">Quantities</h3>
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center justify-between w-32 px-3 border rounded-md">
+                                        <button disabled={count <= 1} className="p-2 text-base bg-white disabled:opacity-25 disabled:hover:text-gray-500 disabled:cursor-pointer" onClick={decrementHandler}>
+                                            -
+                                        </button>
+                                        <p className='text-xs'>{count}</p>
+                                        <button className="p-2 text-base bg-white" onClick={incrementHandler}>
+                                            +
+                                        </button>
+                                    </div>
+                                    <span>{`${product?.price} UZS`}</span>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-4">
-                                <Button className="rounded-md py-6 px-8 bg-[#0295a9] text-gray-50" onClick={() => addProductToCartMutation.mutate()}>
+                            <div className="flex items-center gap-x-4">
+                                <Button className="rounded-md text-[12px] bg-[#0295a9] text-gray-50" onClick={() => addProductToCartMutation.mutate()}>
                                     Add to basket
                                 </Button>
-                                <Button className="rounded-md py-6 px-8 ring-1 ring-[#0295a9] border-none text-[#0295a9] bg-white" onClick={() => addProductToFavouritesMutation.mutate()}>
+                                <Button className="rounded-md text-[12px] ring-1 ring-[#0295a9] border-none text-[#0295a9] bg-white" onClick={() => addProductToFavouritesMutation.mutate()}>
                                     Add to favourites
                                 </Button>
                             </div>
@@ -140,6 +143,14 @@ export default function Page() {
                     className='my-16'
                     ReadOnly
                 />
+            </div>
+            <div className='relative information_text'>
+                <div className='absolute top-0 bottom-0 left-0 right-0 flex flex-col w-full mx-auto space-y-4 text-center py-36 max-w-7xl'>
+                    <img className='w-[300px] mx-auto' src="https://i.pinimg.com/564x/b5/79/d2/b579d2c58e40859f67db0127965b8a96.jpg" alt="" />
+                    <p className='text-xl font-semibold'>Sorry!</p>
+                    <p className='text-sm w-[400px] mx-auto'>This platform is for mobile devices only. If you want to continue on the desktop version, you can visit our desktop platform!</p>
+                    <Link href='https://www.opharm.uz' className='text-[14px] bg-gray-200 w-[250px] py-2.5 rounded-md mx-auto'>Visit to desktop platform</Link>
+                </div>
             </div>
         </div>
     );

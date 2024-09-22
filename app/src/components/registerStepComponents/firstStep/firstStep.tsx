@@ -62,21 +62,21 @@ export default function FirstStep() {
 
     return (
         <div>
-            <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+            <div className="flex flex-col justify-center flex-1 min-h-full px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                    <h2 className="mt-10 font-semibold  text-gray-900">
+                    <h2 className="mt-10 font-semibold text-gray-900">
                         Enter your phone number
                     </h2>
-                    <p className="text-xs my-2">We will send an SMS with a confirmation code</p>
+                    <p className="my-2 text-xs">We will send an SMS with a confirmation code</p>
                 </div>
                 <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-md">
                     <form method="POST" className="space-y-6" onSubmit={onSubmit}>
                         <div>
-                            <label htmlFor="phoneNumber" className="block text-sm font-medium leading-6 text-gray-900">
+                            <label htmlFor="phoneNumber" className="block text-[13px] font-medium leading-6 text-gray-900">
                                 Phone number
                             </label>
-                            <div className="mt-2 flex items-center border rounded-md">
-                                <label htmlFor="phoneNumber" className="border-r px-3">+998</label>
+                            <div className="flex items-center mt-2 border rounded-md">
+                                <label htmlFor="phoneNumber" className="px-3 border-r text-[13px]">+998</label>
                                 <input
                                     id="phoneNumber"
                                     name="phoneNumber"
@@ -87,7 +87,7 @@ export default function FirstStep() {
                                     autoComplete="phoneNumber"
                                     maxLength={12}
                                     onChange={onChange}
-                                    className="block w-full rounded-md border-0 p-3 text-gray-900 ring-0 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-0 outline-none focus:ring-gray-300 sm:text-sm sm:leading-6"
+                                    className="block w-full p-3 text-[13px] text-gray-900 border-0 rounded-md outline-none ring-0 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-0 focus:ring-gray-300"
                                 />
                             </div>
                         </div>
@@ -103,7 +103,7 @@ export default function FirstStep() {
                         </div>
                     </form>
 
-                    <p className="mt-4 w-80 mx-auto text-center text-xs text-gray-900">
+                    <p className="mx-auto mt-4 text-xs text-center text-gray-900 w-80">
                         By logging in, you agree to the
                         <Link href='' className="font-semibold m-0.5 leading-6 text-indigo-500 hover:opacity-85">
                             personal data processing policy

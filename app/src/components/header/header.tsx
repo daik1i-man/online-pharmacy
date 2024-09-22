@@ -3,19 +3,17 @@
 import { Link, Button } from "@nextui-org/react";
 import { getUser } from "@/app/functions/functions";
 import { useQuery } from "@tanstack/react-query";
-import { usePathname } from "next/navigation";
+import '../../response.css'
 import React from "react";
 
 export default function Header() {
-    const pathName = usePathname();
-
     const { data: user, isLoading: userLoading } = useQuery({
         queryKey: ['user'],
         queryFn: () => getUser()
     })
 
     return (
-        <div className="max-w-[500px] z-[50] fixed top-0 right-0 left-0 mx-auto backdrop-blur-lg">
+        <div className="z-[50] fixed top-0 right-0 left-0 mx-auto backdrop-blur-lg header">
             <div className="px-2.5 py-1.5">
                 <div className="flex items-center justify-between w-full">
                     <div className="">

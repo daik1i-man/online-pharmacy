@@ -23,7 +23,9 @@ app.use(
       process.env.ADMIN_VERCEL_URL,
       process.env.ADMIN_DOMEN_URL,
       process.env.CLIENT_DOMEN_URL,
-      process.env.DEVELOPMENT_URL
+      process.env.DEVELOPMENT_URL,
+      process.env.APP_VERCEL_URL,
+      process.env.APP_DOMEN_URL
     ],
     credentials: true,
     optionsSuccessStatus: 200,

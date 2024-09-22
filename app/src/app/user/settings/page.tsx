@@ -153,20 +153,20 @@ export default function Page() {
 
     return (
         <>
-            <form method='POST' className="w-full h-full border rounded-md mb-12" onSubmit={onSubmit}>
-                <div className="py-3.5 px-5 border-b ">
-                    <h1 className='text-base'>Basic information</h1>
+            <form method='POST' className="w-full h-full mb-12 rounded-md" onSubmit={onSubmit}>
+                <div className="py-3.5 px-5 border-b">
+                    <h1 className='text-[14px]'>Basic information</h1>
                 </div>
-                <div className="flex my-12 items-center justify-between gap-12">
-                    <div className="w-60 mx-4">
-                        <div className='w-full border rounded-md relative'>
+                <div className="flex flex-col items-center justify-between gap-12 my-12">
+                    <div className="mx-4 w-44">
+                        <div className='relative w-full border rounded-full'>
                             {state.file === undefined ? (
-                                <img className="rounded-md" src='https://i.pinimg.com/564x/76/f3/f3/76f3f3007969fd3b6db21c744e1ef289.jpg' alt="" />
+                                <img className="rounded-full" src={user?.img_url ? user?.img_url : 'https://i.pinimg.com/564x/76/f3/f3/76f3f3007969fd3b6db21c744e1ef289.jpg'} alt="" />
                             ) : (
-                                <img className="rounded-md" src={URL.createObjectURL(state?.file)} alt="" />
+                                <img className="rounded-full" src={URL.createObjectURL(state?.file)} alt="" />
                             )}
                             {state?.file === undefined ? (
-                                <label htmlFor="dropzone-file" className={`absolute -top-3 -right-3 ${state?.file === undefined ? 'bg-gray-100' : 'bg-transparent'} p-1.5 rounded-md cursor-pointer`}>
+                                <label htmlFor="dropzone-file" className={`absolute bottom-0 right-8 ${state?.file === undefined ? 'bg-gray-100' : 'bg-transparent'} p-2 rounded-md cursor-pointer`}>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                                     </svg>
@@ -181,11 +181,11 @@ export default function Page() {
                             )}
                         </div>
                     </div>
-                    <div className="w-full flex flex-col space-y-5">
-                        <div className="flex items-center space-x-8">
-                            <div className="w-2/6">
-                                <label htmlFor="firstName" className="text-xs mt-2 font-light">First name:</label>
-                                <div className="mt-2 relative">
+                    <div className="w-full">
+                        <div className="flex flex-col items-center w-full space-y-4">
+                            <div className="w-full px-4">
+                                <label htmlFor="firstName" className="mt-2 text-xs font-light">First name:</label>
+                                <div className="relative mt-2">
                                     <input
                                         id="firstName"
                                         name="firstName"
@@ -194,13 +194,13 @@ export default function Page() {
                                         onChange={onChange}
                                         autoComplete="firstName"
                                         required
-                                        className="block w-full rounded-xl border-0 outline-none py-2.5 px-3 text-gray-900 ring-gray-200 ring-1 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 sm:text-xs sm:leading-6"
+                                        className="block w-full rounded-xl border-0 text-[14px] outline-none py-4 px-3 text-gray-900 ring-gray-200 ring-1 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300"
                                     />
                                 </div>
                             </div>
-                            <div className="w-2/6">
+                            <div className="w-full px-4">
                                 <label htmlFor="lastName" className="text-xs font-light">Last name:</label>
-                                <div className="mt-2 relative">
+                                <div className="relative mt-2">
                                     <input
                                         id="lastName"
                                         name="lastName"
@@ -209,15 +209,15 @@ export default function Page() {
                                         type="text"
                                         autoComplete="lastName"
                                         required
-                                        className="block w-full rounded-xl border-0 outline-none py-2.5 px-3 text-gray-900 ring-gray-200 ring-1 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 sm:text-xs sm:leading-6"
+                                        className="block w-full rounded-xl text-[14px] border-0 outline-none py-4 px-3 text-gray-900 ring-gray-200 ring-1 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300"
                                     />
                                 </div>
                             </div>
                         </div>
-                        <div className="w-[70%]">
+                        <div className="w-full px-4 mt-2.5">
                             <label htmlFor="phoneNumber" className="text-xs font-light">Phone number:</label>
-                            <div className="mt-2 flex items-center border-0 ring-1 ring-gray-200 py-3 focus:ring-1 rounded-xl focus:ring-gray-300 relative">
-                                <span className="text-xs font-light border-r px-2 py-1">+998</span>
+                            <div className="relative flex items-center py-3 mt-2 border-0 ring-1 ring-gray-200 focus:ring-1 rounded-xl focus:ring-gray-300">
+                                <span className="px-2 py-1 text-[14px] font-normal border-r">+998</span>
                                 <input
                                     id="phoneNumber"
                                     name="phoneNumber"
@@ -226,7 +226,7 @@ export default function Page() {
                                     type="text"
                                     required
                                     autoComplete="phoneNumber"
-                                    className="block w-full rounded-xl border-0 outline-none px-3 text-gray-900 placeholder:text-gray-400 sm:text-xs sm:leading-6"
+                                    className="block w-full px-3 text-[13px] text-gray-900 border-0 outline-none rounded-xl placeholder:text-gray-400"
                                     maxLength={12}
                                 />
                             </div>
