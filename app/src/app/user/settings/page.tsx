@@ -154,7 +154,7 @@ export default function Page() {
     return (
         <>
             <form method='POST' className="w-full h-full mb-12 rounded-md" onSubmit={onSubmit}>
-                <div className="py-3.5 px-5 border-b">
+                <div className="py-3.5 px-5 border">
                     <h1 className='text-[14px]'>Basic information</h1>
                 </div>
                 <div className="flex flex-col items-center justify-between gap-12 my-12">

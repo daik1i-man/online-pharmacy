@@ -89,15 +89,15 @@ export default function LoginPage() {
 
     return (
         <>
-            <div className="py-20 w-[600px] mx-auto px-20 justify-center main">
+            <div className="py-20 mx-auto px-8 justify-center main">
                 <div className="py-12 mt-5">
                     <form action="#" method="POST" className="space-y-6" onSubmit={onSubmit}>
                         <div>
-                            <label htmlFor="email" className="block text-[14px] font-medium leading-6 text-gray-900">
+                            <label htmlFor="email" className="block text-[13px] font-medium leading-6 text-gray-900">
                                 Phone number
                             </label>
                             <div className="flex items-center mt-2 border rounded-md">
-                                <label htmlFor="phoneNumber" className="px-3 border-r text-[15px]">+998</label>
+                                <label htmlFor="phoneNumber" className="px-3 border-r text-[14px]">+998</label>
                                 <input
                                     id="phoneNumber"
                                     name="phoneNumber"
@@ -113,7 +113,7 @@ export default function LoginPage() {
                         </div>
 
                         <div className='relative'>
-                            <label htmlFor="password" className="block text-[14px] font-medium leading-6 text-gray-900">
+                            <label htmlFor="password" className="block text-[13px] font-medium leading-6 text-gray-900">
                                 Password
                             </label>
                             <div className="mt-2">

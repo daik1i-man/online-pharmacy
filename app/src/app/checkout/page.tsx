@@ -10,6 +10,7 @@ import { Button } from "@nextui-org/react"
 import React, { FormEvent } from 'react'
 import { stateProps } from "../types"
 import Link from "next/link"
+import '../../response.css'
 
 export default function Page() {
     const { setOpenSuccessfullyOrderModal } = useCancelOrderModalContext()
@@ -107,12 +108,12 @@ export default function Page() {
 
     return (
         <div className="w-full h-full">
-            <div className="max-w-7xl mx-auto my-12">
+            <div className="mx-auto my-12 main">
                 <h1>Placing an order</h1>
 
                 <form className='flex my-8 max-w-7xl mx-auto items-start justify-between relative' method="POST" onSubmit={onSubmit}>
                     {cartLoading ? (
-                        <div className="border rounded-md p-4 w-[890px]">
+                        <div className="border rounded-md p-4">
                             <div className="flex items-center my-4 gap-4">
                                 <div className="w-8 h-8 bg-gray-200 animate-pulse rounded-full" />
                                 <div className="w-36 h-3 bg-gray-200 animate-pulse rounded-md" />
@@ -161,53 +162,51 @@ export default function Page() {
                             </div>
                         </div>
                     ) : (
-                        <div className="border rounded-md p-4 xl:w-[890px]">
-                            <div className="flex items-center my-4 gap-4">
+                        <div className="p-4">
+                            <div className="flex items-center my-12 gap-4">
                                 <div className="w-8 h-8 px-[11px] py-[4px] bg-[#0295a9] text-gray-50 rounded-full">1</div>
                                 <p>Personal information</p>
                             </div>
                             <div className="my-8 w-full">
                                 <div className="flex flex-col space-y-5 px-3">
-                                    <div className="flex items-center space-x-8">
-                                        <div className="w-1/2">
-                                            <label htmlFor="firstName" className="text-xs mt-2 font-light">First name:</label>
-                                            <div className="mt-2 relative">
-                                                <input
-                                                    className="block w-full rounded-xl border-0 outline-none py-2.5 px-3 text-gray-900 ring-gray-200 ring-1 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 sm:text-xs sm:leading-6"
-                                                    placeholder="first name"
-                                                    autoComplete="firstName"
-                                                    value={state.firstName}
-                                                    onChange={onChange}
-                                                    name="firstName"
-                                                    id="firstName"
-                                                    type="text"
-                                                    required
-                                                />
-                                            </div>
+                                    <div className="">
+                                        <label htmlFor="firstName" className="text-xs mt-2 font-light">First name:</label>
+                                        <div className="mt-2 relative">
+                                            <input
+                                                className="block w-full rounded-md border-0 text-[14px] outline-none py-2.5 px-3 text-gray-900 ring-gray-200 ring-1 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 sm:text-xs sm:leading-6"
+                                                placeholder="first name"
+                                                autoComplete="firstName"
+                                                value={state.firstName}
+                                                onChange={onChange}
+                                                name="firstName"
+                                                id="firstName"
+                                                type="text"
+                                                required
+                                            />
                                         </div>
-                                        <div className="w-1/2">
-                                            <label htmlFor="lastName" className="text-xs font-light">Last name:</label>
-                                            <div className="mt-2 relative">
-                                                <input
-                                                    className="block w-full rounded-xl border-0 outline-none py-2.5 px-3 text-gray-900 ring-gray-200 ring-1 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 sm:text-xs sm:leading-6"
-                                                    autoComplete="lastName"
-                                                    placeholder="last name"
-                                                    value={state.lastName}
-                                                    onChange={onChange}
-                                                    name="lastName"
-                                                    id="lastName"
-                                                    type="text"
-                                                    required
-                                                />
-                                            </div>
+                                    </div>
+                                    <div className="">
+                                        <label htmlFor="lastName" className="text-xs font-light">Last name:</label>
+                                        <div className="mt-2 relative">
+                                            <input
+                                                className="block w-full rounded-md text-[14px] border-0 outline-none py-2.5 px-3 text-gray-900 ring-gray-200 ring-1 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 sm:text-xs sm:leading-6"
+                                                autoComplete="lastName"
+                                                placeholder="last name"
+                                                value={state.lastName}
+                                                onChange={onChange}
+                                                name="lastName"
+                                                id="lastName"
+                                                type="text"
+                                                required
+                                            />
                                         </div>
                                     </div>
                                     <div className="w-full">
                                         <label htmlFor="phoneNumber" className="text-xs font-light">Phone number:</label>
-                                        <div className="mt-2 flex items-center border-0 ring-1 ring-gray-200 py-3 focus:ring-1 rounded-xl focus:ring-gray-300 relative">
-                                            <span className="text-xs font-light border-r px-2 py-1">+998</span>
+                                        <div className="mt-2 flex items-center border-0 ring-1 ring-gray-200 py-3 focus:ring-1 rounded-md focus:ring-gray-300 relative">
+                                            <span className="text-[13px] font-light border-r px-2 py-1">+998</span>
                                             <input
-                                                className="block w-full rounded-xl border-0 outline-none px-3 text-gray-900 placeholder:text-gray-400 sm:text-xs sm:leading-6"
+                                                className="block w-full border-0 text-[14px] outline-none px-3 text-gray-900 placeholder:text-gray-400 sm:text-xs sm:leading-6"
                                                 autoComplete="phoneNumber"
                                                 placeholder="00 000 00 00"
                                                 value={state.phoneNumber}
@@ -262,52 +261,45 @@ export default function Page() {
                         </div>)
                     }
                     {cartLoading ? (
-                        <div className='absolute top-0 right-0'>
-                            <div className='right-[120px] w-80 border rounded-md p-4 px-4  '>
-                                <div>
-                                    <div className="flex items-center justify-between">
-                                        <div className='w-36 h-3 bg-gray-200 animate-pulse rounded-full justify-start' />
-                                        <div className="w-24 h-3 bg-gray-200 animate-pulse rounded-full" />
+                        <div className='fixed top-[52px] z-40 w-[600px] right-0 left-0 p-4 bg-white border-y'>
+                            <div className=''>
+                                <div className='flex items-center justify-between'>
+                                    <div className='flex flex-col space-y-4'>
+                                        <div className='h-3 bg-gray-200 rounded-full w-44 animate-pulse' />
+                                        <div className="flex items-center space-x-4">
+                                            <div className='w-12 h-3 bg-gray-200 rounded-full animate-pulse' />
+                                            <div className='h-3 bg-gray-200 rounded-full w-28 animate-pulse' />
+                                        </div>
                                     </div>
-                                    <div className='flex items-center justify-between my-12'>
-                                        <div className='w-24 h-5 bg-gray-200 animate-pulse rounded-full' />
-                                        <div className='w-24 h-5 bg-gray-200 animate-pulse rounded-full' />
-                                    </div>
-                                    <div className="my-4 flex items-center gap-2">
-                                        <div className="w-3 h-3 rounded-md bg-gray-200 animate-pulse" />
-                                        <div className="w-72 h-3 rounded-md bg-gray-200 animate-pulse" />
-                                    </div>
+                                    <div className='w-32 h-10 bg-gray-200 rounded-md animate-pulse' />
                                 </div>
-                                <div className='w-full h-9 bg-gray-200 animate-pulse rounded-md' />
                             </div>
                         </div>
                     ) : (
-                        <div className='absolute top-0 right-0'>
-                            <div className='right-[120px] w-80 border rounded-md p-4 px-4'>
-                                <div>
-                                    <div className="flex items-center justify-between text-xs">
+                        <div className='fixed top-[50px] z-40 right-0 left-0 p-4 bg-white border-y'>
+                            <div className=''>
+                                <div className='flex items-center justify-between'>
+                                    <div className='flex flex-col space-y-4'>
                                         <p className='text-sm'>{`Your orders: (${cart?.length})`}</p>
-                                        <Link className="underline text-indigo-600" href='/cart'>Go to cart</Link>
+                                        <div className="flex items-center space-x-4">
+                                            <p className='text-sm'>Total:</p>
+                                            <h1 className='text-sm'>{`${formattedTotalPrice} UZS`}</h1>
+                                        </div>
                                     </div>
-                                    <div className='flex items-center justify-between my-12'>
-                                        <p className='text-sm'>Total:</p>
-                                        <h1 className='text-xl'>{`${formattedTotalPrice} UZS`}</h1>
-                                    </div>
-                                    <div className="flex items-center gap-2 my-4">
-                                        <input type="checkbox" required />
-                                        <p className="text-xs">I agree with rules <Link className="text-indigo-600" href=''>purchasing goods</Link></p>
-                                    </div>
+                                    <Button type="submit" className='rounded-md bg-[#0295a9] text-gray-50 text-xs py-1.5 px-8 my-2 text-end'>Checkout</Button>
                                 </div>
-                                <Button
-                                    className='w-full rounded-md bg-[#0295a9] text-gray-50'
-                                    type="submit"
-                                >
-                                    Checkout
-                                </Button>
                             </div>
                         </div>
                     )}
                 </form>
+            </div>
+            <div className='relative information_text'>
+                <div className='absolute top-0 bottom-0 left-0 right-0 flex flex-col w-full mx-auto space-y-4 text-center py-36 max-w-7xl'>
+                    <img className='w-[300px] mx-auto' src="https://i.pinimg.com/564x/b5/79/d2/b579d2c58e40859f67db0127965b8a96.jpg" alt="" />
+                    <p className='text-xl font-semibold'>Sorry!</p>
+                    <p className='text-sm w-[400px] mx-auto'>This platform is for mobile devices only. If you want to continue on the desktop version, you can visit our desktop platform!</p>
+                    <Link href='https://www.opharm.uz' className='text-[14px] bg-gray-200 w-[250px] py-2.5 rounded-md mx-auto'>Visit to desktop platform</Link>
+                </div>
             </div>
         </div>
     );

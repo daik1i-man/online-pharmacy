@@ -39,7 +39,7 @@ export default function Page() {
                     <h1 className="text-2xl font-medium">{category?.name}</h1>
                 </div>
                 {product ?
-                    (<div className="w-[600px] grid grid-cols-3 gap-4 mx-auto my-8">
+                    (<div className="grid grid-cols-3 gap-4 mx-auto my-8">
                         {productLoading ? (
                             "ite".repeat(2).split("").map((el, index) => <SkeletoComponent key={index} />)) :
                             (product && product?.map((item: any) => (
@@ -57,13 +57,13 @@ export default function Page() {
                         }
                     </ div>
                     ) : (
-                        <div className="mx-auto w-[600px]">
+                        <div className="mx-auto">
                             <img className="mx-auto my-4 w-[350px]" src="https://i.pinimg.com/564x/eb/61/41/eb614141450093184d1b657697047b5f.jpg" alt="" />
                             <div className="mb-4 text-center">
-                                <h1 className="text-lg font-medium">No products found in this category</h1>
-                                <p className="font-light text-small">Look at other categories</p>
+                                <h1 className="text-base font-medium">No products found in this category</h1>
+                                <p className="font-light text-xs my-2">Look at other categories</p>
                                 <Link href="/categories">
-                                    <Button className="my-4 rounded-md px-8 bg-[#0295a9] text-gray-50">Go back</Button>
+                                    <Button className="my-2 rounded-md px-8 bg-[#0295a9] text-gray-50">Go back</Button>
                                 </Link>
                             </div>
                         </div>

@@ -1,52 +1,68 @@
 'use client';
 
 import { Link, Button } from "@nextui-org/react";
-import { getUser } from "@/app/functions/functions";
+import { getAllProducts, getUser } from "@/app/functions/functions";
 import { useQuery } from "@tanstack/react-query";
-import '../../response.css'
-import React from "react";
+import React, { useState } from "react";
 
 export default function Header() {
-    const { data: user, isLoading: userLoading } = useQuery({
-        queryKey: ['user'],
-        queryFn: () => getUser()
+    const [state, setState] = useState({
+        search: [],
+        limit: 20
     })
 
+    const [search, setSearch] = useState<string | undefined>(undefined);
+
+    const { data: products } = useQuery({
+        queryKey: ['products', state.limit],
+        queryFn: () => getAllProducts(state.limit)
+    })
+
+    const filteredProducts = search ? products?.filter((product: any) => product.name.toLowerCase().includes(search.toLowerCase())) : products;
+
+    const searchChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(e.target.value || undefined);
+    };
+
     return (
-        <div className="z-[50] fixed top-0 right-0 left-0 mx-auto backdrop-blur-lg header">
-            <div className="px-2.5 py-1.5">
-                <div className="flex items-center justify-between w-full">
-                    <div className="">
-                        <div>
-                            <Link href="/" className="text-gray-900">
-                                <h1 className="font-bold">Online Pharmacy</h1>
-                            </Link>
-                        </div>
-                    </div>
-                    <div>
-                        {userLoading ? (
-                            <div className="px-10 py-5 transition-all bg-gray-200 rounded-md w-28 animate-pulse" />
-                        ) :
-                            (user === undefined ? (
-                                <Link href='/auth/login'>
-                                    <Button className="bg-gray-200 rounded-md py-1.5 px-8">
-                                        Sign in
-                                    </Button>
-                                </Link>
-                            ) : (
-                                <Link href='/user/orders'>
-                                    <Button className="bg-gray-200 rounded-md py-1.5 px-8">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                                        </svg>
-                                        Profile
-                                    </Button>
-                                </Link>
-                            ))
-                        }
+        <div className="relative main">
+            <div className="flex w-full items-center px-4 py-1.5 border bg-white z-[90] fixed top-0 right-0 left-0">
+                <p className=''>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-[22px]">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                </p>
+                <input
+                    name='search'
+                    type="search"
+                    placeholder='Look for products'
+                    value={search || ''}
+                    onChange={searchChangeHandler}
+                    required
+                    className="block w-full py-2 px-2 text-[14px] font-normal text-gray-900 focus:ring-0 ring-0 outline-none placeholder:text-gray-400"
+                />
+            </div>
+            <div className="z-[50] fixed top-0 right-0 left-0 mx-auto">
+                <div className={`w-full bg-white rounded-md absolute top-8 left-0 right-0 z-50 ${search === undefined ? 'hidden' : 'block'}`}>
+                    <div className='w-full h-[700px] p-4 overflow-y-scroll'>
+                        {filteredProducts?.map((filteredProduct: any, i: number) => (
+                            <div key={i} className='flex items-center w-full p-3 my-2 border-b gap-x-3 hover:bg-gray-50 hover:rounded-md'>
+                                <div className='w-16'>
+                                    <Link href={`product/${filteredProduct.id}`}>
+                                        <img className='object-cover w-full h-full rounded-md' src={filteredProduct?.img_url} alt={filteredProduct?.name} />
+                                    </Link>
+                                </div>
+                                <div>
+                                    <Link href={`product/${filteredProduct.id}`}>
+                                        <h1 className='text-[12px]'>{filteredProduct?.name}</h1>
+                                    </Link>
+                                    <p className='text-[12px]'>185 000 UZS</p>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
-            </div>
-        </div >
+            </div >
+        </div>
     );
 }

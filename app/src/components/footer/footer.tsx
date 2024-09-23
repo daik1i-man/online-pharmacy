@@ -6,19 +6,21 @@ import '../../response.css'
 
 export default function Footer() {
     return (
-        <div className="mx-auto bg-[#fcf7f7] p-4 rounded-t-md footer w-[600px]">
-            <div className="">
+        <div className="main">
+            <div className="mx-auto bg-[#fcf7f7] p-4 rounded-t-md footer w-full ">
                 <div className="flex flex-col border-b border-gray-400">
                     <div>
                         <div>
-                            <h1 className="text-[16px] w-60">We are in social networks:</h1>
-                            <p className="my-2 text-[11px] font-light w-[300px]">We publish news daily on social networks, so as not to miss news, subscribe to us</p>
+                            <h1 className="text-[20px] w-72">We are in social networks:</h1>
+                            <p className="my-2 text-[12px] font-light w-[350px]">We publish news daily on social networks, so as not to miss news, subscribe to us</p>
                         </div>
-                        <div className="flex items-center gap-3 mx-2 my-8">
-                            <FaTelegram className="text-[25px]" />
-                            <FaInstagram className="text-[25px]" />
-                            <FaFacebookF className="text-[25px]" />
-                            <FaYoutube className="text-[25px]" />
+                        <div className="flex items-center gap-x-3 mx-2 my-8">
+                            <Link href='https://t.me/OPharm_medical'>
+                                <FaTelegram className="text-[30px]" />
+                            </Link>
+                            <FaInstagram className="text-[30px]" />
+                            <FaFacebookF className="text-[30px]" />
+                            <FaYoutube className="text-[30px]" />
                         </div>
                     </div>
                     <div>

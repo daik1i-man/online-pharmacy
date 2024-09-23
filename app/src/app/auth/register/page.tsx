@@ -12,7 +12,7 @@ export default function RegisterPage() {
 
     return (
         <>
-            <div className="w-[600px] mx-auto my-24 px-10 relative main">
+            <div className="mx-auto my-24 relative main">
                 <div className="flex items-center justify-center mb-4">
                     {steps.map((step, index) => (
                         <div key={index} className="flex-1 mx-auto">
@@ -27,7 +27,7 @@ export default function RegisterPage() {
                         </div>
                     ))}
                 </div>
-                <hr className="max-w-sm mx-auto h-0.5 -z-10  w-full absolute top-5 right-0 left-0 bg-gray-100" />
+                <hr className="max-w-[350px] mx-auto h-0.5 -z-10  w-full absolute top-5 right-0 left-0 bg-gray-100" />
                 <div className={`w-8 h-8 rounded-full p-[7px] ${state.currentStep >= 3 ? 'hidden' : 'block'} absolute top-6 left-0 cursor-pointer ${(state.currentStep >= 1) ? 'block' : 'hidden'}`} onClick={() => setState({ ...state, currentStep: state.currentStep - 1 })}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />

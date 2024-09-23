@@ -56,29 +56,33 @@ export default function layout({ children }: childrenProps) {
     }
 
     const onClick = () => {
-        router.push('/')
+        router.back()
     }
 
     return (
         <>
-            <div className="relative main">
-                <div className='w-6 h-6 px-0.5 py-1 my-2 absolute top-9 left-0 bg-gray-100 rounded-full cursor-pointer mx-4' onClick={onClick}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                    </svg>
-                </div>
-                <div className="relative px-4 mt-4 border w-[600px]">
-                    <Button className="absolute bg-gray-200 rounded-md right-5 top-12 text-[12px]" onClick={() => mutate.mutate()}>
+            <div className="relative w-full">
+                <div className="flex items-center justify-between mt-16 px-4">
+                    <div className='w-8 h-8 px-0.5 py-1 my-2 bg-gray-100 rounded-full cursor-pointer' onClick={onClick}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </div>
+                    <Button className="rounded-md text-[13px]" onClick={() => mutate.mutate()}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
                         </svg>
                         Sign Out
                     </Button>
-                    <div className="relative flex flex-col items-center my-8">
+                </div>
+                <div className="relative px-4 w-full">
+                    <div className="relative flex flex-col items-center mb-8">
                         <div className="gap-8 leading-snug tracking-normal text-blue-gray-900">
                             <div className={`w-44 ${userLoading && 'bg-gray-300 animate-pulse'} h-44 border rounded-full`}>
                                 {userLoading ? '' : (
-                                    <img className="rounded-full" src={`${user?.img_url ? user?.img_url : 'https://i.pinimg.com/564x/76/f3/f3/76f3f3007969fd3b6db21c744e1ef289.jpg'}`} alt="" />
+                                    <div className="flex items-center justify-between w-full space-x-4">
+                                        <img className="rounded-full" src={`${user?.img_url ? user?.img_url : 'https://i.pinimg.com/564x/76/f3/f3/76f3f3007969fd3b6db21c744e1ef289.jpg'}`} alt="" />
+                                    </div>
                                 )}
                             </div>
                         </div>
@@ -136,18 +140,18 @@ export default function layout({ children }: childrenProps) {
                     </ul>
                 </div>
                 <CancelOrderModal />
-                <div className="w-[600px]">
+                <div className="">
                     {children}
                 </div>
             </div>
-            <div className='relative information_text'>
+            {/* <div className='relative information_text'>
                 <div className='absolute top-0 bottom-0 left-0 right-0 flex flex-col w-full mx-auto space-y-4 text-center py-44 max-w-7xl'>
                     <img className='w-[300px] mx-auto' src="https://i.pinimg.com/564x/b5/79/d2/b579d2c58e40859f67db0127965b8a96.jpg" alt="" />
                     <p className='text-xl font-semibold'>Sorry!</p>
                     <p className='text-sm w-[400px] mx-auto'>This platform is for mobile devices only. If you want to continue on the desktop version, you can visit our desktop platform!</p>
                     <Link href='https://www.opharm.uz' className='text-[14px] bg-gray-200 w-[250px] py-2.5 rounded-md mx-auto'>Visit to desktop platform</Link>
                 </div>
-            </div>
+            </div> */}
         </>
     );
 }

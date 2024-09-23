@@ -89,16 +89,16 @@ export default function Cart() {
     }
 
     return (
-        <div className="relative w-[600px] mx-auto" >
+        <div className="relative mx-auto" >
             <div className='main'>
-                <div className='w-6 h-6 px-0.5 py-1 absolute bg-gray-100 rounded-full cursor-pointer mx-4' onClick={backHandler}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
+                <div className='w-8 h-8 px-0.5 py-1 top-0 left-0 absolute bg-gray-100 rounded-full cursor-pointer mx-4' onClick={backHandler}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
                 </div>
                 {cart?.length === 0 ? (
                     <div className='flex flex-col my-24 space-y-2 text-center'>
-                        <Image className='mx-auto cart_image' src={EmptyImage} alt='Empty Image' />
+                        <Image className='mx-auto w-[350px]' src={EmptyImage} alt='Empty Image' />
                         <h1 className='font-semibold text-center empty_cart_title'>Your cart is currently no products</h1>
                         <p className='my-1 text-center empty_cart_text'>to select products go to the main page</p>
                         <Link href='/' className='justify-center'>
@@ -106,11 +106,11 @@ export default function Cart() {
                         </Link>
                     </div>
                 ) : (
-                    <div className='m-4'>
+                    <div className='m-4 pt-36 pb-24'>
                         <ul className='flex flex-col gap-4 mx-auto'>
                             {cartProductLoading ? (
                                 "it".repeat(2).split('').map((item, index) => (
-                                    <div key={index} className='flex items-start gap-6 justify-between w-[570px] mx-auto border px-2 py-2 rounded-md'>
+                                    <div key={index} className='flex items-start gap-6 justify-between w-[470px] mx-auto border px-2 py-2 rounded-md'>
                                         <div className='flex items-center gap-6 bg-gray-200 rounded-md w-36 animate-pulse'>
                                             <div>
                                                 <div className='flex items-start gap-2 my-2'>
@@ -130,26 +130,26 @@ export default function Cart() {
                                 ))
                             ) : (cart?.map((item: any, index: number) => (
                                 <li key={index} className='flex items-center border rounded-md'>
-                                    <div className='flex items-start justify-between w-[570px] px-2 py-2 rounded-xl'>
+                                    <div className='flex items-start justify-between w-[480px] px-2 py-2 rounded-xl'>
                                         <div className='relative flex items-center gap-x-4'>
                                             <Link className='relative' href={`/product/${item?.id}`}>
-                                                <img className='rounded-md w-28' src={item?.img_url} alt="watches" />
+                                                <img className='rounded-md w-20' src={item?.img_url} alt="watches" />
                                             </Link>
                                             <div>
                                                 <Link href={`/product/${item?.id}`}>
-                                                    <h2 className='my-2 text-[13px]'>{item?.name}</h2>
+                                                    <h2 className='my-2 text-[12px]'>{item?.name}</h2>
                                                 </Link>
                                                 <div className='flex items-start gap-2'>
                                                     <p className='text-xs font-medium'>Category: </p>
-                                                    <p className='text-[11px] font-light'>{item?.category}</p>
+                                                    <p className='text-[12px] font-light'>{item?.category}</p>
                                                 </div>
                                                 <div className='my-4'>
-                                                    <div className="flex items-center justify-between w-32 border rounded-md">
-                                                        <button disabled={item?.quantity <= 1} className="p-2 text-base bg-white disabled:opacity-25 disabled:hover:text-gray-500 disabled:cursor-pointer" onClick={() => decrementHandler(item?.id)}>
+                                                    <div className="flex items-center justify-between w-24 border rounded-md">
+                                                        <button disabled={item?.quantity <= 1} className="p-1.5 text-base bg-white disabled:opacity-25 disabled:hover:text-gray-500 disabled:cursor-pointer" onClick={() => decrementHandler(item?.id)}>
                                                             -
                                                         </button>
                                                         <p className='text-xs'>{item?.quantity}</p>
-                                                        <button className="p-2 text-base bg-white" onClick={() => incrementHandler(item?.id)}>
+                                                        <button className="py-1.5 px-2 text-base bg-white" onClick={() => incrementHandler(item?.id)}>
                                                             +
                                                         </button>
                                                     </div>
@@ -163,7 +163,7 @@ export default function Cart() {
                                                 </svg>
                                                 <p className='text-xs'>Delete</p>
                                             </div>
-                                            <div className='mt-11'>
+                                            <div className='mt-11 text-[14px]'>
                                                 <p>{`${item?.price} UZS`}</p>
                                             </div>
                                         </div>
@@ -187,7 +187,7 @@ export default function Cart() {
                                 </div>
                             </div>
                         ) : (
-                            <div className='fixed top-[52px] z-40 w-[600px] right-0 left-0 p-4 bg-white border-y'>
+                            <div className='fixed top-[50px] z-40 right-0 left-0 p-4 bg-white border-y'>
                                 <div className=''>
                                     <div className='flex items-center justify-between'>
                                         <div className='flex flex-col space-y-4'>

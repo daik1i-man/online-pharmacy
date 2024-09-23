@@ -24,12 +24,12 @@ export default function Page() {
     return (
         <>
             <div className='my-4'>
-                <div className="pb-3.5 px-5 border-b ">
+                <div className="py-3.5 px-5 border">
                     <h1 className='text-[14px]'>My orders</h1>
                 </div>
                 {orders?.length > 0 ? (
                     orders?.map((order: any) => (
-                        <div key={order?.id} className='flex flex-col px-8 py-4 mx-4 space-y-2 border-b'>
+                        <div key={order?.id} className='flex flex-col py-4 mx-4 space-y-2 border-b'>
                             <div className='flex items-center justify-between'>
                                 <h1 className='text-[14px]'>{order?.last_name} {order?.first_name}</h1>
                                 <Chip className="capitalize text-[10px]" color='warning' size="sm" variant="flat">
@@ -50,7 +50,7 @@ export default function Page() {
                                     <p className='text-[10px]'>{order?.total_price} UZS</p>
                                 </div>
                                 <div onClick={() => onClick(order?.id)}>
-                                    <span className='text-[11px] text-blue-600'>Cancel order</span>
+                                    <span className='text-[11px] text-blue-600 cursor-pointer'>Cancel order</span>
                                 </div>
                             </div>
                         </div>)
