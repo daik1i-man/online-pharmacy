@@ -82,7 +82,7 @@
 
 @media all and (max-width: 400px) {
     .product_card {
-        width: 160px;
+        width: 180px;
         height: 320px;
     }
 
@@ -95,21 +95,21 @@
     }
 
     .bottom_items_row {
-        column-gap: 25px;
+        column-gap: 30px;
     }
 
     .skeleton_main {
-        width: 190px;
+        width: 180px;
         height: 300px;
     }
 
     .skeleton_title {
-        width: 190px;
+        width: 180px;
         height: 12px;
     }
 
     .skeleton_items_row {
-        width: 190px;
+        width: 180px;
     }
 
     .rows_container {

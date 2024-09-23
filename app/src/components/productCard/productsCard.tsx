@@ -163,7 +163,7 @@ export default function ProductsCard({ name, id, img_url, price, cart, favourite
 
     return (
         <Card
-            className="shadow-none relative px-2 product_card"
+            className="shadow-none relative rounded-md product_card"
         >
             <Link href={`/product/${id}`}>
                 <img

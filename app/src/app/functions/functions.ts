@@ -235,7 +235,7 @@ export const updateProfile = async ({ phoneNumber, firstName, lastName, imgUrl }
 export const getOrders = async () => {
     try {
         const response = await axiosInstance.get('/admin-controll/orders/get-user-orders')
-        return response?.data?.orders
+        return response?.data?.orders.sort().reverse()
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             return error.response

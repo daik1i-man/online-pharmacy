@@ -3,15 +3,13 @@
 import { useCancelOrderModalContext } from '@/contexts/actionsContext/actionContexts';
 import { getOrders } from '@/app/functions/functions';
 import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { Button, Chip } from '@nextui-org/react';
 import Link from 'next/link'
 
 export default function Page() {
-    const router = useRouter()
     const { setOpen, setOrderId } = useCancelOrderModalContext()
 
-    const { data: orders, isLoading: loading } = useQuery({
+    const { data: orders } = useQuery({
         queryKey: ['orders'],
         queryFn: () => getOrders()
     })
