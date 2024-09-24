@@ -1,26 +1,22 @@
 'use client'
 
-import { getCategoryById, getProductsByCategoryName } from "../../functions/functions";
 import SkeletoComponent from "@/components/skeletonComponent/skeletonComponent";
 import ProductsCard from "@/components/productCard/productsCard";
+import { getCategoryById } from "../../functions/functions";
 import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@nextui-org/react";
 import '../../../response.css'
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function Page() {
     const { id } = useParams()
     const router = useRouter()
 
-    const { data: category } = useQuery({
-        queryKey: ['category'],
+    const { data: products, isLoading: loading } = useQuery({
+        queryKey: ['products', id],
         queryFn: () => getCategoryById(id)
-    })
-
-    const { data: product, isLoading: productLoading } = useQuery({
-        queryKey: ['product'],
-        queryFn: () => getProductsByCategoryName(category?.name)
     })
 
     const backHandler = () => {
@@ -30,34 +26,39 @@ export default function Page() {
     return (
         <>
             <div className="relative main">
-                <div className='w-6 h-6 px-0.5 py-1 absolute bg-gray-100 rounded-full cursor-pointer m-4' onClick={backHandler}>
+                <div className='w-6 h-6 px-0.5 py-1 absolute bg-gray-100 rounded-full cursor-pointer -top-9 left-3' onClick={backHandler}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
                 </div>
-                <div className="mx-auto my-12 w-[600px]">
-                    <h1 className="text-2xl font-medium">{category?.name}</h1>
-                </div>
-                {product ?
-                    (<div className="grid grid-cols-3 gap-4 mx-auto my-8">
-                        {productLoading ? (
-                            "ite".repeat(2).split("").map((el, index) => <SkeletoComponent key={index} />)) :
-                            (product && product?.map((item: any) => (
-                                <ProductsCard
-                                    key={item?.id}
-                                    price={item?.price}
-                                    quantity={1}
-                                    id={item?.id}
-                                    img_url={item?.img_url}
-                                    name={item?.name}
-                                    cart={item?.cart}
-                                    favourites={item?.favourites}
+                {loading ? (
+                    <div className="grid grid-cols-2 pl-3 gap-y-4 mx-auto my-24">
+                        {"it".repeat(2).split('').map((el, i) => (
+                            <SkeletoComponent key={i} />
+                        ))}
+                    </div>
+                ) : (
+                    products ? (
+                        <div className="grid grid-cols-2 pl-3 gap-y-4 mx-auto my-24">
+                            {products?.map((product: any) => (
+                                <ProductsCard key={product?.id}
+                                    name={product?.name}
+                                    id={product?.id}
+                                    img_url={product?.img_url}
+                                    price={product?.price}
+                                    cart={product?.cart}
+                                    favourites={product?.favourites}
+                                    quantity={product?.quantity}
                                 />
-                            )))
-                        }
-                    </ div>
+                            ))}
+                        </div>
                     ) : (
-                        <div className="mx-auto">
+                        <div className="mx-auto px-4 my-8 relative">
+                            <div className='w-8 h-8 px-0.5 absolute py-1 bg-gray-100 rounded-full cursor-pointer top-9' onClick={backHandler}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                                </svg>
+                            </div>
                             <img className="mx-auto my-4 w-[350px]" src="https://i.pinimg.com/564x/eb/61/41/eb614141450093184d1b657697047b5f.jpg" alt="" />
                             <div className="mb-4 text-center">
                                 <h1 className="text-base font-medium">No products found in this category</h1>
@@ -68,7 +69,7 @@ export default function Page() {
                             </div>
                         </div>
                     )
-                }
+                )}
             </div>
             <div className='relative information_text'>
                 <div className='absolute top-0 bottom-0 left-0 right-0 flex flex-col w-full mx-auto space-y-4 text-center py-36 max-w-7xl'>
@@ -81,3 +82,11 @@ export default function Page() {
         </>
     )
 }
+
+
+
+
+
+
+
+

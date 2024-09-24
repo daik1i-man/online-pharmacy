@@ -24,26 +24,9 @@ export const getAllProducts = async (limit: number) => {
 
 export const getCategoryById = async (id: string | string[]) => {
     try {
-        const response = await axiosInstance.get(`/admin-controll/categories/category?id=${id}`)
-        if (response.data) {
-            return response.data.category[0]
-        } else {
-            return []
-        }
-    } catch (error) {
-        console.log((error as Error).message);
-        return []
-    }
-}
-
-export const getProductsByCategoryName = async (name: string | undefined) => {
-    try {
-        const response = await axiosInstance.get(`/admin-controll/products/get-products?category=${name}`)
-        if (response.data) {
-            return response.data.products
-        } else {
-            return []
-        }
+        const categoryResponse = await axiosInstance.get(`/admin-controll/categories/category?id=${id}`)
+        const response = await axiosInstance.get(`/admin-controll/products/get-products?category=${categoryResponse.data.category?.name}`)
+        return response.data.products
     } catch (error) {
         console.log((error as Error).message);
         return []
@@ -128,10 +111,9 @@ export const getFavourites = async () => {
 export const getUserNumber = async (phone_number: string) => {
     const formattedNumber = phone_number.replace(/\s+/g, '')
     try {
-        const response = await axiosInstance.post('/auth/user/get-number', {
+        return await axiosInstance.post('/auth/user/get-number', {
             phone_number: `998${formattedNumber}`
-        })
-        return response
+        });
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             return error.response
@@ -142,10 +124,9 @@ export const getUserNumber = async (phone_number: string) => {
 
 export const verification = async (otp: string) => {
     try {
-        const response = await axiosInstance.post('/auth/user/verification', {
+        return await axiosInstance.post('/auth/user/verification', {
             userOtp: otp
-        })
-        return response
+        });
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             return error.response
@@ -156,10 +137,9 @@ export const verification = async (otp: string) => {
 
 export const getUserPassword = async (password: string) => {
     try {
-        const response = await axiosInstance.post('/auth/user/get-password', {
+        return await axiosInstance.post('/auth/user/get-password', {
             password: password
         })
-        return response
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             return error.response
@@ -171,12 +151,11 @@ export const getUserPassword = async (password: string) => {
 export const login = async (phone_number: string, password: string) => {
     const formatted = phone_number.replace(/\s+/g, '')
     try {
-        const response = await axiosInstance.post('/auth/user/login', {
+        return await axiosInstance.post('/auth/user/login', {
             phone_number: `998${formatted}`,
             password: password
         })
 
-        return response
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             return error.response
@@ -188,8 +167,7 @@ export const login = async (phone_number: string, password: string) => {
 
 export const logout = async () => {
     try {
-        const response = await axiosInstance.get('/auth/user/logout')
-        return response
+        return await axiosInstance.get('/auth/user/logout')
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             return error.response
@@ -247,8 +225,7 @@ export const getOrders = async () => {
 
 export const cancelOrder = async (id: string) => {
     try {
-        const response = await axiosInstance.get(`/admin-controll/orders/delete?id=${id}`)
-        return response
+        return await axiosInstance.get(`/admin-controll/orders/delete?id=${id}`)
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             return error.response

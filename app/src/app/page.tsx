@@ -1,23 +1,24 @@
 'use client'
 
+import { getAllProducts, getCart, getFavourites, getUser } from './functions/functions'
 import SkeletoComponent from '@/components/skeletonComponent/skeletonComponent'
-import { getAllProducts, getCart, getFavourites } from './functions/functions'
 import ProductsCard from '@/components/productCard/productsCard';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useToast } from '@/components/ui/use-toast';
 import { Button, Badge } from '@nextui-org/react';
-import { ChangeEvent, useState } from 'react';
 import mainImage from '../image/Main.png'
+import { useState } from 'react';
 import Image from 'next/image'
 import Link from 'next/link';
 import '../response.css'
 
 function Main() {
+  const { toast } = useToast()
   const queryClient = useQueryClient();
   const [state, setState] = useState({
     search: [],
     limit: 22
   })
-  const [search, setSearch] = useState<string | undefined>(undefined);
 
   const { data: products, isLoading: isLoadingProducts } = useQuery({
     queryKey: ['products', state.limit],
@@ -35,13 +36,10 @@ function Main() {
     queryFn: () => getFavourites(),
   })
 
-  const filteredProducts = search
-    ? products?.filter((product: any) => product.name.toLowerCase().includes(search.toLowerCase()))
-    : products;
-
-  const searchChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value || undefined);
-  };
+  const { data: user, isLoading: loading } = useQuery({
+    queryKey: ['user'],
+    queryFn: () => getUser()
+  })
 
   const changeProductsLimitHandler = () => {
     setState(prevState => ({
@@ -49,7 +47,7 @@ function Main() {
       limit: prevState.limit + 30
     }));
     queryClient.invalidateQueries({ queryKey: ['products'] });
-  };
+  }
 
   return (
     <div>
@@ -80,11 +78,11 @@ function Main() {
             </Badge>
             <p className='text-[13px]'>Favorites</p>
           </Link>
-          <Link href='/user/orders' className='flex flex-col items-center'>
+          <Link href={user ? '/user/orders' : '/auth/login'} className='flex flex-col items-center'>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
             </svg>
-            <p className='text-[13px]'>Profile</p>
+            <p className='text-[13px]'>{user ? 'Profile' : 'Login'}</p>
           </Link>
         </div>
         <div className='my-12 mx-auto justify-center w-full px-2.5'>
@@ -115,6 +113,7 @@ function Main() {
             </Button>
           </div>
         </div>
+
       </div>
       <div className='relative information_text'>
         <div className='absolute top-0 bottom-0 left-0 right-0 flex flex-col w-full mx-auto space-y-4 text-center py-44 max-w-7xl'>

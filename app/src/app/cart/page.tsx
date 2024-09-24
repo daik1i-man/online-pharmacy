@@ -63,8 +63,7 @@ export default function Cart() {
     const totalPrice = cart?.reduce((acc: number, item: { price: string; quantity: any; }) => {
         const price = Number(item?.price.replace(/\s+/g, '')) || 0;
         const quantity = Number(item?.quantity) || 0;
-        const total = acc + (price * quantity)
-        return total;
+        return acc + (price * quantity);
     }, 0);
 
     const displayTotalPrice = (num: number | undefined) => {

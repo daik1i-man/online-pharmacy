@@ -27,7 +27,7 @@ export default function Categories() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
                 </div>
-                <div className="grid grid-cols-3 gap-3 px-4 mt-28 mb-12">
+                <div className="grid grid-cols-1 gap-3 px-4 mt-28 mb-12">
                     {loading ? "ite".repeat(2).split("").map((el, index) => (
                         <Card key={index} className="justify-center h-32 border shadow-none">
                             <CardHeader className="justify-between">
@@ -42,11 +42,11 @@ export default function Categories() {
                     )) :
                         (categories && categories.map((category: any) => (
                             <Link key={category.id} href={`/categories/${category.id}`}>
-                                <Card className="justify-center h-32 py-5 border shadow-none">
+                                <Card className="justify-center h-32 border shadow-none">
                                     <CardHeader className="justify-between">
                                         <div className="justify-center w-full gap-5">
-                                            <Avatar isBordered className="mx-auto" radius="full" size="md" src={category.img_url} />
-                                            <div className="items-start justify-center my-4 text-center">
+                                            <Avatar isBordered className="mx-auto" radius="full" size="lg" src={category.img_url} />
+                                            <div className="items-start justify-center mt-5 text-center">
                                                 <h4 className="text-xs font-semibold leading-none text-default-600">{category.name}</h4>
                                             </div>
                                         </div>

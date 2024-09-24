@@ -13,6 +13,7 @@ import {
     deleteProductFromCart,
     deleteProductFromFavourites
 } from "@/app/functions/functions";
+import { ToastClose } from "@radix-ui/react-toast";
 
 export default function ProductsCard({ name, id, img_url, price, cart, favourites }: productCardDatasProps) {
     const { toast } = useToast()
@@ -20,7 +21,9 @@ export default function ProductsCard({ name, id, img_url, price, cart, favourite
 
     const updateProductCache = (id: string, updateFn: (product: any) => any) => {
         queryClient.setQueriesData({ queryKey: ['products'] }, (oldData: any) => {
-            if (!oldData) return oldData
+            if (!oldData) {
+                return oldData
+            }
             return oldData.map((product: any) =>
                 product.id === id ? updateFn(product) : product
             )
@@ -128,7 +131,6 @@ export default function ProductsCard({ name, id, img_url, price, cart, favourite
     const onAdd = async () => {
         try {
             await addProductToCartMutation.mutateAsync(id);
-            console.log("product add to cart successfully");
         } catch (error) {
             console.log((error as Error).message);
         }
@@ -137,7 +139,6 @@ export default function ProductsCard({ name, id, img_url, price, cart, favourite
     const onDelete = async (id: string) => {
         try {
             await deleteProductFromCartMutation.mutateAsync(id)
-            console.log("Product deleted from cart successfully")
         } catch (error) {
             console.log((error as Error).message)
         }
@@ -146,7 +147,6 @@ export default function ProductsCard({ name, id, img_url, price, cart, favourite
     const addToFavourites = async () => {
         try {
             await addProductToFavouritesMutation.mutateAsync(id)
-            console.log("Product added to favourites successfully");
         } catch (error) {
             console.log((error as Error).message);
         }
@@ -155,7 +155,6 @@ export default function ProductsCard({ name, id, img_url, price, cart, favourite
     const deleteFromFavourites = async () => {
         try {
             await deleteProductFromFavouritesMutation.mutateAsync(id)
-            console.log("Product deleted from favourites successfully");
         } catch (error) {
             console.log((error as Error).message);
         }
