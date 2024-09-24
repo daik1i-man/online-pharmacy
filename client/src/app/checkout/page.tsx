@@ -9,6 +9,7 @@ import { AsYouType } from "libphonenumber-js"
 import { Button } from "@nextui-org/react"
 import React, { FormEvent } from 'react'
 import { stateProps } from "../types"
+import '../../responsive.css'
 import Link from "next/link"
 
 export default function Page() {
@@ -107,7 +108,7 @@ export default function Page() {
 
     return (
         <div className="w-full h-full">
-            <div className="max-w-7xl mx-auto my-12">
+            <div className="max-w-7xl mx-auto my-12 main">
                 <h1>Placing an order</h1>
 
                 <form className='flex my-8 max-w-7xl mx-auto items-start justify-between relative' method="POST" onSubmit={onSubmit}>
@@ -308,6 +309,14 @@ export default function Page() {
                         </div>
                     )}
                 </form>
+            </div>
+            <div className='relative information_text mx-auto w-[400px]'>
+                <div className='absolute top-0 bottom-0 left-0 right-0 flex flex-col w-full mx-auto space-y-4 text-center py-12 max-w-7xl'>
+                    <img className='w-full mx-auto' src="https://i.pinimg.com/736x/99/95/db/9995dbe1be71739b7db982a9dcf37d0c.jpg" alt="" />
+                    <p className='text-xl font-semibold'>Sorry!</p>
+                    <p className='text-sm'>This platform is for desktop devices only. If you want to continue on the mobile version, you can visit our desktop platform!</p>
+                    <Link href='https://www.app.opharm.uz' className='text-[14px] bg-gray-200 w-[250px] py-2.5 rounded-md mx-auto'>Visit to mobile platform</Link>
+                </div>
             </div>
         </div>
     );

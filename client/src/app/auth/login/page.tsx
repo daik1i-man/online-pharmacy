@@ -9,6 +9,7 @@ import { AsYouType } from 'libphonenumber-js'
 import { useRouter } from 'next/navigation'
 import { Button } from '@nextui-org/react'
 import { useCookies } from 'react-cookie'
+import '../../../responsive.css'
 import Link from "next/link";
 import React from "react"
 
@@ -53,7 +54,7 @@ export default function LoginPage() {
         try {
             const response = await login(state.phoneNumber, state.password)
             if (response?.status === 200) {
-                setCookie('user', response.data?.user.id, { path: '/' })
+                setCookie('user', response.data?.user.id, { path: '/', maxAge: 60 * 60 * 24 * 7 })
                 router.push('/')
                 queryClient.invalidateQueries({ queryKey: ['user'] })
             } else if (response?.status === 404) {
@@ -89,7 +90,7 @@ export default function LoginPage() {
     return (
         <>
             <div className="flex min-h-full flex-1 flex-col justify-center py-20 lg:px-8">
-                <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-lg border rounded-md p-8 py-12">
+                <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-lg border rounded-md p-8 py-12 main">
                     <form action="#" method="POST" className="space-y-6" onSubmit={onSubmit}>
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
@@ -157,6 +158,14 @@ export default function LoginPage() {
                             Create account
                         </Link>
                     </p>
+                </div>
+            </div>
+            <div className='relative information_text mx-auto w-[400px]'>
+                <div className='absolute top-0 bottom-0 left-0 right-0 flex flex-col w-full mx-auto space-y-4 text-center py-12 max-w-7xl'>
+                    <img className='w-full mx-auto' src="https://i.pinimg.com/736x/99/95/db/9995dbe1be71739b7db982a9dcf37d0c.jpg" alt="" />
+                    <p className='text-xl font-semibold'>Sorry!</p>
+                    <p className='text-sm'>This platform is for desktop devices only. If you want to continue on the mobile version, you can visit our desktop platform!</p>
+                    <Link href='https://www.app.opharm.uz' className='text-[14px] bg-gray-200 w-[250px] py-2.5 rounded-md mx-auto'>Visit to mobile platform</Link>
                 </div>
             </div>
         </>

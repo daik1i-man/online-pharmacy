@@ -8,6 +8,7 @@ import { logout } from "../functions/functions";
 import { Button } from "@nextui-org/react";
 import { childrenProps } from "../types";
 import { useCookies } from "react-cookie";
+import '../../responsive.css'
 import Link from 'next/link'
 
 export default function layout({ children }: childrenProps) {
@@ -57,7 +58,7 @@ export default function layout({ children }: childrenProps) {
 
     return (
         <div className="max-w-7xl mx-auto">
-            <div className="border my-4 rounded-md px-4">
+            <div className="border my-4 rounded-md px-4 main">
                 <div className="flex items-center gap-8 relative">
                     <div className="gap-8 my-8 leading-snug tracking-normal text-blue-gray-900">
                         <div className={`w-44 ${userLoading && 'bg-gray-300 animate-pulse'} h-44 border rounded-md`}>
@@ -126,8 +127,16 @@ export default function layout({ children }: childrenProps) {
                 </ul>
             </div>
             <CancelOrderModal />
-            <div className="">
+            <div className="main">
                 {children}
+            </div>
+            <div className='relative information_text mx-auto w-[400px]'>
+                <div className='absolute top-0 bottom-0 left-0 right-0 flex flex-col w-full mx-auto space-y-4 text-center py-12 max-w-7xl'>
+                    <img className='w-full mx-auto' src="https://i.pinimg.com/736x/99/95/db/9995dbe1be71739b7db982a9dcf37d0c.jpg" alt="" />
+                    <p className='text-xl font-semibold'>Sorry!</p>
+                    <p className='text-sm'>This platform is for desktop devices only. If you want to continue on the mobile version, you can visit our desktop platform!</p>
+                    <Link href='https://www.app.opharm.uz' className='text-[14px] bg-gray-200 w-[250px] py-2.5 rounded-md mx-auto'>Visit to mobile platform</Link>
+                </div>
             </div>
         </div>
     );

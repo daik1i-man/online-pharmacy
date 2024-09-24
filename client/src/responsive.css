@@ -1,0 +1,22 @@
+.information_text {
+    display: none;
+}
+
+.main,
+.header,
+.footer {
+    display: block;
+}
+
+
+@media all and (max-width: 1300px) {
+    .information_text {
+        display: block;
+    }
+
+    .main,
+    .header,
+    .footer {
+        display: none;
+    }
+}

@@ -2,10 +2,11 @@ import Link from "next/link";
 import { FaTelegram, FaInstagram, FaFacebookF, FaYoutube } from "react-icons/fa"
 import { Textarea } from "flowbite-react";
 import { Button } from "@nextui-org/react";
+import '../../responsive.css'
 
 export default function Footer() {
     return (
-        <div className="w-full h-[412px] bg-[#fcf7f7]">
+        <div className="w-full h-[412px] bg-[#fcf7f7] footer">
             <div className="max-w-7xl mx-auto">
                 <div className="flex justify-between items-center border-b border-gray-400">
                     <div>

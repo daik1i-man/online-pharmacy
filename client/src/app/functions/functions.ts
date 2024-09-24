@@ -24,12 +24,9 @@ export const getAllProducts = async (limit: number) => {
 
 export const getCategoryById = async (id: string | string[]) => {
     try {
-        const response = await axiosInstance.get(`/admin-controll/categories/category?id=${id}`)
-        if (response.data) {
-            return response.data.category
-        } else {
-            return []
-        }
+        const categoryResponse = await axiosInstance.get(`/admin-controll/categories/category?id=${id}`)
+        const response = await axiosInstance.get(`/admin-controll/products/get-products?category=${categoryResponse.data.category?.name}`)
+        return response.data.products
     } catch (error) {
         console.log((error as Error).message);
         return []

@@ -54,7 +54,7 @@ export default function LoginPage() {
         try {
             const response = await login(state.phoneNumber, state.password)
             if (response?.status === 200) {
-                setCookie('user', response.data?.user.id, { path: '/' })
+                setCookie('user', response.data?.user.id, { path: '/', maxAge: 60 * 60 * 24 * 7 })
                 router.push('/')
                 queryClient.invalidateQueries({ queryKey: ['user'] })
             } else if (response?.status === 404) {

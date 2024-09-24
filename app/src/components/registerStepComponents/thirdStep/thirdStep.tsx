@@ -30,7 +30,7 @@ export default function ThirdStep() {
         try {
             const response = await getUserPassword(state.password)
             if (response?.status === 200) {
-                setCookie('user', response.data?.user.id, { path: '/' })
+                setCookie('user', response.data?.user.id, { path: '/', maxAge: 60 * 60 * 24 * 7 })
                 setState({ ...state, currentStep: state.currentStep + 1 })
                 queryClient.invalidateQueries({ queryKey: ['user'] })
             }
