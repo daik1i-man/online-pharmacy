@@ -247,9 +247,7 @@ export const getOrders = async () => {
 
 export const cancelOrder = async (id: string) => {
     try {
-        const response = await axiosInstance.post('/admin-controll/orders/delete', {
-            id: id
-        })
+        const response = await axiosInstance.get(`/admin-controll/orders/delete?id=${id}`)
         return response
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
