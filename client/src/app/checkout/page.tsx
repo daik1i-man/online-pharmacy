@@ -27,8 +27,7 @@ export default function Page() {
     const totalPrice = cart?.reduce((previos: any, current: any) => {
         const quantity = Number(current?.quantity)
         const price = Number(current?.price.replace(/\s+/g, ''))
-        const total = previos + (quantity * price)
-        return total
+        return previos + (quantity * price)
     }, 0)
 
     const formattedTotalPrice = formatterTotalPrice(totalPrice)

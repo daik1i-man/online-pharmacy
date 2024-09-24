@@ -85,9 +85,9 @@ export default function Page() {
                     </svg>
                 </div>
                 {productLoading ? (
-                    <div className="gap-8 my-12">
+                    <div className="gap-8 my-20">
                         <div className="">
-                            <div className='mx-auto bg-gray-200 rounded-md w-96 h-96 animate-pulse' />
+                            <div className='mx-auto bg-gray-200 rounded-md w-80 h-80 animate-pulse' />
                         </div>
                         <div className="flex flex-col">
                             <div className="w-full h-6 my-8 bg-gray-200 rounded-md animate-pulse" />
