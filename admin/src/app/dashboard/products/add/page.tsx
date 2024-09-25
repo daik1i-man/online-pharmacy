@@ -38,9 +38,7 @@ export default function Add() {
 
         const storageRef = ref(storage, 'admin-panel/products/current-images/' + file?.name)
         await uploadBytes(storageRef, file)
-        const url = await getDownloadURL(storageRef)
-
-        return url
+        return await getDownloadURL(storageRef)
     }
 
     const numberWithCommas = (value: string): string => {
@@ -106,7 +104,7 @@ export default function Add() {
             description: state.description
         }
 
-        if (state.file !== null && state.description !== '') {
+        if (state.file !== null) {
             onSubmitMutation.mutate(datas)
         }
     }
@@ -231,7 +229,7 @@ export default function Add() {
                                                 type="text"
                                                 placeholder='00 000 000'
                                                 autoComplete="price"
-                                                value={state.price} 
+                                                value={state.price}
                                                 onChange={onChange}
                                                 required
                                                 className="block w-full py-2.5 border-none focus:outline-none focus:ring-0 text-gray-900"

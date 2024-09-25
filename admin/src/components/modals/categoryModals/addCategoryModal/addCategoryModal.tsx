@@ -46,8 +46,7 @@ export default function AddCategoryModal() {
 
         const storageRef = ref(storage, 'admin-panel/categories/current-images/' + file.name)
         await uploadBytes(storageRef, file)
-        const url = await getDownloadURL(storageRef)
-        return url
+        return await getDownloadURL(storageRef)
     }
 
 
@@ -78,7 +77,15 @@ export default function AddCategoryModal() {
 
                 if (response.status === 200) {
                     queryClient.invalidateQueries({ queryKey: ['categories'] })
-                    setState({ ...state, loading: false })
+                    setState(prevState => ({
+                        ...prevState,
+                        categoryName: '',
+                        error: '',
+                        file: null,
+                        loading: false,
+                        url: '',
+                        active: false
+                    }))
                     setOpenAddCategoryModal(false)
                     closeHandler()
                 } else {
