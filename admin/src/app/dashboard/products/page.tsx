@@ -36,6 +36,7 @@ export default function ProductsPage() {
         setOpenDeleteProductModal(true)
         setDeleteCurrentProduct(id)
     }
+
     return (
         <div className="px-6 h-screen overflow-y-scroll">
             <div className="sm:max-w-6xl xl:max-w-screen-2xl mx-auto mt-24 mb-4">
