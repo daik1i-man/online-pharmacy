@@ -78,9 +78,9 @@ export default function Page() {
 
     return (
         <div>
-            <div className="mx-auto p-8 main relative">
-                <div className='w-8 h-8 px-0.5 py-1 my-8 absolute bg-gray-100 rounded-full cursor-pointer' onClick={backHandler}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+            <div className="relative p-8 mx-auto main">
+                <div className='w-8 h-8 px-[7px] py-[8px] my-2 bg-gray-100 rounded-full cursor-pointer' onClick={backHandler}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-[16px]">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
                 </div>

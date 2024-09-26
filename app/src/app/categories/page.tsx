@@ -21,13 +21,13 @@ export default function Categories() {
 
     return (
         <>
-            <div className="mx-auto relative main">
-                <div className='w-8 h-8 px-0.5 py-1 absolute bg-gray-100 rounded-full cursor-pointer z-20 -mt-12 mx-4' onClick={backHandler}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+            <div className="relative mx-auto main">
+                <div className='w-8 h-8 px-[7px] py-[8px] mt-16 mx-3 mb-8 bg-gray-100 rounded-full cursor-pointer' onClick={backHandler}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-[16px]">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
                 </div>
-                <div className="grid grid-cols-1 gap-3 px-4 mt-28 mb-12">
+                <div className="grid grid-cols-1 gap-3 px-4 mb-12">
                     {loading ? "ite".repeat(2).split("").map((el, index) => (
                         <Card key={index} className="justify-center h-32 border shadow-none">
                             <CardHeader className="justify-between">

@@ -23,10 +23,10 @@ export default function Favourites() {
     }
 
     return (
-        <div className="relative items-center justify-center py-14 mx-auto" >
+        <div className="relative items-center justify-center mx-auto py-14" >
             <div className="main">
-                <div className='w-8 h-8 px-0.5 py-1 my-2 bg-gray-100 rounded-full cursor-pointer mx-4' onClick={onClick}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                <div className='w-8 h-8 px-[7px] py-[8px] my-2 bg-gray-100 rounded-full cursor-pointer' onClick={onClick}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-[16px]">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
                 </div>
@@ -34,7 +34,7 @@ export default function Favourites() {
                     <div className='justify-center my-8 text-center'>
                         <Image className='mx-auto w-[350px]' src={EmptyFavourites} alt='Empty Image' />
                         <h1 className='text-lg font-semibold text-center'>Add what you like</h1>
-                        <p className='my-1 text-sm text-center px-8'>Click on ♡ in the product. Log in to your account and all your favorites will be saved.</p>
+                        <p className='px-8 my-1 text-sm text-center'>Click on ♡ in the product. Log in to your account and all your favorites will be saved.</p>
                         <Link href='/' className='justify-center'>
                             <Button className='text-center my-2.5 rounded-md px-6 bg-[#0295a9] text-gray-50'>Main page</Button>
                         </Link>

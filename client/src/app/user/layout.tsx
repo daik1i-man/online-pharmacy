@@ -57,9 +57,9 @@ export default function layout({ children }: childrenProps) {
     }
 
     return (
-        <div className="max-w-7xl mx-auto">
-            <div className="border my-4 rounded-md px-4 main">
-                <div className="flex items-center gap-8 relative">
+        <div className="mx-auto max-w-7xl">
+            <div className="px-4 my-4 border rounded-md main">
+                <div className="relative flex items-center gap-8">
                     <div className="gap-8 my-8 leading-snug tracking-normal text-blue-gray-900">
                         <div className={`w-44 ${userLoading && 'bg-gray-300 animate-pulse'} h-44 border rounded-md`}>
                             {userLoading ? '' : (
@@ -69,9 +69,9 @@ export default function layout({ children }: childrenProps) {
                     </div>
                     <div className="">
                         <div>
-                            <p className="text-xs mt-2 font-light">Full name:</p>
+                            <p className="mt-2 text-xs font-light">Full name:</p>
                             {userLoading ? (
-                                <div className="bg-gray-200 mt-2 mb-4 animate-pulse w-36 h-4 rounded-full" />
+                                <div className="h-4 mt-2 mb-4 bg-gray-200 rounded-full animate-pulse w-36" />
                             ) : (
                                 <h1 className="mt-2 mb-4">{`${user?.last_name === undefined ? '' : user?.last_name} ${user?.first_name === undefined ? '' : user?.first_name}`}</h1>
                             )}
@@ -79,9 +79,9 @@ export default function layout({ children }: childrenProps) {
                         <div>
                             <p className="text-xs font-light">Phone number:</p>
                             {userLoading ? (
-                                <div className="bg-gray-200 mt-2 mb-4 animate-pulse w-36 h-4 rounded-full" />
+                                <div className="h-4 mt-2 mb-4 bg-gray-200 rounded-full animate-pulse w-36" />
                             ) : (
-                                <p className="text-sm mt-2 mb-4">{`+${formatterUserPhoneNumber(user?.number)}`}</p>
+                                <p className="mt-2 mb-4 text-sm">{`+998 ${user?.number}`}</p>
                             )}
                         </div>
                         <div className="flex items-center gap-4">
@@ -103,7 +103,7 @@ export default function layout({ children }: childrenProps) {
                     </div>
 
                 </div>
-                <ul className="flex items-center text-sm font-normal gap-8 relative">
+                <ul className="relative flex items-center gap-8 text-sm font-normal">
                     <Link href='/user/orders'>
                         <li className={`flex items-center gap-2 py-7 ${pathname === '/user/orders' && 'text-[#0295a9] border-b border-[#0295a9]'}`}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
@@ -121,7 +121,7 @@ export default function layout({ children }: childrenProps) {
                             Settings
                         </li>
                     </Link>
-                    <Button className="rounded-md bg-gray-200 absolute right-0 bottom-3" onClick={() => mutate.mutate()}>
+                    <Button className="absolute right-0 bg-gray-200 rounded-md bottom-3" onClick={() => mutate.mutate()}>
                         Sign Out
                     </Button>
                 </ul>
@@ -131,7 +131,7 @@ export default function layout({ children }: childrenProps) {
                 {children}
             </div>
             <div className='relative information_text mx-auto w-[400px]'>
-                <div className='absolute top-0 bottom-0 left-0 right-0 flex flex-col w-full mx-auto space-y-4 text-center py-12 max-w-7xl'>
+                <div className='absolute top-0 bottom-0 left-0 right-0 flex flex-col w-full py-12 mx-auto space-y-4 text-center max-w-7xl'>
                     <img className='w-full mx-auto' src="https://i.pinimg.com/736x/99/95/db/9995dbe1be71739b7db982a9dcf37d0c.jpg" alt="" />
                     <p className='text-xl font-semibold'>Sorry!</p>
                     <p className='text-sm'>This platform is for desktop devices only. If you want to continue on the mobile version, you can visit our desktop platform!</p>

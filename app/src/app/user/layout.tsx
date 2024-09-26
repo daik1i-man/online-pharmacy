@@ -1,25 +1,52 @@
 'use client'
 
-import { getUser, getCart, getFavourites } from "../functions/functions";
+import { getUser, getCart, getFavourites, updateProfile } from "../functions/functions";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import CancelOrderModal from "@/components/modal-dialogs/cancelOrderModal";
+import { uploadBytes, getDownloadURL, ref } from 'firebase/storage'
+import { childrenProps, updatePrifleDatasProps } from "../types";
 import { usePathname, useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 import { logout } from "../functions/functions";
+import { storage } from "@/services/firebase";
+import { useEffect, useState } from "react";
 import { Button } from "@nextui-org/react";
-import { childrenProps } from "../types";
 import { useCookies } from "react-cookie";
+import { statesProps } from '@/app/types'
 import Link from 'next/link'
 
 export default function layout({ children }: childrenProps) {
     const [cookie, setCookie, removeCookie] = useCookies(['user'])
+    const [active, setActive] = useState(false)
     const queryClient = useQueryClient()
     const pathname = usePathname()
+    const { toast } = useToast()
     const router = useRouter()
 
     const { data: user, isLoading: userLoading } = useQuery({
         queryKey: ['user'],
         queryFn: () => getUser()
     })
+
+    const [state, setState] = useState<statesProps>({
+        firstName: user?.first_name,
+        lastName: user?.last_name,
+        phoneNumber: user?.number,
+        imgUrl: user?.img_url,
+        file: undefined,
+        loading: false
+    })
+
+    useEffect(() => {
+        setState({
+            firstName: user?.first_name,
+            lastName: user?.last_name,
+            phoneNumber: user?.number,
+            imgUrl: user?.img_url,
+            file: undefined,
+            loading: false
+        });
+    }, [user]);
 
     const { data: cart } = useQuery({
         queryKey: ['cart'],
@@ -41,79 +68,120 @@ export default function layout({ children }: childrenProps) {
         }
     })
 
-
-    const formatterUserPhoneNumber = (phoneNumber: string | undefined) => {
-        if (phoneNumber) {
-            const match = phoneNumber.match(/^(\d{3})(\d{2})(\d{3})(\d{2})(\d{2})$/)
-
-            if (match) {
-                return `${match[1]} ${match[2]} ${match[3]} ${match[4]} ${match[5]}`;
-            }
-
-            return null
+    const updateUserAvatar = useMutation({
+        mutationKey: ['user'],
+        mutationFn: ({ phoneNumber, firstName, lastName, imgUrl }: updatePrifleDatasProps) => updateProfile({ phoneNumber, firstName, lastName, imgUrl }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['user'] })
+            toast({
+                title: 'Successfully!',
+                description: 'Your profile image updated successfully!'
+            })
         }
-        return null
-    }
+    })
+
 
     const onClick = () => {
-        router.back()
+        router.push('/')
     }
+
+    const uploadFile = async (file: File | undefined) => {
+        if (!file) {
+            return undefined;
+        }
+        try {
+            const filesRef = ref(storage, 'users-profile-images/' + file.name);
+            await uploadBytes(filesRef, file);
+            return await getDownloadURL(filesRef);
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            return undefined;
+        }
+    }
+
+
+    const fileChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setState({ ...state, file: e.target.files[0] });
+            setActive(true);
+        }
+    };
+
+    const updateData = async () => {
+        const url = await uploadFile(state.file);
+        updateUserAvatar.mutate({
+            phoneNumber: state.phoneNumber,
+            firstName: state.firstName,
+            lastName: state.lastName,
+            imgUrl: url,
+        });
+    };
+
+    useEffect(() => {
+        if (active) {
+            updateData();
+            setActive(false);
+        }
+    }, [active]);
 
     return (
         <>
             <div className="relative w-full">
-                <div className="flex items-center justify-between mt-16 px-4">
-                    <div className='w-8 h-8 px-0.5 py-1 my-2 bg-gray-100 rounded-full cursor-pointer' onClick={onClick}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                <div className="flex items-center justify-between px-4 mt-16">
+                    <div className='w-8 h-8 px-[7px] py-[8px] my-2 bg-gray-100 rounded-full cursor-pointer' onClick={onClick}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-[16px]">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                         </svg>
                     </div>
-                    <Button className="rounded-md text-[13px]" onClick={() => mutate.mutate()}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-5">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
-                        </svg>
+                    <Button className="rounded-md text-[11px] h-8 w-20" onClick={() => mutate.mutate()}>
                         Sign Out
                     </Button>
                 </div>
-                <div className="relative px-4 w-full">
+                <div className="relative w-full px-4">
                     <div className="relative flex flex-col items-center mb-8">
                         <div className="gap-8 leading-snug tracking-normal text-blue-gray-900">
-                            <div className={`w-44 ${userLoading && 'bg-gray-300 animate-pulse'} h-44 border rounded-full`}>
+                            <div className={`w-36 ${userLoading && 'bg-gray-300 animate-pulse'} h-36 border rounded-full relative`}>
                                 {userLoading ? '' : (
                                     <div className="flex items-center justify-between w-full space-x-4">
                                         <img className="rounded-full" src={`${user?.img_url ? user?.img_url : 'https://i.pinimg.com/564x/76/f3/f3/76f3f3007969fd3b6db21c744e1ef289.jpg'}`} alt="" />
                                     </div>
                                 )}
+                                <label htmlFor="dropzone-file" className={`absolute bottom-0 right-8 bg-white shadow-md p-1.5 rounded-md cursor-pointer ${pathname === '/user/settings' ? 'block' : 'hidden'}`}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-[14px]">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                    </svg>
+                                    <input name='file' type='file' onChange={fileChanges} id="dropzone-file" className="hidden" />
+                                </label>
                             </div>
                         </div>
                         <div>
                             <div className="text-center">
                                 {userLoading ? (
-                                    <div className="w-48 h-4 mx-auto mt-2 mb-4 bg-gray-200 rounded-full animate-pulse" />
+                                    <div className="w-48 h-4 mx-auto mt-2 mb-3 bg-gray-200 rounded-full animate-pulse" />
                                 ) : (
-                                    <h1 className="m-2">{`${user?.last_name === undefined ? '' : user?.last_name} ${user?.first_name === undefined ? '' : user?.first_name}`}</h1>
+                                    (user?.last_name || user?.first_name) && <h1 className="m-2 text-[14px]">{`${user?.last_name} ${user?.first_name}`}</h1>
                                 )}
                             </div>
                             <div className="text-center">
                                 {userLoading ? (
-                                    <div className="w-40 h-4 mx-auto mb-4 bg-gray-200 rounded-full animate-pulse" />
+                                    <div className="w-40 h-4 mx-auto mb-3 bg-gray-200 rounded-full animate-pulse" />
                                 ) : (
-                                    <p className="mb-4 text-[12px]">{`+${formatterUserPhoneNumber(user?.number)}`}</p>
+                                    <p className="mb-4 text-[10px]">{`+998 ${user?.number}`}</p>
                                 )}
                             </div>
-                            <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-2">
                                 {userLoading ? (
                                     <div className="bg-gray-200 p-2.5 rounded-md animate-pulse w-40 h-[38px]" />
                                 ) : (
                                     <div className="border p-2.5 rounded-md">
-                                        <p className="text-xs">{`Products in cart: ${cart?.length}`}</p>
+                                        <p className="text-[11px]">{`Products in cart: ${cart?.length}`}</p>
                                     </div>
                                 )}
                                 {userLoading ? (
                                     <div className="bg-gray-200 p-2.5 rounded-md animate-pulse w-40 h-[38px]" />
                                 ) : (
                                     <div className="border p-2.5 rounded-md">
-                                        <p className="text-xs">{`Favourite products: ${favourites?.length}`}</p>
+                                        <p className="text-[11px]">{`Favourite products: ${favourites?.length}`}</p>
                                     </div>
                                 )}
                             </div>

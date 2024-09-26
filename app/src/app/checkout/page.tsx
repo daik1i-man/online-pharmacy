@@ -6,6 +6,7 @@ import CreditCardInput from "@/components/creditCardInput/creditCardInput"
 import { getCart, checkout } from "../functions/functions"
 import { useToast } from "@/components/ui/use-toast"
 import { AsYouType } from "libphonenumber-js"
+import { useRouter } from "next/navigation"
 import { Button } from "@nextui-org/react"
 import React, { FormEvent } from 'react'
 import { stateProps } from "../types"
@@ -16,6 +17,7 @@ export default function Page() {
     const { setOpenSuccessfullyOrderModal } = useCancelOrderModalContext()
     const queryClient = useQueryClient()
     const { toast } = useToast()
+    const router = useRouter()
 
     const { data: cart, isLoading: cartLoading } = useQuery({
         queryKey: ['cart'],
@@ -27,8 +29,7 @@ export default function Page() {
     const totalPrice = cart?.reduce((previos: any, current: any) => {
         const quantity = Number(current?.quantity)
         const price = Number(current?.price.replace(/\s+/g, ''))
-        const total = previos + (quantity * price)
-        return total
+        return previos + (quantity * price)
     }, 0)
 
     const formattedTotalPrice = formatterTotalPrice(totalPrice)
@@ -106,72 +107,80 @@ export default function Page() {
         muatation.mutate({ ...state })
     }
 
+    const backHandler = () => {
+        router.back()
+    }
+
     return (
         <div className="w-full h-full">
             <div className="mx-auto my-12 main">
+                <div className='w-8 h-8 px-[7px] py-[8px] my-2 bg-gray-100 rounded-full cursor-pointer' onClick={backHandler}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-[16px]">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                    </svg>
+                </div>
                 <h1>Placing an order</h1>
-
-                <form className='flex my-8 max-w-7xl mx-auto items-start justify-between relative' method="POST" onSubmit={onSubmit}>
+                <form className='relative flex items-start justify-between mx-auto my-8 max-w-7xl' method="POST" onSubmit={onSubmit}>
                     {cartLoading ? (
-                        <div className="border rounded-md p-4">
-                            <div className="flex items-center my-4 gap-4">
-                                <div className="w-8 h-8 bg-gray-200 animate-pulse rounded-full" />
-                                <div className="w-36 h-3 bg-gray-200 animate-pulse rounded-md" />
+                        <div className="p-4 border rounded-md">
+                            <div className="flex items-center gap-4 my-4">
+                                <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse" />
+                                <div className="h-3 bg-gray-200 rounded-md w-36 animate-pulse" />
                             </div>
-                            <div className="my-8 w-full">
-                                <div className="flex flex-col space-y-5 px-3">
+                            <div className="w-full my-8">
+                                <div className="flex flex-col px-3 space-y-5">
                                     <div className="flex items-center space-x-8">
                                         <div className="w-1/2">
-                                            <div className="w-20 rounded-md h-3 bg-gray-200 animate-pulse" />
-                                            <div className="mt-2 relative">
+                                            <div className="w-20 h-3 bg-gray-200 rounded-md animate-pulse" />
+                                            <div className="relative mt-2">
                                                 <div
-                                                    className="block w-80 h-12 rounded-md bg-gray-200 animate-pulse"
+                                                    className="block h-12 bg-gray-200 rounded-md w-80 animate-pulse"
                                                 />
                                             </div>
                                         </div>
                                         <div className="w-1/2">
-                                            <div className="w-20 rounded-md h-3 bg-gray-200 animate-pulse"></div>
-                                            <div className="mt-2 relative">
+                                            <div className="w-20 h-3 bg-gray-200 rounded-md animate-pulse"></div>
+                                            <div className="relative mt-2">
                                                 <div
-                                                    className="block w-80 h-12 rounded-md bg-gray-200 animate-pulse"
+                                                    className="block h-12 bg-gray-200 rounded-md w-80 animate-pulse"
                                                 />
                                             </div>
                                         </div>
                                     </div>
                                     <div className="w-full">
-                                        <div className="w-20 rounded-md h-3 bg-gray-200 animate-pulse"></div>
-                                        <div className="mt-2 relative">
+                                        <div className="w-20 h-3 bg-gray-200 rounded-md animate-pulse"></div>
+                                        <div className="relative mt-2">
                                             <div
-                                                className="block w-full h-12 rounded-md bg-gray-200 animate-pulse"
+                                                className="block w-full h-12 bg-gray-200 rounded-md animate-pulse"
                                             />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex items-center my-4 gap-4">
-                                <div className="w-8 h-8 bg-gray-200 animate-pulse rounded-full" />
-                                <div className="w-36 h-3 bg-gray-200 animate-pulse rounded-md" />
+                            <div className="flex items-center gap-4 my-4">
+                                <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse" />
+                                <div className="h-3 bg-gray-200 rounded-md w-36 animate-pulse" />
                             </div>
-                            <div className="flex flex-col items-center gap-4 mt-9 px-3">
+                            <div className="flex flex-col items-center gap-4 px-3 mt-9">
                                 <div
-                                    className="block w-full h-12 rounded-md bg-gray-200 animate-pulse"
+                                    className="block w-full h-12 bg-gray-200 rounded-md animate-pulse"
                                 />
                                 <div
-                                    className="block w-full h-12 rounded-md bg-gray-200 animate-pulse"
+                                    className="block w-full h-12 bg-gray-200 rounded-md animate-pulse"
                                 />
                             </div>
                         </div>
                     ) : (
                         <div className="p-4">
-                            <div className="flex items-center my-12 gap-4">
+                            <div className="flex items-center gap-4 my-12">
                                 <div className="w-8 h-8 px-[11px] py-[4px] bg-[#0295a9] text-gray-50 rounded-full">1</div>
                                 <p>Personal information</p>
                             </div>
-                            <div className="my-8 w-full">
-                                <div className="flex flex-col space-y-5 px-3">
+                            <div className="w-full my-8">
+                                <div className="flex flex-col px-3 space-y-5">
                                     <div className="">
-                                        <label htmlFor="firstName" className="text-xs mt-2 font-light">First name:</label>
-                                        <div className="mt-2 relative">
+                                        <label htmlFor="firstName" className="mt-2 text-xs font-light">First name:</label>
+                                        <div className="relative mt-2">
                                             <input
                                                 className="block w-full rounded-md border-0 text-[14px] outline-none py-2.5 px-3 text-gray-900 ring-gray-200 ring-1 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 sm:text-xs sm:leading-6"
                                                 placeholder="first name"
@@ -187,7 +196,7 @@ export default function Page() {
                                     </div>
                                     <div className="">
                                         <label htmlFor="lastName" className="text-xs font-light">Last name:</label>
-                                        <div className="mt-2 relative">
+                                        <div className="relative mt-2">
                                             <input
                                                 className="block w-full rounded-md text-[14px] border-0 outline-none py-2.5 px-3 text-gray-900 ring-gray-200 ring-1 placeholder:text-gray-400 focus:ring-1 focus:ring-gray-300 sm:text-xs sm:leading-6"
                                                 autoComplete="lastName"
@@ -203,7 +212,7 @@ export default function Page() {
                                     </div>
                                     <div className="w-full">
                                         <label htmlFor="phoneNumber" className="text-xs font-light">Phone number:</label>
-                                        <div className="mt-2 flex items-center border-0 ring-1 ring-gray-200 py-3 focus:ring-1 rounded-md focus:ring-gray-300 relative">
+                                        <div className="relative flex items-center py-3 mt-2 border-0 rounded-md ring-1 ring-gray-200 focus:ring-1 focus:ring-gray-300">
                                             <span className="text-[13px] font-light border-r px-2 py-1">+998</span>
                                             <input
                                                 className="block w-full border-0 text-[14px] outline-none px-3 text-gray-900 placeholder:text-gray-400 sm:text-xs sm:leading-6"
@@ -221,12 +230,12 @@ export default function Page() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex items-center my-4 gap-4">
+                            <div className="flex items-center gap-4 my-4">
                                 <div className="w-8 h-8 px-[11px] py-[4px] bg-[#0295a9] text-gray-50 rounded-full">2</div>
                                 <p>Payment type</p>
                             </div>
-                            <div className="flex flex-col items-center gap-4 mt-9 px-3">
-                                <label htmlFor="card" className="bg-gray-100 flex items-center gap-3 p-4 rounded-md cursor-pointer w-full">
+                            <div className="flex flex-col items-center gap-4 px-3 mt-9">
+                                <label htmlFor="card" className="flex items-center w-full gap-3 p-4 bg-gray-100 rounded-md cursor-pointer">
                                     <input
                                         onChange={onChange}
                                         value='Online card'
@@ -242,7 +251,7 @@ export default function Page() {
                                         Online card (UzCard, Humo, Visa, MasterCard)
                                     </p>
                                 </label>
-                                <label htmlFor="cash" className="bg-gray-100 p-4 rounded-md cursor-pointer flex items-center gap-4 w-full">
+                                <label htmlFor="cash" className="flex items-center w-full gap-4 p-4 bg-gray-100 rounded-md cursor-pointer">
                                     <input
                                         onChange={onChange}
                                         value='Upon receipt'

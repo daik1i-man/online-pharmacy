@@ -90,8 +90,8 @@ export default function Cart() {
     return (
         <div className="relative mx-auto" >
             <div className='main'>
-                <div className='w-8 h-8 px-0.5 py-1 top-0 left-0 absolute bg-gray-100 rounded-full cursor-pointer mx-4' onClick={backHandler}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                <div className='w-8 h-8 px-[7px] py-[8px] my-2 bg-gray-100 rounded-full cursor-pointer' onClick={backHandler}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-[16px]">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
                 </div>
@@ -105,7 +105,7 @@ export default function Cart() {
                         </Link>
                     </div>
                 ) : (
-                    <div className='m-4 pt-36 pb-24'>
+                    <div className='pb-24 m-4 pt-36'>
                         <ul className='flex flex-col gap-4 mx-auto'>
                             {cartProductLoading ? (
                                 "it".repeat(2).split('').map((item, index) => (
@@ -132,7 +132,7 @@ export default function Cart() {
                                     <div className='flex items-start justify-between w-[480px] px-2 py-2 rounded-xl'>
                                         <div className='relative flex items-center gap-x-4'>
                                             <Link className='relative' href={`/product/${item?.id}`}>
-                                                <img className='rounded-md w-20' src={item?.img_url} alt="watches" />
+                                                <img className='w-20 rounded-md' src={item?.img_url} alt="watches" />
                                             </Link>
                                             <div>
                                                 <Link href={`/product/${item?.id}`}>

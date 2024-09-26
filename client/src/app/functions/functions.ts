@@ -123,10 +123,9 @@ export const getFavourites = async () => {
 }
 
 export const getUserNumber = async (phone_number: string) => {
-    const formattedNumber = phone_number.replace(/\s+/g, '')
     try {
         return await axiosInstance.post('/auth/user/get-number', {
-            phone_number: `998${formattedNumber}`
+            phone_number: phone_number
         })
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
@@ -163,10 +162,9 @@ export const getUserPassword = async (password: string) => {
 }
 
 export const login = async (phone_number: string, password: string) => {
-    const formatted = phone_number.replace(/\s+/g, '')
     try {
         return await axiosInstance.post('/auth/user/login', {
-            phone_number: `998${formatted}`,
+            phone_number: phone_number,
             password: password
         })
     } catch (error) {
@@ -204,10 +202,9 @@ export const getUser = async () => {
 }
 
 export const updateProfile = async ({ phoneNumber, firstName, lastName, imgUrl }: updatePrifleDatasProps) => {
-    const formattedNumber = phoneNumber?.replace(/\s+/g, '')
     try {
         const response = await axiosInstance.post('/auth/user/update-profile', {
-            number: `998${formattedNumber}`,
+            number: phoneNumber,
             first_name: firstName,
             last_name: lastName,
             img_url: imgUrl

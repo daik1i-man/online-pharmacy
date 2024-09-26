@@ -29,15 +29,10 @@ export default function Page() {
         queryFn: () => getUser()
     })
 
-    const formatterUserNumber = (number: string | undefined) => {
-        const localNumber = number?.slice(3);
-        return localNumber?.replace(/(\d{2})(\d{3})(\d{2})(\d{2})/, '$1 $2 $3 $4');
-    }
-
     const [state, setState] = React.useState<statesProps>({
         firstName: user?.first_name,
         lastName: user?.last_name,
-        phoneNumber: formatterUserNumber(user?.number),
+        phoneNumber: user?.number,
         imgUrl: user?.img_url,
         file: undefined,
         loading: false
@@ -47,7 +42,7 @@ export default function Page() {
         setState({
             firstName: user?.first_name,
             lastName: user?.last_name,
-            phoneNumber: formatterUserNumber(user?.number),
+            phoneNumber: user?.number,
             imgUrl: user?.img_url,
             file: undefined,
             loading: false
@@ -57,7 +52,7 @@ export default function Page() {
     useEffect(() => {
         const isChanged = state.firstName !== user?.first_name ||
             state.lastName !== user?.last_name ||
-            state.phoneNumber !== formatterUserNumber(user?.number) ||
+            state.phoneNumber !== user?.number ||
             state.imgUrl !== user?.img_url ||
             state.file !== undefined;
 
@@ -71,8 +66,7 @@ export default function Page() {
 
         const filesRef = ref(storage, 'users-profile-images/' + file.name);
         await uploadBytes(filesRef, file);
-        const url = await getDownloadURL(filesRef);
-        return url;
+        return await getDownloadURL(filesRef);
     }
 
     const phoneNumberFormatter = (number: string) => {
@@ -107,7 +101,7 @@ export default function Page() {
         setState({
             firstName: user?.firstName,
             lastName: user?.lastName,
-            phoneNumber: formatterUserNumber(user?.number),
+            phoneNumber: user?.number,
             imgUrl: user?.img_url,
             file: undefined,
             loading: false
@@ -153,13 +147,13 @@ export default function Page() {
 
     return (
         <>
-            <form method='POST' className="w-full h-full border rounded-md mb-12" onSubmit={onSubmit}>
+            <form method='POST' className="w-full h-full mb-12 border rounded-md" onSubmit={onSubmit}>
                 <div className="py-3.5 px-5 border-b ">
                     <h1 className='text-base'>Basic information</h1>
                 </div>
-                <div className="flex my-12 items-center justify-between gap-12">
-                    <div className="w-60 mx-4">
-                        <div className='w-full border rounded-md relative'>
+                <div className="flex items-center justify-between gap-12 my-12">
+                    <div className="mx-4 w-60">
+                        <div className='relative w-full border rounded-md'>
                             {state.file === undefined ? (
                                 <img className="rounded-md" src='https://i.pinimg.com/564x/76/f3/f3/76f3f3007969fd3b6db21c744e1ef289.jpg' alt="" />
                             ) : (
@@ -181,11 +175,11 @@ export default function Page() {
                             )}
                         </div>
                     </div>
-                    <div className="w-full flex flex-col space-y-5">
+                    <div className="flex flex-col w-full space-y-5">
                         <div className="flex items-center space-x-8">
                             <div className="w-2/6">
-                                <label htmlFor="firstName" className="text-xs mt-2 font-light">First name:</label>
-                                <div className="mt-2 relative">
+                                <label htmlFor="firstName" className="mt-2 text-xs font-light">First name:</label>
+                                <div className="relative mt-2">
                                     <input
                                         id="firstName"
                                         name="firstName"
@@ -200,7 +194,7 @@ export default function Page() {
                             </div>
                             <div className="w-2/6">
                                 <label htmlFor="lastName" className="text-xs font-light">Last name:</label>
-                                <div className="mt-2 relative">
+                                <div className="relative mt-2">
                                     <input
                                         id="lastName"
                                         name="lastName"
@@ -216,8 +210,8 @@ export default function Page() {
                         </div>
                         <div className="w-[70%]">
                             <label htmlFor="phoneNumber" className="text-xs font-light">Phone number:</label>
-                            <div className="mt-2 flex items-center border-0 ring-1 ring-gray-200 py-3 focus:ring-1 rounded-xl focus:ring-gray-300 relative">
-                                <span className="text-xs font-light border-r px-2 py-1">+998</span>
+                            <div className="relative flex items-center py-3 mt-2 border-0 ring-1 ring-gray-200 focus:ring-1 rounded-xl focus:ring-gray-300">
+                                <span className="px-2 py-1 text-xs font-light border-r">+998</span>
                                 <input
                                     id="phoneNumber"
                                     name="phoneNumber"
@@ -226,7 +220,7 @@ export default function Page() {
                                     type="text"
                                     required
                                     autoComplete="phoneNumber"
-                                    className="block w-full rounded-xl border-0 outline-none px-3 text-gray-900 placeholder:text-gray-400 sm:text-xs sm:leading-6"
+                                    className="block w-full px-3 text-gray-900 border-0 outline-none rounded-xl placeholder:text-gray-400 sm:text-xs sm:leading-6"
                                     maxLength={12}
                                 />
                             </div>

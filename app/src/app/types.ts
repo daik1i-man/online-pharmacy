@@ -67,3 +67,12 @@ export interface stateProps {
     totalPrice: string,
     active: boolean
 }
+
+export interface statesProps {
+    firstName?: string,
+    lastName?: string,
+    phoneNumber?: string,
+    imgUrl?: string,
+    file?: File | undefined,
+    loading: boolean
+}

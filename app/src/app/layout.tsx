@@ -1,5 +1,6 @@
 'use client'
 
+import NavigationMenu from "@/components/navigation-menu/navigation-menu";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { NextUIProviderComponent } from "@/providers/nextUIProvider";
 import { Toaster } from "@/components/toastComponent/toastComponent";
@@ -23,7 +24,6 @@ export default function RootLayout({ children }: childrenProps) {
       <head>
         <title>Online Pharmacy - Search for medicines and low prices for medicines</title>
         <meta name="description" content="Поиск лекарств и низкие цены на медикаменты" />
-        <link rel="shortcut icon" href="/medicines.svg" />
       </head>
       <body>
         <QueryClientProvider client={queryClient}>
@@ -38,6 +38,7 @@ export default function RootLayout({ children }: childrenProps) {
                 </NextUIProviderComponent>
               </PrimeReactProvider>
               <Toaster />
+              <NavigationMenu />
               <Footer />
             </ContextsProvider>
           </CookiesProvider>

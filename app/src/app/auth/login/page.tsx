@@ -86,10 +86,9 @@ export default function LoginPage() {
         }
         setState({ ...state, loading: false })
     }
-
     return (
         <>
-            <div className="py-20 mx-auto px-8 justify-center main">
+            <div className="relative justify-center px-8 py-20 mx-auto main">
                 <div className="py-12 mt-5">
                     <form action="#" method="POST" className="space-y-6" onSubmit={onSubmit}>
                         <div>
@@ -153,7 +152,7 @@ export default function LoginPage() {
                     </form>
 
                     <p className="mt-4 text-[13px] text-center text-gray-900">
-                        You have not account yet ?{' '}
+                        You have not account yet ? <br />
                         <Link href='/auth/register' className="font-semibold leading-6 text-[#0295a9] hover:opacity-85">
                             Create account
                         </Link>

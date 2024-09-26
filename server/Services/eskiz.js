@@ -33,10 +33,11 @@ async function sendSMS(token, message, recipient) {
 
 
 async function main(phone_number) {
-    const otp = Math.floor(1000 + Math.random() * 9000);
+    const otp = Math.floor(1000 + Math.random() * 9000)
+    const formatted = phone_number.replace(/\s+/g, '')
     try {
         const token = await authenticate();
-        await sendSMS(token, `Online Pharmacy sayti orqali ro'yxatdan o'tish uchun tasdiqlash kodingiz: ${otp}`, phone_number);
+        await sendSMS(token, `Online Pharmacy sayti orqali ro'yxatdan o'tish uchun tasdiqlash kodingiz: ${otp}`, formatted);
         return otp;
     } catch (error) {
         console.error('Error in main function:', error.message);

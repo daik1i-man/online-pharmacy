@@ -26,20 +26,20 @@ export default function Page() {
     return (
         <>
             <div className="relative main">
-                <div className='w-6 h-6 px-0.5 py-1 absolute bg-gray-100 rounded-full cursor-pointer -top-9 left-3' onClick={backHandler}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-4">
+                <div className='w-8 h-8 px-[7px] py-[8px] mt-16 mb-6 mx-3 bg-gray-100 rounded-full cursor-pointer' onClick={backHandler}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-[16px]">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
                 </div>
                 {loading ? (
-                    <div className="grid grid-cols-2 pl-3 gap-y-4 mx-auto my-24">
+                    <div className="grid grid-cols-2 pl-3 mx-auto gap-y-4">
                         {"it".repeat(2).split('').map((el, i) => (
                             <SkeletoComponent key={i} />
                         ))}
                     </div>
                 ) : (
                     products ? (
-                        <div className="grid grid-cols-2 pl-3 gap-y-4 mx-auto my-24">
+                        <div className="grid grid-cols-2 pl-3 mx-auto gap-y-4">
                             {products?.map((product: any) => (
                                 <ProductsCard key={product?.id}
                                     name={product?.name}
@@ -53,7 +53,7 @@ export default function Page() {
                             ))}
                         </div>
                     ) : (
-                        <div className="mx-auto px-4 my-8 relative">
+                        <div className="relative px-4 mx-auto my-8">
                             <div className='w-8 h-8 px-0.5 absolute py-1 bg-gray-100 rounded-full cursor-pointer top-9' onClick={backHandler}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
@@ -62,7 +62,7 @@ export default function Page() {
                             <img className="mx-auto my-4 w-[350px]" src="https://i.pinimg.com/564x/eb/61/41/eb614141450093184d1b657697047b5f.jpg" alt="" />
                             <div className="mb-4 text-center">
                                 <h1 className="text-base font-medium">No products found in this category</h1>
-                                <p className="font-light text-xs my-2">Look at other categories</p>
+                                <p className="my-2 text-xs font-light">Look at other categories</p>
                                 <Link href="/categories">
                                     <Button className="my-2 rounded-md px-8 bg-[#0295a9] text-gray-50">Go back</Button>
                                 </Link>
