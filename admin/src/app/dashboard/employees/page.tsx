@@ -67,7 +67,6 @@ export default function EmployyesPage() {
                     bottomContent={
                         <div className="flex w-full justify-center">
                             <Pagination
-                                isCompact
                                 showControls
                                 showShadow
                                 color="default"
@@ -92,7 +91,7 @@ export default function EmployyesPage() {
                             </Button>
                         </TableColumn>
                     </TableHeader>
-                    <TableBody emptyContent={"No rows to display."} items={items}>
+                    <TableBody emptyContent={"No employees to display."} items={items}>
                         {items?.map((employee: any, i: number) => (
                             <TableRow key={employee.id} className="border-b">
                                 <TableCell

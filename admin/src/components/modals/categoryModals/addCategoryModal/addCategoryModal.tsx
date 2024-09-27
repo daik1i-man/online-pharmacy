@@ -51,10 +51,13 @@ export default function AddCategoryModal() {
 
 
     const closeHandler = () => {
-        setState({ ...state, file: null })
+        setState(prevState => ({
+            ...prevState,
+            categoryName: '',
+            file: null,
+            error: ''
+        }))
         setOpenAddCategoryModal(false)
-        setState({ ...state, categoryName: '' })
-        setState({ ...state, error: '' })
     }
 
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -80,14 +83,10 @@ export default function AddCategoryModal() {
                     setState(prevState => ({
                         ...prevState,
                         categoryName: '',
-                        error: '',
                         file: null,
-                        loading: false,
-                        url: '',
-                        active: false
+                        loading: false
                     }))
                     setOpenAddCategoryModal(false)
-                    closeHandler()
                 } else {
                     setState({ ...state, loading: false })
                     console.log(response?.data)
@@ -156,7 +155,7 @@ export default function AddCategoryModal() {
                                                 Upload file
                                             </label>
                                             {state.file !== null ? (
-                                                <div className="my-2">
+                                                <div className="my-2 relative">
                                                     <div
                                                         onClick={() => setState({ ...state, file: null })}
                                                         className="absolute w-8 h-8 rounded-full cursor-pointer p-1 bg-gray-400 right-0 m-2 backdrop-filter blur-10"

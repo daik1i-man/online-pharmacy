@@ -24,7 +24,9 @@ export default function ProductsPage() {
     const pages = products ? Math.ceil(products.length / rowsPerPage) : 1;
 
     const items = React.useMemo(() => {
-        if (!products || products.length === 0) return [];
+        if (!products || products.length === 0) {
+            return []
+        }
 
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;

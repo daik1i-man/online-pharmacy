@@ -20,7 +20,7 @@ export default function OrdersPage() {
 
     const rowsPerPage = 10;
 
-    const pages = Math.ceil(orders?.length / rowsPerPage);
+    const pages = orders ? Math.ceil(orders?.length / rowsPerPage) : 1;
 
     const items = React.useMemo(() => {
         const start = (page - 1) * rowsPerPage;
@@ -43,7 +43,6 @@ export default function OrdersPage() {
                     bottomContent={
                         <div className="flex w-full justify-center">
                             <Pagination
-                                isCompact
                                 showControls
                                 showShadow
                                 color="default"
@@ -63,7 +62,7 @@ export default function OrdersPage() {
                         <TableColumn className="px-10">Status</TableColumn>
                         <TableColumn className="text-center">Action</TableColumn>
                     </TableHeader>
-                    <TableBody emptyContent={"No rows to display."}>
+                    <TableBody emptyContent={"No orders to display."}>
                         {items?.map((order: any, i: number) => (
                             <TableRow key={order.id} className="border-b">
                                 <TableCell

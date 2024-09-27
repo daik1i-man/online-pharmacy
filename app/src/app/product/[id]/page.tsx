@@ -78,11 +78,13 @@ export default function Page() {
 
     return (
         <div>
-            <div className="relative p-8 mx-auto main">
-                <div className='w-8 h-8 px-[7px] py-[8px] my-2 bg-gray-100 rounded-full cursor-pointer' onClick={backHandler}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-[16px]">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                    </svg>
+            <div className="p-8 mx-auto main">
+                <div className='relative'>
+                    <div className='w-8 h-8 px-[7px] absolute top-6 py-[8px] -left-5 my-2 bg-gray-100 rounded-full cursor-pointer' onClick={backHandler}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-[16px]">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                        </svg>
+                    </div>
                 </div>
                 {productLoading ? (
                     <div className="gap-8 my-20">
@@ -105,12 +107,12 @@ export default function Page() {
                         </div>
                     </div>
                 ) : (
-                    <div className="my-12">
-                        <div className="">
+                    <div className="">
+                        <div className="bg-gray-100">
                             <img className='w-[350px] mx-auto' src={product?.img_url} alt={product?.name} />
                         </div>
                         <div className="flex flex-col">
-                            <h1 className="mt-20 text-[26px] font-medium">{product?.name}</h1>
+                            <h1 className="mt-20 text-[20px] font-medium">{product?.name}</h1>
                             <div className='mt-2 mb-12'>
                                 <h3 className="my-4 text-xs">Quantities</h3>
                                 <div className="flex items-center justify-between">

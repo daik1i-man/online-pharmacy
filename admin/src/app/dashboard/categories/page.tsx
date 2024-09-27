@@ -64,7 +64,6 @@ export default function CategoriesPage() {
                     bottomContent={
                         <div className="flex w-full justify-center">
                             <Pagination
-                                isCompact
                                 showControls
                                 showShadow
                                 color="default"

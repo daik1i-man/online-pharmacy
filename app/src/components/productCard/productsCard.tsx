@@ -92,7 +92,7 @@ export default function ProductsCard({ name, id, img_url, price, cart, favourite
                 ),
             })
             updateProductCache(id, (product) => ({ ...product, favourites: true }))
-            queryClient.invalidateQueries({ queryKey: ['favourites'] })
+            queryClient.invalidateQueries({ queryKey: ['favorites'] })
         },
         onError: (error) => {
             toast({
@@ -114,7 +114,7 @@ export default function ProductsCard({ name, id, img_url, price, cart, favourite
                 description: `${new Date().toLocaleString()}`,
             })
             updateProductCache(id, (product) => ({ ...product, favourites: false }))
-            queryClient.invalidateQueries({ queryKey: ['favourites'] })
+            queryClient.invalidateQueries({ queryKey: ['favorites'] })
         },
         onError: (error) => {
             toast({
