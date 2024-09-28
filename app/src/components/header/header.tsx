@@ -26,7 +26,7 @@ export default function Header() {
 
     return (
         <div className="relative main">
-            <div className="flex w-[97%] items-center px-2.5 py-1.5 border backdrop-blur-md backdrop-contrast-75 z-[90] fixed top-0 right-0 left-0 rounded-full m-1.5">
+            <div className="flex w-[97%] items-center px-2.5 py-1.5 border backdrop-blur-md backdrop-contrast-75 z-[10] fixed top-0 right-0 left-0 rounded-full m-1.5">
                 <p className=''>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-[18px]">
                         <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />

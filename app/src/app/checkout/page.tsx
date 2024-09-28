@@ -285,7 +285,7 @@ export default function Page() {
                             </div>
                         </div>
                     ) : (
-                        <div className='fixed top-[50px] z-40 right-0 left-0 p-4 bg-white border-y'>
+                        <div className='fixed top-[50px] z-10 right-0 left-0 p-4 bg-white border-y'>
                             <div className=''>
                                 <div className='flex items-center justify-between'>
                                     <div className='flex flex-col space-y-4'>
