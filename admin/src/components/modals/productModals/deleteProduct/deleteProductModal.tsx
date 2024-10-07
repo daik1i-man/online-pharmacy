@@ -5,12 +5,14 @@ import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/re
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { deleteProduct } from '@/requestFunctions/delete.product';
+import { useTranslations } from 'next-intl'
 import { Button } from '@nextui-org/react'
 import { useState } from 'react'
 
 export default function DeleteProductModal() {
     const queryClient = useQueryClient()
     const [loading, setLoading] = useState(false)
+    const t = useTranslations('Pages.Products.Modals.delete');
 
     const { openDeleteProductModal, setOpenDeleteProductModal, deleteCurrentProduct } = useDeleteProductContext()
 
@@ -49,8 +51,13 @@ export default function DeleteProductModal() {
                                 </div>
                                 <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                     <DialogTitle as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                                        Delete Product ?
+                                        {t('title')}
                                     </DialogTitle>
+                                    <div className="mt-2">
+                                        <p className="text-sm text-gray-500">
+                                            {t('description')}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -61,7 +68,7 @@ export default function DeleteProductModal() {
                                 type="submit"
                                 className="inline-flex w-full justify-center rounded-md bg-gray-900 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 sm:ml-3 sm:w-auto"
                             >
-                                {`${loading ? 'Deleting...' : 'Delete product'}`}
+                                {`${loading ? t('loadingButton') : t('addButton')}`}
                             </Button>
                             <Button
                                 type="button"
@@ -69,7 +76,7 @@ export default function DeleteProductModal() {
                                 onClick={() => setOpenDeleteProductModal(false)}
                                 data-autofocus
                             >
-                                Cancel
+                                {t('cancelButton')}
                             </Button>
                         </div>
                     </DialogPanel>

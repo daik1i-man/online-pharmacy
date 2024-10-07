@@ -1,0 +1,185 @@
+{
+    "Pages": {
+        "Login": {
+            "title": "Войти в панель администратора",
+            "inputsLabel": {
+                "phoneNumber": "Номер телефона*",
+                "password": "Пароль*",
+                "buttonText": "Входить",
+                "loadingButton": "Загрузка..."
+            },
+            "errorMessages": {
+                "adminNotFound": "Админ не найден!",
+                "invalidPassword": "Введенный пароль неверен!",
+                "networkError": "Ошибка сервера! Пожалуйста, попробуйте еще раз!"
+            }
+        },
+        "Categories": {
+            "title": "Категории",
+            "table": {
+                "name": "Имя",
+                "photo": "Фото",
+                "createdDate": "Дата создания",
+                "addButton": "+ Добавить новый",
+                "emptyContent": "Список категорий пуст!"
+            },
+            "Modals": {
+                "add": {
+                    "title": "Добавить категорию",
+                    "inputsLabel": {
+                        "name": "Название категории*",
+                        "file": "Файл*"
+                    },
+                    "fileInputdescription": "Нажмите здесь, чтобы загрузить файл",
+                    "cancelButton": "Отмена",
+                    "addButton": "Добавлять",
+                    "loadingButton": "Загрузка..."
+                },
+                "edit": {
+                    "title": "Редактировать категорию",
+                    "inputsLabel": {
+                        "name": "Название категории*",
+                        "file": "Файл*"
+                    },
+                    "fileInputdescription": "Нажмите здесь, чтобы загрузить файл",
+                    "newFileButton": "Загрузить новый файл",
+                    "cancelButton": "Отмена",
+                    "addButton": "Сохранить изменения",
+                    "loadingButton": "Сохранение..."
+                },
+                "delete": {
+                    "title": "Удалить категорию",
+                    "description": "Вы действительно хотите удалить эту категорию?",
+                    "cancelButton": "Отмена",
+                    "addButton": "Удалить",
+                    "loadingButton": "Удаление..."
+                }
+            }
+        },
+        "Orders": {
+            "title": "Заказы",
+            "table": {
+                "firstName": "Имя",
+                "lastName": "Фамилия",
+                "phoneNumber": "Номер телефона",
+                "totalPrice": "Общая стоимость",
+                "orderedDate": "Дата оформления",
+                "status": "Статус",
+                "emptyContent": "Список заказов пуст!"
+            },
+            "Modals": {
+                "delete": {
+                    "title": "Завершите процесс",
+                    "description": "Вы действительно хотите завершить процесс?",
+                    "cancelButton": "Отмена",
+                    "addButton": "Завершить",
+                    "loadingButton": "Завершение..."
+                }
+            }
+        },
+        "Products": {
+            "title": "Продукты",
+            "table": {
+                "photo": "Фото",
+                "category": "Категория",
+                "price": "Цена",
+                "quantity": "Количества",
+                "addButton": "+ Добавить новый",
+                "emptyContent": "Список товаров пуст!"
+            },
+            "Modals": {
+                "delete": {
+                    "title": "Удалить продукт",
+                    "description": "Вы действительно хотите удалить товар?",
+                    "cancelButton": "Bekor qilish",
+                    "addButton": "O'chirish",
+                    "loadingButton": "O'chirilmoqda..."
+                }
+            },
+            "addProductPage": {
+                "title": "Добавить продукт",
+                "inputsLabel": {
+                    "name": "Имя*",
+                    "category": "Категория*",
+                    "price": "Цена*",
+                    "quantity": "Количества",
+                    "selectLabel": "Выберите категорию*",
+                    "description": "Описание продукта (необязательное поле)",
+                    "fileDescription": "Нажмите здесь, чтобы загрузить файл",
+                    "addbutton": "Добавить",
+                    "cancelButton": "Отмена",
+                    "loadingButton": "Добавляется..."
+                }
+            },
+            "editProductPage": {
+                "title": "Редактировать товар",
+                "inputsLabel": {
+                    "name": "Имя",
+                    "category": "Категория",
+                    "price": "Цена*",
+                    "quantity": "Количества",
+                    "selectLabel": "Выберите категорию*",
+                    "description": "Описание продукта (необязательное поле)",
+                    "fileDescription": "Нажмите здесь, чтобы загрузить файл",
+                    "newFileButton": "Загрузить новый файл",
+                    "addbutton": "Сохранить изменении",
+                    "cancelButton": "Отмена",
+                    "loadingButton": "Загрузка..."
+                }
+            }
+        },
+        "Emloyees": {
+            "title": "Сотрудники",
+            "table": {
+                "phoneNumber": "Номер телефона",
+                "fullname": "Ф.И.О",
+                "role": "Роль",
+                "salary": "Зарплата",
+                "addButton": "+ Добавить новый",
+                "emptyContent": "Список сотрудников пуст!"
+            },
+            "Modals": {
+                "add": {
+                    "title": "Добавить сотрудника",
+                    "fullName": "Ф.И.О*",
+                    "phoneNumber": "Номер телефона*",
+                    "role": "Роль*",
+                    "salary": "Зарплата*",
+                    "addButton": "Добавить",
+                    "cancelButton": "Отмена",
+                    "loadingButton": "Загрузка..."
+                },
+                "edit": {
+                    "title": "Редактировать сотрудника",
+                    "fullName": "Ф.И.О*",
+                    "phoneNumber": "Номер телефона*",
+                    "role": "Роль*",
+                    "salary": "Зарплата*",
+                    "addButton": "Сохранить изменении",
+                    "cancelButton": "Отмена",
+                    "loadingButton": "Загрузка..."
+                },
+                "delete": {
+                    "title": "Удалить сотрудника",
+                    "description": "Вы действительно хотите удалить сотрудника ?",
+                    "cancelButton": "Отмена",
+                    "addButton": "Удалить",
+                    "loadingButton": "Загрузка..."
+                }
+            }
+        }
+    },
+    "Sidebar": {
+        "categories": "Категории",
+        "orders": "Заказы",
+        "products": "Продукты",
+        "employees": "Сотрудники",
+        "logout": "Выход из системы"
+    },
+    "LogoutModal": {
+        "title": "Выход из системы",
+        "description": "Вы действительно хотите выход из системы ?",
+        "addButton": "Выходить",
+        "cancelButton": "Отмена"
+    }
+}

@@ -12,6 +12,7 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { useParams, useRouter } from "next/navigation";
 import React, { useState, useEffect } from 'react'
 import 'react-quill/dist/quill.snow.css';
+import { useTranslations } from 'next-intl'
 import { FileInput } from "flowbite-react";
 import dynamicImport from "next/dynamic";
 
@@ -19,11 +20,21 @@ import dynamicImport from "next/dynamic";
 export default function Edit() {
     const { id } = useParams()
     const router = useRouter()
+    const t = useTranslations('Pages.Products.editProductPage');
+    const [isMounted, setIsMounted] = React.useState(false);
     const [change, setChange] = useState(false)
     const { data: product, isLoading: loading } = useQuery({
         queryKey: ['product'],
         queryFn: () => getProductById(id)
     })
+
+    React.useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    if (!isMounted) {
+        return null
+    };
 
     const [state, setState] = useState<productsProps>({
         file: null,
@@ -118,9 +129,7 @@ export default function Edit() {
 
         const storageRef = ref(storage, 'admin-panel/products/updated-images/' + file?.name)
         await uploadBytes(storageRef, file)
-        const url = await getDownloadURL(storageRef)
-
-        return url
+        return await getDownloadURL(storageRef)
     }
 
     const onSubmitMutation = useMutation({
@@ -155,7 +164,7 @@ export default function Edit() {
         <div className='h-screen overflow-y-scroll'>
             <div className="mt-32 max-w-7xl mx-auto px-8">
                 <h1 className="font-semibold text-3xl leading-6 text-gray-900">
-                    Edit Product
+                    {t('title')}
                 </h1>
             </div>
             <div className="max-w-7xl mt-12 mx-auto px-8">
@@ -196,7 +205,7 @@ export default function Edit() {
                                 <label
                                     className='bg-gray-200 py-1.5 px-2 text-[14px] rounded-md cursor-pointer'
                                     htmlFor="dropzone-file">
-                                    Upload new file
+                                    {t('inputsLabel.newFileButton')}
                                 </label>
                             </div>
                             <FileInput id="dropzone-file" name='file' onChange={onChange} className="hidden" />
@@ -204,7 +213,7 @@ export default function Edit() {
                         <div className='w-1/2'>
                             <div>
                                 <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
-                                    Name
+                                    {t('inputsLabel.name')}
                                 </label>
                                 <div className="mt-2">
                                     <input
@@ -222,12 +231,12 @@ export default function Edit() {
                             <div className="flex items-center justify-between my-4">
                                 <div>
                                     <label htmlFor="email" className="block mb-3 text-sm font-medium leading-6 text-gray-900">
-                                        Category
+                                        {t('inputsLabel.category')}
                                     </label>
                                     <Select
                                         isRequired
                                         name='select'
-                                        label='Product category'
+                                        label={t('inputsLabel.selectLabel')}
                                         className="w-[350px]"
                                         onChange={onChange}
                                         placeholder={product?.category}
@@ -241,7 +250,7 @@ export default function Edit() {
                                 </div>
                                 <div>
                                     <label htmlFor="number" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Price
+                                        {t('inputsLabel.price')}
                                     </label>
                                     <div className="mt-2">
                                         <div className="flex w-48 items-center border-0 ring-1 ring-gray-300 rounded-md p-1 px-4 border-gray-900">
@@ -262,7 +271,7 @@ export default function Edit() {
                                 </div>
                             </div>
                             <div className="">
-                                <p className='block text-sm font-medium leading-6 text-gray-900 my-3'>Quantity</p>
+                                <p className='block text-sm font-medium leading-6 text-gray-900 my-3'>{t('inputsLabel.quantity')}</p>
                                 <input
                                     id="price"
                                     name="quantity"
@@ -276,7 +285,10 @@ export default function Edit() {
                             </div>
                         </div>
                     </div>
-                    <Quill className='h-56' value={state.description} onChange={quillOnChange} />
+                    <div className="">
+                        <p className='block text-sm font-medium leading-6 text-gray-900 my-3'>{t('inputsLabel.description')}</p>
+                        <Quill className='h-56' value={state.description} onChange={quillOnChange} />
+                    </div>
                     <div>
                         <div className="py-3 sm:flex sm:flex-row-reverse my-12">
                             <Button
@@ -285,14 +297,14 @@ export default function Edit() {
                                 type="submit"
                                 className="inline-flex w-full disabled:opacity-50 justify-center hover:bg-gray-800 disabled:hover:cursor-pointer disabled:hover:bg-gray-500 rounded-md bg-gray-900 px-8 py-3 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto"
                             >
-                                {state.loading ? 'Saving...' : 'Save changes'}
+                                {state.loading ? t('inputsLabel.loadingButton') : t('inputsLabel.addbutton')}
                             </Button>
                             <Button
                                 onClick={cancelHandler}
                                 type="button"
                                 className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-8 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                             >
-                                Cancel
+                                {t('inputsLabel.cancelButton')}
                             </Button>
                         </div>
                     </div>

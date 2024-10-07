@@ -1,63 +1,72 @@
 'use client'
 
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Pagination } from "@nextui-org/react";
-import { useDeleteEmployeeContext } from "@/context/employeeActionsContext/deleteEmployee/deleteEmployee";
-import { useEditEmployeeContext } from "@/context/employeeActionsContext/editEmployee/editEmployee";
-import { useAddEmployeeContext } from "@/context/employeeActionsContext/addEmployee/addEmployee";
-import { getEmployeeById } from "@/requestFunctions/get.employee.by.id";
-import { getEmployees } from "@/requestFunctions/get.employees";
+import { useDeleteCategoryContext } from "@/context/categoryActionsContext/deleteCategory/deleteCategory";
+import { useAddCategoryModalContext } from "@/context/categoryActionsContext/addCategory/addCategory";
+import { useEditCategoryContext } from "@/context/categoryActionsContext/editCategory/editCategory";
+import { getCategoryById } from "@/requestFunctions/get.category.by.id";
+import { getCategories } from "@/requestFunctions/get.categories";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { Button } from "@nextui-org/react";
+import { Button, Image } from "@nextui-org/react";
+import { useTranslations } from 'next-intl';
 import React from "react";
 
-
-
-export default function EmployyesPage() {
-    const { setOpenDeleteEmployeeModal, setDeleteCurrentEmployee } = useDeleteEmployeeContext()
-    const { setEditCurrentEmployee, setOpenEditEmployeeModal, editCurrentEmployee } = useEditEmployeeContext()
-    const { setOpenAddEmployeeModal } = useAddEmployeeContext()
+export default function CategoriesPage() {
     const [page, setPage] = React.useState(1);
+    const t = useTranslations('Pages');
+    const { setOpenAddCategoryModal } = useAddCategoryModalContext()
+    const { setOpenEditCategoryModal, setEditCurrentCategory } = useEditCategoryContext();
+    const { setOpenDeleteCategoryModal, setDeletecurrentCategory } = useDeleteCategoryContext()
+    const [isMounted, setIsMounted] = React.useState(false);
+    
+    React.useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
-    const { data: employees } = useQuery({
-        queryKey: ['employees'],
-        queryFn: getEmployees
+    if (!isMounted) {
+        return null
+    };
+    
+    const { data: categories } = useQuery({
+        queryKey: ['categories'],
+        queryFn: () => getCategories()
     })
+
 
     const rowsPerPage = 10;
 
-    const pages = Math.ceil(employees?.length / rowsPerPage);
+    const pages = categories ? Math.ceil(categories?.length / rowsPerPage) : 1;
 
     const items = React.useMemo(() => {
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
 
-        return employees?.slice(start, end);
-    }, [page, employees])
+        return categories?.slice(start, end);
+    }, [page, categories])
 
-    const editEmployeeMutation = useMutation({
-        mutationKey: ['currentEmployee'],
-        mutationFn: (id: string | null) => getEmployeeById(id),
+    const getCategoryMutation = useMutation({
+        mutationKey: ['currentCategory'],
+        mutationFn: (id: string) => getCategoryById(id),
         onSuccess: (res) => {
-            setEditCurrentEmployee(res)
+            setEditCurrentCategory(res)
         }
     })
 
+    const openDeleteModal = (currentCategoryId: string, img_url: string) => {
+        setDeletecurrentCategory({ id: currentCategoryId, img_url });
+        setOpenDeleteCategoryModal(true);
+    };
 
-    const editModalHandler = (id: string | null) => {
-        editEmployeeMutation.mutate(id)
-        setOpenEditEmployeeModal(true)
-    }
-
-    const deleteModalHandler = (id: string) => {
-        setDeleteCurrentEmployee(id)
-        setOpenDeleteEmployeeModal(true)
+    const openEditModal = (currentCategoryId: string) => {
+        setOpenEditCategoryModal(true)
+        getCategoryMutation.mutate(currentCategoryId)
     }
 
     return (
         <div className="px-6 h-screen overflow-y-scroll">
             <div className="">
                 <div className="sm:max-w-6xl xl:max-w-screen-2xl mx-auto mt-24 mb-4">
-                    <h1 className="text-2xl font-regular">Employees</h1>
+                    <h1 className="text-2xl font-regular">{t('Categories.title')}</h1>
                 </div>
                 <Table
                     shadow="none"
@@ -78,42 +87,43 @@ export default function EmployyesPage() {
                     }>
                     <TableHeader>
                         <TableColumn className="text-center">#</TableColumn>
-                        <TableColumn className="px-12 w-80">Phone number</TableColumn>
-                        <TableColumn className="w-80 px-12">Full name</TableColumn>
-                        <TableColumn className="px-5 w-56">Role</TableColumn>
-                        <TableColumn className="w-64 text-center">Salary</TableColumn>
-                        <TableColumn className="text-center">
+                        <TableColumn className="text-center">{t('Categories.table.name')}</TableColumn>
+                        <TableColumn>{t('Categories.table.photo')}</TableColumn>
+                        <TableColumn>{t('Categories.table.createdDate')}</TableColumn>
+                        <TableColumn className="">
                             <Button
-                                onClick={() => setOpenAddEmployeeModal(true)}
                                 className="my-2 bg-foreground text-gray-50 rounded-md"
+                                onClick={() => setOpenAddCategoryModal(true)}
                             >
-                                Add New +
+                                {t('Categories.table.addButton')}
                             </Button>
                         </TableColumn>
                     </TableHeader>
-                    <TableBody emptyContent={"No employees to display."} items={items}>
-                        {items?.map((employee: any, i: number) => (
-                            <TableRow key={employee.id} className="border-b">
+                    <TableBody emptyContent={t('Categories.table.emptyContent')} items={items}>
+                        {items?.map((category: any, i: number) => (
+                            <TableRow key={category?.id} className="border-b">
                                 <TableCell
-                                    className="font-medium text-gray-900 dark:text-white w-20 text-center"
+                                    className="font-medium text-gray-900 dark:text-white text-center"
                                 >
                                     {i + 1}
                                 </TableCell>
-                                <TableCell className="px-8">
-                                    +998 {employee?.phone_number}
+                                <TableCell className="text-lg font-semibold text-gray-900">
+                                    {category?.name}
                                 </TableCell>
-                                <TableCell className="text-base text-gray-900">
-                                    {employee?.name}
+                                <TableCell className="text-center">
+                                    <Image
+                                        width={55}
+                                        alt="NextUI hero Image"
+                                        src={category?.img_url}
+                                        className="rounded-md border p-1.5"
+                                    />
                                 </TableCell>
-                                <TableCell className="text-base text-gray-900">
-                                    {employee?.role}
-                                </TableCell>
-                                <TableCell className="text-base text-center text-gray-900">
-                                    {employee?.salary} UZS
+                                <TableCell className="text-md font-semibold text-gray-900">
+                                    {category?.created_date}
                                 </TableCell>
                                 <TableCell className="w-28">
                                     <div className="flex items-center gap-x-8">
-                                        <span className="text-lg text-danger cursor-pointer active:opacity-50" onClick={() => editModalHandler(employee?.id)}>
+                                        <span onClick={() => openEditModal(category?.id)} className="text-lg text-danger cursor-pointer active:opacity-50">
                                             <svg
                                                 aria-hidden="true"
                                                 fill="none"
@@ -149,7 +159,7 @@ export default function EmployyesPage() {
                                                 />
                                             </svg>
                                         </span>
-                                        <span className="text-lg text-danger cursor-pointer active:opacity-50" onClick={() => deleteModalHandler(employee?.id)}>
+                                        <span onClick={() => openDeleteModal(category?.id, category?.img_url)} className="text-lg text-danger cursor-pointer active:opacity-50">
                                             <svg
                                                 aria-hidden="true"
                                                 fill="none"

@@ -8,6 +8,7 @@ import { editCategory } from '@/requestFunctions/edit.category'
 import { storage } from '@/Services/Firebase/firebase-config'
 import { FileInput, Label } from "flowbite-react";
 import { statesProps } from '@/types/types'
+import { useTranslations } from 'next-intl'
 import { useState, useEffect } from 'react'
 import { Button } from '@nextui-org/react'
 import { format } from 'date-fns'
@@ -15,6 +16,7 @@ import { format } from 'date-fns'
 export default function EditCategoryModal() {
     const [hasChanges, setHasChanges] = useState(false)
     const queryClient = useQueryClient()
+    const t = useTranslations('Pages.Categories.Modals.edit');
     const {
         openEditCategoryModal,
         setOpenEditCategoryModal,
@@ -50,8 +52,7 @@ export default function EditCategoryModal() {
 
         const storageRef = ref(storage, '/admin-panel/categories/updated-images/' + file.name)
         await uploadBytes(storageRef, file)
-        const url = await getDownloadURL(storageRef)
-        return url
+        return await getDownloadURL(storageRef)
     }
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,6 +90,12 @@ export default function EditCategoryModal() {
 
             if (response.status === 200) {
                 queryClient.invalidateQueries({ queryKey: ['categories'] })
+                setState(prevState => ({
+                    ...prevState,
+                    categoryName: '',
+                    file: null,
+                    loading: false
+                }))
                 setOpenEditCategoryModal(false)
             } else {
                 setState(prevState => ({
@@ -134,14 +141,14 @@ export default function EditCategoryModal() {
                                 <div className="max-w-xl mx-auto">
                                     <div className="m-8">
                                         <h2 className="text-start text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                                            Edit Category
+                                            {t('title')}
                                         </h2>
                                     </div>
                                     <p className='text-red-500 text-center'>{state.error}</p>
                                     <form action="" method="post" onSubmit={onSubmit}>
                                         <div className='max-w-lg mx-auto'>
                                             <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
-                                                Update name of the Category
+                                                {t('inputsLabel.name')}
                                             </label>
                                             <div className="mt-2">
                                                 <input
@@ -158,7 +165,7 @@ export default function EditCategoryModal() {
                                         </div>
                                         <div className="max-w-lg mx-auto items-center justify-center">
                                             <label htmlFor="name" className=" my-4 block text-sm font-medium leading-6 text-gray-900">
-                                                Upload new file
+                                                {t('inputsLabel.file')}
                                             </label>
                                             {state.file !== null ? (
                                                 <div className="my-2 relative">
@@ -198,13 +205,13 @@ export default function EditCategoryModal() {
                                                                         />
                                                                     </svg>
                                                                     <p className="mb-2 text-xs text-gray-500 dark:text-gray-400">
-                                                                        <span className="font-semibold">Click to upload</span> or drag and drop
+                                                                        <span className="font-semibold">{t('fileInputdescription')}</span>
                                                                     </p>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     ) : (
-                                                        <div>
+                                                        <label htmlFor='dropzone-file'>
                                                             <div className='justify-center w-full py-2'>
                                                                 <img className='mx-auto' src={state.url} alt="" />
                                                             </div>
@@ -212,12 +219,12 @@ export default function EditCategoryModal() {
                                                                 <label
                                                                     className='bg-gray-200 p-3 rounded-md cursor-pointer'
                                                                     htmlFor="dropzone-file">
-                                                                    Upload new file
+                                                                    {t('newFileButton')}
                                                                 </label>
                                                             </div>
-                                                        </div>
+                                                            <FileInput id="dropzone-file" name='file' required onChange={onChange} className="hidden" />
+                                                        </label>
                                                     )}
-                                                    <FileInput id="dropzone-file" name='file' onChange={onChange} className="hidden" />
                                                 </Label>
                                             )}
                                         </div>
@@ -228,14 +235,14 @@ export default function EditCategoryModal() {
                                                 type="submit"
                                                 className="inline-flex w-full justify-center rounded-md disabled:opacity-50 bg-gray-900 disabled:hover:bg-gray-500 px-8 py-3 text-sm font-semibold text-white shadow-sm sm:ml-3 sm:w-auto"
                                             >
-                                                {state.loading ? 'Saving...' : 'Save changes'}
+                                                {state.loading ? t('loadingButton') : t('addButton')}
                                             </Button>
                                             <Button
                                                 onClick={() => setOpenEditCategoryModal(false)}
                                                 type="button"
                                                 className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                                             >
-                                                Cancel
+                                                {t('cancelButton')}
                                             </Button>
                                         </div>
                                     </form>

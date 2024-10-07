@@ -2,20 +2,23 @@
 
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'
 import { useActionsContext } from '@/context/actionsContext/actionsContext'
+import { useRouter, usePathname } from 'next/navigation'
 import { axiosInstance } from '@/configs/axios.config'
 import { useMutation } from '@tanstack/react-query'
-import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { Button } from '@nextui-org/react'
 import { useCookies } from 'react-cookie'
 import { useState } from 'react'
-import path from 'path'
-
 
 
 export default function LogoutModal() {
     const [cookie, setCookie, removeCookie] = useCookies(['admin'])
     const router = useRouter()
     const [loading, setLoading] = useState(false)
+    const t = useTranslations('LogoutModal');
+    const pahtname = usePathname()
+
+    const locale = pahtname.split('/')[1]
 
     const { openLogoutModal, setOpenLogoutModal } = useActionsContext()
 
@@ -23,9 +26,8 @@ export default function LogoutModal() {
         mutationKey: ['logout'],
         mutationFn: async () => await axiosInstance.get('/auth/admin/logout'),
         onSuccess: () => {
-
             setLoading(false)
-            router.push('/')
+            router.push(`/${locale}`)
             setOpenLogoutModal(false)
         }
     })
@@ -70,12 +72,11 @@ export default function LogoutModal() {
                                         </div>
                                         <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                             <DialogTitle as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                                                Log-out
+                                                {t('title')}
                                             </DialogTitle>
                                             <div className="mt-2">
                                                 <p className="text-sm text-gray-500">
-                                                    Are you sure you want to log-out? All of your data will be permanently
-                                                    removed. This action cannot be undone.
+                                                    {t('description')}
                                                 </p>
                                             </div>
                                         </div>
@@ -84,16 +85,16 @@ export default function LogoutModal() {
                                 <div className="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                                     <Button
                                         isLoading={loading}
-                                        className="inline-flex w-full justify-center bg-gray-900 px-10 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 sm:ml-3 sm:w-auto"
+                                        className="inline-flex w-full rounded-md justify-center bg-gray-900 px-10 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 sm:ml-3 sm:w-auto"
                                         onClick={onClick}
                                     >
-                                        {loading ? 'Logging out...' : 'Log-out'}
+                                        {loading ? t('addButton') : t('addButton')}
                                     </Button>
                                     <Button
                                         className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-8 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                                         onClick={() => setOpenLogoutModal(false)}
                                     >
-                                        Cancel
+                                        {t('cancelButton')}
                                     </Button>
                                 </div>
                             </DialogPanel>

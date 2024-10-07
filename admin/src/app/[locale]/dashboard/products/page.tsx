@@ -5,6 +5,7 @@ import { useDeleteProductContext } from "@/context/productActionsContext/deleteP
 import { useEditProductContext } from "@/context/productActionsContext/editProduct/editProduct";
 import { getProducts } from "@/requestFunctions/get.products";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslations } from 'next-intl'
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import React from "react";
@@ -13,6 +14,16 @@ export default function ProductsPage() {
     const { setDeleteCurrentProduct, setOpenDeleteProductModal } = useDeleteProductContext()
     const { setCurrentProductId } = useEditProductContext()
     const [page, setPage] = React.useState(1);
+    const t = useTranslations('Pages.Products');
+    const [isMounted, setIsMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setIsMounted(true);
+      }, []);
+    
+      if (!isMounted) {
+        return null
+      };
 
     const { data: products } = useQuery({
         queryKey: ['products'],
@@ -42,7 +53,7 @@ export default function ProductsPage() {
     return (
         <div className="px-6 h-screen overflow-y-scroll">
             <div className="sm:max-w-6xl xl:max-w-screen-2xl mx-auto mt-24 mb-4">
-                <h1 className="text-2xl font-regular">Products</h1>
+                <h1 className="text-2xl font-regular">{t('title')}</h1>
             </div>
             <div className="">
                 <Table
@@ -64,21 +75,21 @@ export default function ProductsPage() {
                     }>
                     <TableHeader>
                         <TableColumn className="text-center">#</TableColumn>
-                        <TableColumn className="px-12 w-80">Photo</TableColumn>
-                        <TableColumn className="w-80 text-center">Category</TableColumn>
-                        <TableColumn className="text-center w-80">Price</TableColumn>
-                        <TableColumn className="">Quantity</TableColumn>
+                        <TableColumn className="px-12 w-80">{t('table.photo')}</TableColumn>
+                        <TableColumn className="w-80 text-center">{t('table.category')}</TableColumn>
+                        <TableColumn className="text-center w-80">{t('table.price')}</TableColumn>
+                        <TableColumn className="">{t('table.quantity')}</TableColumn>
                         <TableColumn>
                             <Link href='products/add'>
                                 <Button
                                     className="my-2 bg-foreground text-gray-50 rounded-md"
                                 >
-                                    Add New +
+                                    {t('table.addButton')}
                                 </Button>
                             </Link>
                         </TableColumn>
                     </TableHeader>
-                    <TableBody emptyContent="No products to display" items={items || []} className="h-screen overflow-y-scroll">
+                    <TableBody emptyContent={t('table.emptyContent')} items={items || []} className="h-screen overflow-y-scroll">
                         {items?.map((product: any, i: number) => (
                             <TableRow key={product.id} className="border-b">
                                 <TableCell

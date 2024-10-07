@@ -1,6 +1,7 @@
 import Header from "@/components/header/header"
 import Sidebar from "@/components/sidebar/sidebar"
 import LogoutModal from "@/components/modals/logoutModal/modal"
+import React from "react"
 
 export default function DashboardLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (

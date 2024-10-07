@@ -1,32 +1,26 @@
 'use client'
 
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import ContextsProvider from "@/context/context";
-import { childrenProps } from "@/types/types";
 import { CookiesProvider } from 'react-cookie'
-import { Providers } from "./providers";
+import { usePathname } from 'next/navigation';
+import { Providers } from "./providers"
+import React from "react";
 import "./globals.css";
 
-const queryClient = new QueryClient();
-
-export default function RootLayout({ children }: childrenProps) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname()
+  const locale = (pathname.split('/')[1] === 'uz') ? 'uz' : 'ru'
   return (
-    <html lang="en">
+    <html lang={locale}>
       <head>
         <title>Admin Panel - Online Pharmacy</title>
         <meta name="description" content="Admin Panel - Online Pharmacy" />
-        <link rel="shortcut icon" href="/medicines.svg" type="image/x-icon" />
       </head>
       <body>
-        <QueryClientProvider client={queryClient}>
-          <CookiesProvider>
-            <ContextsProvider>
-              <Providers>
-                {children}
-              </Providers>
-            </ContextsProvider>
-          </CookiesProvider>
-        </QueryClientProvider>
+        <CookiesProvider>
+          <Providers>
+            {children}
+          </Providers>
+        </CookiesProvider>
       </body>
     </html>
   );

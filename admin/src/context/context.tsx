@@ -4,7 +4,6 @@ import CategoryActionsContext from "./categoryActionsContext/categoryActionsCont
 import OrdersContextProvider from "./orderActionsContext/provider";
 import ProductContextsProvider from "./productActionsContext/provider";
 import EmployeesContextProvider from "./employeeActionsContext/provider";
-import NotificationContextComponent from "./actionsContext/notificationsContext/notificationContext";
 
 export default function ContextsProvider({ children }: Readonly<{ children: ReactNode }>) {
     return (
@@ -13,9 +12,7 @@ export default function ContextsProvider({ children }: Readonly<{ children: Reac
                 <ActionsContextComponent>
                     <ProductContextsProvider>
                         <EmployeesContextProvider>
-                            <NotificationContextComponent>
-                                {children}
-                            </NotificationContextComponent>
+                            {children}
                         </EmployeesContextProvider>
                     </ProductContextsProvider>
                 </ActionsContextComponent>

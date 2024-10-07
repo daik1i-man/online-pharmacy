@@ -1,22 +1,8 @@
+import createNextIntlPlugin from 'next-intl/plugin';
+
+const withNextIntl = createNextIntlPlugin();
+
 /** @type {import('next').NextConfig} */
+const nextConfig = {};
 
-const nextConfig = {
-    async redirects() {
-        return [
-            {
-                source: '/',
-                destination: '/dashboard/categories',
-                permanent: false,
-                has: [
-                    {
-                        type: 'cookie',
-                        key: 'admin_id',
-                        value: '^(?!$).*'
-                    }
-                ]
-            }
-        ]
-    },
-};
-
-export default nextConfig;
+export default withNextIntl(nextConfig);

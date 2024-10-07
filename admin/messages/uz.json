@@ -1,0 +1,185 @@
+{
+    "Pages": {
+        "Login": {
+            "title": "Admin Panelga kirish",
+            "inputsLabel": {
+                "phoneNumber": "Telefon raqam*",
+                "password": "Parol*",
+                "buttonText": "Kirish",
+                "loadingButton": "Yuklanmoqda..."
+            },
+            "errorMessages": {
+                "adminNotFound": "Admin topilmadi!",
+                "invalidPassword": "Kiritilgan parol noto'g'ri!",
+                "networkError": "Server xatosi! Iltimos yana urinib ko'ring!"
+            }
+        },
+        "Categories": {
+            "title": "Kategoriyalar",
+            "table": {
+                "name": "Nomi",
+                "photo": "Rasmi",
+                "createdDate": "Yaratilgan sana",
+                "addButton": "+ Yangi qo'shish",
+                "emptyContent": "Kategoriyalar ro'yxati bo'sh!"
+            },
+            "Modals": {
+                "add": {
+                    "title": "Kategoriya qo'shish",
+                    "inputsLabel": {
+                        "name": "Kategoriya nomi*",
+                        "file": "Fayl*"
+                    },
+                    "fileInputdescription": "Fayl yuklash uchun shu yerga bosing",
+                    "cancelButton": "Bekor qilish",
+                    "addButton": "Qo'shish",
+                    "loadingButton": "Qo'shilmoqda..."
+                },
+                "edit": {
+                    "title": "Kategoriyani tahrirlash",
+                    "inputsLabel": {
+                        "name": "Kategoriya nomi*",
+                        "file": "Fayl*"
+                    },
+                    "fileInputdescription": "Fayl yuklash uchun shu yerga bosing",
+                    "newFileButton": "Yangi fayl yuklash",
+                    "cancelButton": "Bekor qilish",
+                    "addButton": "O'zgarishlarni saqlash",
+                    "loadingButton": "Saqlanmoqda..."
+                },
+                "delete": {
+                    "title": "Kategoriyani o'chirish",
+                    "description": "Haqiqatdan ham kategoriyani o'chirishni xohlaysizmi ?",
+                    "cancelButton": "Bekor qilish",
+                    "addButton": "O'chirish",
+                    "loadingButton": "O'chirilmoqda..."
+                }
+            }
+        },
+        "Orders": {
+            "title": "Buyurtmalar",
+            "table": {
+                "firstName": "Ismi",
+                "lastName": "Familiyasi",
+                "phoneNumber": "Telefon raqami",
+                "totalPrice": "Umumiy qiymati",
+                "orderedDate": "Rasmiylashtirilgan sana",
+                "status": "Status",
+                "emptyContent": "Buyurtmalar ro'yxati bo'sh!"
+            },
+            "Modals": {
+                "delete": {
+                    "title": "Jarayonni yakunlash",
+                    "description": "Haqiqatdan ham jarayonni yakunlashni xohlaysizmi ?",
+                    "cancelButton": "Bekor qilish",
+                    "addButton": "Yakunlash",
+                    "loadingButton": "Yakunlanmoqda..."
+                }
+            }
+        },
+        "Products": {
+            "title": "Mahsulotlar",
+            "table": {
+                "photo": "Rasmi",
+                "category": "Kategoriyasi",
+                "price": "Narxi",
+                "quantity": "Soni",
+                "addButton": "+ Yangi qo'shish",
+                "emptyContent": "Mahsulotlar ro'yxati bo'sh!"
+            },
+            "Modals": {
+                "delete": {
+                    "title": "Mahsulotni o'chirish",
+                    "description": "Haqiqatdan ham mahsulotni o'chirishni xohlaysizmi ?",
+                    "cancelButton": "Bekor qilish",
+                    "addButton": "O'chirish",
+                    "loadingButton": "O'chirilmoqda..."
+                }
+            },
+            "addProductPage": {
+                "title": "Mahsulot qo'shish",
+                "inputsLabel": {
+                    "name": "Nomi*",
+                    "category": "Kategoriyasi*",
+                    "price": "Narxi*",
+                    "quantity": "Soni*",
+                    "selectLabel": "Kategoriyani tanlang*",
+                    "description": "Mahsulot tavsifi (ixtiyoriy)",
+                    "fileDescription": "Fayl yuklash uchun shu yerga bosing",
+                    "addbutton": "Qo'shish",
+                    "cancelButton": "Bekor qilish",
+                    "loadingButton": "Qo'shilmoqda..."
+                }
+            },
+            "editProductPage": {
+                "title": "Mahsulotni tahrirlash",
+                "inputsLabel": {
+                    "name": "Nomi*",
+                    "category": "Kategoriyasi*",
+                    "price": "Narxi*",
+                    "quantity": "Soni*",
+                    "selectLabel": "Kategoriyani tanlang",
+                    "description": "Mahsulot tavsifi (ixtiyoriy)",
+                    "fileDescription": "Fayl yuklash uchun shu yerga bosing",
+                    "newFileButton": "Yangi fayl yuklash",
+                    "addbutton": "O'zgarishlarni saqlash",
+                    "cancelButton": "Bekor qilish",
+                    "loadingButton": "Saqlanmoqda..."
+                }
+            }
+        },
+        "Emloyees": {
+            "title": "Xodimlar",
+            "table": {
+                "phoneNumber": "Telefon raqami",
+                "fullname": "F.I.SH",
+                "role": "Roli",
+                "salary": "Oyligi",
+                "addButton": "+ Yangi qo'shish",
+                "emptyContent": "Xodimlar ro'yxati bo'sh!"
+            },
+            "Modals": {
+                "add": {
+                    "title": "Xodim qo'shish",
+                    "fullName": "F.I.SH*",
+                    "phoneNumber": "Telefon raqami*",
+                    "role": "Roli*",
+                    "salary": "Oyligi*",
+                    "addButton": "Qo'shish",
+                    "cancelButton": "Bekor qilish",
+                    "loadingButton": "Qo'shilmoqda..."
+                },
+                "edit": {
+                    "title": "Xodimni tahrirlash",
+                    "fullName": "F.I.SH*",
+                    "phoneNumber": "Telefon raqami*",
+                    "role": "Roli*",
+                    "salary": "Oyligi*",
+                    "addButton": "O'zgarishlarni saqlash",
+                    "cancelButton": "Bekor qilish",
+                    "loadingButton": "Saqlanmoqda..."
+                },
+                "delete": {
+                    "title": "Xodimni o'chirish",
+                    "description": "Haqiqatdan ham xodimni o'chirish xohlaysizmi ?",
+                    "cancelButton": "Bekor qilish",
+                    "addButton": "O'chirish",
+                    "loadingButton": "O'chirilmoqda..."
+                }
+            }
+        }
+    },
+    "Sidebar": {
+        "categories": "Kategoriyalar",
+        "orders": "Buyurtmalar",
+        "products": "Mahsulotlar",
+        "employees": "Xodimlar",
+        "logout": "Tizimdan chiqish"
+    },
+    "LogoutModal": {
+        "title": "Tizimdan chiqish",
+        "description": "Haqiqatdan ham tizimdan chiqmoqmisiz ?",
+        "addButton": "Chiqish",
+        "cancelButton": "Bekor qilish"
+    }
+}

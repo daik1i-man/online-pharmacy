@@ -1,6 +1,6 @@
 'use client';
 
-import { Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenuItem, NavbarMenu, NavbarContent, NavbarItem, Link, Button } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, Link, Button } from "@nextui-org/react";
 import { getUser } from "@/app/functions/functions";
 import { useQuery } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";

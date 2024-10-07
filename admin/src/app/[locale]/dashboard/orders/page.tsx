@@ -5,13 +5,24 @@ import { useTakeOrderContext } from "@/context/orderActionsContext/takeOrderCont
 import { getOrders } from "@/requestFunctions/get.orders";
 import { Button, Chip } from "@nextui-org/react";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslations } from 'next-intl'
 import React from "react";
 
 export default function OrdersPage() {
     const [page, setPage] = React.useState(1);
     const { setOpenTakeOrderModal, setTakeCurrentOrder } = useTakeOrderContext()
+    const t = useTranslations('Pages.Orders');
+    const [isMounted, setIsMounted] = React.useState(false);
 
-    const { data: orders } = useQuery({ queryKey: ['userOrders'], queryFn: getOrders })
+    React.useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    if (!isMounted) {
+        return null
+    };
+
+    const { data: orders } = useQuery({ queryKey: ['orders'], queryFn: getOrders })
 
     const onClick = (id: string) => {
         setOpenTakeOrderModal(true)
@@ -33,7 +44,7 @@ export default function OrdersPage() {
         <div className="px-6 h-screen overflow-y-scroll">
             <div className="">
                 <div className="sm:max-w-6xl xl:max-w-screen-2xl mx-auto mt-24 mb-4">
-                    <h1 className="text-2xl font-regular">Orders</h1>
+                    <h1 className="text-2xl font-regular">{t('title')}</h1>
                 </div>
                 <Table
                     shadow="none"
@@ -54,15 +65,15 @@ export default function OrdersPage() {
                     }>
                     <TableHeader>
                         <TableColumn className="text-center">#</TableColumn>
-                        <TableColumn>First name</TableColumn>
-                        <TableColumn>Last name</TableColumn>
-                        <TableColumn>Phone number</TableColumn>
-                        <TableColumn>Total price</TableColumn>
-                        <TableColumn>Ordered time</TableColumn>
-                        <TableColumn className="px-10">Status</TableColumn>
-                        <TableColumn className="text-center">Action</TableColumn>
+                        <TableColumn>{t('table.firstName')}</TableColumn>
+                        <TableColumn>{t('table.lastName')}</TableColumn>
+                        <TableColumn>{t('table.phoneNumber')}</TableColumn>
+                        <TableColumn>{t('table.totalPrice')}</TableColumn>
+                        <TableColumn>{t('table.orderedDate')}</TableColumn>
+                        <TableColumn className="px-10">{t('table.status')}</TableColumn>
+                        <TableColumn className="text-center"> </TableColumn>
                     </TableHeader>
-                    <TableBody emptyContent={"No orders to display."}>
+                    <TableBody emptyContent={t('table.emptyContent')}>
                         {items?.map((order: any, i: number) => (
                             <TableRow key={order.id} className="border-b">
                                 <TableCell
@@ -94,7 +105,7 @@ export default function OrdersPage() {
                                     <Button
                                         onClick={() => onClick(order?.id)}
                                         className="bg-gray-800 text-white">
-                                        Take the order
+                                        Buyurtmani bekor qilish
                                     </Button>
                                 </TableCell>
                             </TableRow>

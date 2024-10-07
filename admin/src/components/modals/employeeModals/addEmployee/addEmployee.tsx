@@ -8,11 +8,13 @@ import { addEmployee } from '@/requestFunctions/add.employee'
 import { addEmployeeProps } from '@/types/types'
 import { AsYouType } from 'libphonenumber-js'
 import { ChangeEvent, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { admins } from './types'
 
 export default function AddEmployeeModal() {
     const queryClient = useQueryClient()
     const { openAddEmployeeModal, setOpenAddEmployeeModal } = useAddEmployeeContext()
+    const t = useTranslations('Pages.Emloyees.Modals.add');
     const [loading, setLoading] = useState(false)
     const [data, setData] = useState({
         name: '',
@@ -97,7 +99,7 @@ export default function AddEmployeeModal() {
                         <div className="sm:mx-auto sm:w-full sm:max-w-lg">
                             <div className="mt-3 sm:mt-0 py-6">
                                 <DialogTitle as="h1" className="text-xl font-semibold leading-6 text-gray-900">
-                                    Add Employee
+                                    {t('title')}
                                 </DialogTitle>
                             </div>
                         </div>
@@ -105,14 +107,14 @@ export default function AddEmployeeModal() {
                             <form className="space-y-6" action="#" method="POST" onSubmit={onSubmit}>
                                 <div>
                                     <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Full name
+                                        {t('fullName')}
                                     </label>
                                     <div className="mt-2">
                                         <input
                                             id="name"
                                             name="name"
                                             type="text"
-                                            placeholder='Full name'
+                                            placeholder='F.I.SH'
                                             autoComplete="name"
                                             value={data.name}
                                             onChange={onChange}
@@ -123,7 +125,7 @@ export default function AddEmployeeModal() {
                                 </div>
                                 <div className='my-2'>
                                     <label htmlFor="phoneNumber" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Phone number
+                                        {t('phoneNumber')}
                                     </label>
                                     <div className="mt-2 relative items-center flex w-full rounded-md border-0 p-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400">
                                         <label htmlFor="phoneNumber" className="font-semibold border-r pr-4 pl-2">+998 </label>
@@ -143,12 +145,12 @@ export default function AddEmployeeModal() {
                                 <div className='flex max-w-xl items-center mx-auto justify-between'>
                                     <div>
                                         <label htmlFor="select" className="block mb-3 text-sm font-medium leading-6 text-gray-900">
-                                            Role
+                                            {t('role')}
                                         </label>
                                         <Select
                                             isRequired
                                             name='role'
-                                            label="Select a role"
+                                            label="Rolni tanlang"
                                             className="w-[230px]"
                                             onChange={onChange}
                                             value={data.role}
@@ -162,7 +164,7 @@ export default function AddEmployeeModal() {
                                     </div>
                                     <div>
                                         <label htmlFor="number" className="block text-sm font-medium leading-6 text-gray-900">
-                                            Salary
+                                            {t('salary')}
                                         </label>
                                         <div className="mt-2">
                                             <div className="flex items-center ring-1 ring-gray-200 border-0 rounded-md p-1 px-2 pr-4 border-gray-900">
@@ -188,14 +190,14 @@ export default function AddEmployeeModal() {
                                         type="submit"
                                         className="inline-flex w-full justify-center rounded-md bg-gray-900 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 sm:ml-3 sm:w-auto"
                                     >
-                                        {loading ? 'Adding...' : 'Add employee'}
+                                        {loading ? t('loadingButton') : t('addButton')}
                                     </Button>
                                     <Button
                                         onClick={closeHandler}
                                         type="button"
                                         className="mt-3 inline-flex w-full border-gray-300 justify-center rounded-md bg-white px-8 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:mt-0 sm:w-auto"
                                     >
-                                        Cancel
+                                        {t('cancelButton')}
                                     </Button>
                                 </div>
                             </form>

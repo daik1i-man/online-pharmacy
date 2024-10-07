@@ -5,12 +5,14 @@ import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/re
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { takeTheOrder } from '@/requestFunctions/take.order';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
+import { useTranslations } from 'next-intl'
 import { Button } from '@nextui-org/react'
 import { useState } from 'react'
 
 export default function TakeOrderModal() {
     const queryClient = useQueryClient()
     const [loading, setLoading] = useState(false)
+    const t = useTranslations('Pages.Orders.Modals.delete');
 
     const { openTakeOrderModal, setOpenTakeOrderModal, takeCurrentOrder } = useTakeOrderContext()
 
@@ -18,7 +20,7 @@ export default function TakeOrderModal() {
         mutationKey: ['orders'],
         mutationFn: (id: string) => takeTheOrder(id),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['userOrders'] })
+            queryClient.removeQueries({ queryKey: ['orders'] })
             setOpenTakeOrderModal(false)
             setLoading(false)
         }
@@ -51,12 +53,11 @@ export default function TakeOrderModal() {
                                 </div>
                                 <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                     <DialogTitle as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                                        Take the order ?
+                                        {t('title')}
                                     </DialogTitle>
                                     <div className="mt-2">
                                         <p className="text-sm text-gray-500">
-                                            Are you sure you want to take the order? All of your data will be permanently
-                                            removed. This action cannot be undone.
+                                            {t('description')}
                                         </p>
                                     </div>
                                 </div>
@@ -66,14 +67,14 @@ export default function TakeOrderModal() {
                             <Button
                                 onClick={onClick}
                                 isLoading={loading}
-                                className="inline-flex w-full justify-center bg-gray-900 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 sm:ml-3 sm:w-auto"
+                                className="inline-flex w-full rounded-md justify-center bg-gray-900 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 sm:ml-3 sm:w-auto"
                             >
-                                {loading ? 'Taking the order...' : 'Take the order'}
+                                {loading ? t('loadingButton') : t('addButton')}
                             </Button>
                             <Button
                                 onClick={() => setOpenTakeOrderModal(false)}
                                 className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
-                                Cancel
+                                {t('cancelButton')}
                             </Button>
                         </div>
                     </DialogPanel>

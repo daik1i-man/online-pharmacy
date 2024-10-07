@@ -5,12 +5,14 @@ import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/re
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { deleteEmployee } from '@/requestFunctions/delete.employee'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
-import { useContext, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { Button } from '@nextui-org/react'
+import { useState } from 'react'
 
 export default function DeleteEmployeeModal() {
     const queryClient = useQueryClient()
     const [loading, setLoading] = useState(false)
+    const t = useTranslations('Pages.Emloyees.Modals.delete');
 
     const { openDeleteEmployeeModal, setOpenDeleteEmployeeModal, deleteCurrentEmployee } = useDeleteEmployeeContext()
 
@@ -19,7 +21,7 @@ export default function DeleteEmployeeModal() {
         mutationFn: (id: string | null) => deleteEmployee(id),
         onSuccess: () => {
             setLoading(false)
-            queryClient.invalidateQueries({ queryKey: ['employees'] })
+            queryClient.removeQueries({ queryKey: ['employees'] })
             setOpenDeleteEmployeeModal(false)
         }
     })
@@ -49,12 +51,11 @@ export default function DeleteEmployeeModal() {
                                 </div>
                                 <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                     <DialogTitle as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                                        Delete employee
+                                        {t('title')}
                                     </DialogTitle>
                                     <div className="mt-2">
                                         <p className="text-sm text-gray-500">
-                                            Are you sure you want to delete this employee? All of your data will be permanently removed.
-                                            This action cannot be undone.
+                                            {t('description')}
                                         </p>
                                     </div>
                                 </div>
@@ -67,7 +68,7 @@ export default function DeleteEmployeeModal() {
                                 className="inline-flex w-full justify-center rounded-md bg-gray-900 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 sm:ml-3 sm:w-auto"
                                 onClick={() => onClick(deleteCurrentEmployee)}
                             >
-                                {loading ? 'Deleting...' : 'Delete employee'}
+                                {loading ? t('loadingButton') : t('addButton')}
                             </Button>
                             <Button
                                 type="button"
@@ -75,7 +76,7 @@ export default function DeleteEmployeeModal() {
                                 onClick={() => setOpenDeleteEmployeeModal(false)}
                                 data-autofocus
                             >
-                                Cancel
+                                {t('cancelButton')}
                             </Button>
                         </div>
                     </DialogPanel>

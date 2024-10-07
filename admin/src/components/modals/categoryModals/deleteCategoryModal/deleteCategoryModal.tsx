@@ -5,12 +5,14 @@ import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { deleteCategory } from '@/requestFunctions/delete.category'
 import { useQueryClient } from '@tanstack/react-query'
+import { useTranslations } from 'next-intl'
 import { Button } from '@nextui-org/react'
 import { useState } from 'react'
 
 export default function DeleteCategoryModal() {
     const queryClient = useQueryClient()
     const [loading, setLoading] = useState(false)
+    const t = useTranslations('Pages.Categories.Modals.delete');
 
     const { openDeleteCategoryModal, setOpenDeleteCategoryModal, deletecurrentCategory } = useDeleteCategoryContext();
 
@@ -67,42 +69,31 @@ export default function DeleteCategoryModal() {
                                         </div>
                                         <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                             <DialogTitle as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                                                Delete category
+                                                {t('title')}
                                             </DialogTitle>
                                             <div className="mt-2">
                                                 <p className="text-sm text-gray-500">
-                                                    Are you sure you want to delete category? All of your data will be permanently
-                                                    removed. This action cannot be undone.
+                                                    {t('description')}
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                    {loading ? (
-                                        <Button
-                                            isLoading
-                                            type="button"
-                                            className="inline-flex w-full justify-center rounded-md bg-gray-900 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 sm:ml-3 sm:w-auto"
-                                        >
-                                            Deleting...
-                                        </Button>
-                                    ) : (
-                                        <Button
-                                            type="button"
-                                            className="inline-flex w-full justify-center rounded-md bg-gray-900 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 sm:ml-3 sm:w-auto"
-                                            onClick={DeleteCategoryHandler}
-                                        >
-                                            Delete category
-                                        </Button>
-                                    )}
-
+                                    <Button
+                                        isLoading={loading}
+                                        type="button"
+                                        className="inline-flex w-full justify-center rounded-md bg-gray-900 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 sm:ml-3 sm:w-auto"
+                                        onClick={DeleteCategoryHandler}
+                                    >
+                                        {loading ? t('loadingButton') : t('addButton')}
+                                    </Button>
                                     <Button
                                         onClick={() => setOpenDeleteCategoryModal(false)}
                                         type="button"
                                         className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-8 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                                     >
-                                        Cancel
+                                        {t('cancelButton')}
                                     </Button>
                                 </div>
                             </DialogPanel>

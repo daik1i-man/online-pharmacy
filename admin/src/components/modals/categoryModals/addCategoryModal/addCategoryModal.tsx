@@ -6,14 +6,16 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '@/Services/Firebase/firebase-config';
 import { addCategory } from '@/requestFunctions/add.category';
 import { useQueryClient } from '@tanstack/react-query';
-import { FileInput, Label } from "flowbite-react";
 import { statesProps } from '@/types/types';
+import { useTranslations } from 'next-intl'
 import { Button } from '@nextui-org/react'
+import { Label } from "flowbite-react";
 import { format } from 'date-fns'
 import { useState } from 'react';
 
 export default function AddCategoryModal() {
     const { openAddCategoryModal, setOpenAddCategoryModal } = useAddCategoryModalContext();
+    const t = useTranslations('Pages.Categories.Modals.add');
     const queryClient = useQueryClient()
     const [state, setState] = useState<statesProps>({
         categoryName: '',
@@ -129,14 +131,14 @@ export default function AddCategoryModal() {
                                 <div className="max-w-xl mx-auto">
                                     <div className="m-8">
                                         <h2 className="text-start text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                                            Add Category
+                                            {t('title')}
                                         </h2>
                                     </div>
                                     <p className='text-red-500 text-center'>{state.error}</p>
                                     <form className="space-y-6" action="" method="POST" onSubmit={onSubmit}>
                                         <div className='max-w-lg mx-auto'>
                                             <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
-                                                Add name to category
+                                                {t('inputsLabel.name')}
                                             </label>
                                             <div className="mt-2">
                                                 <input
@@ -151,8 +153,8 @@ export default function AddCategoryModal() {
                                             </div>
                                         </div>
                                         <div className="max-w-lg mx-auto my-4 items-center justify-center">
-                                            <label htmlFor="name" className=" my-4 block text-sm font-medium leading-6 text-gray-900">
-                                                Upload file
+                                            <label htmlFor="dropzone-file" className=" my-4 block text-sm font-medium leading-6 text-gray-900">
+                                                {t('inputsLabel.file')}
                                             </label>
                                             {state.file !== null ? (
                                                 <div className="my-2 relative">
@@ -170,7 +172,6 @@ export default function AddCategoryModal() {
                                                         alt=""
                                                     />
                                                 </div>
-
                                             ) : (
                                                 <Label
                                                     htmlFor="dropzone-file"
@@ -193,10 +194,10 @@ export default function AddCategoryModal() {
                                                             />
                                                         </svg>
                                                         <p className="mb-2 text-xs text-gray-500 dark:text-gray-400">
-                                                            <span className="font-semibold">Click to upload</span> or drag and drop
+                                                            <span className="font-semibold">{t('fileInputdescription')}</span>
                                                         </p>
                                                     </div>
-                                                    <FileInput id="dropzone-file" name='file' required onChange={onChange} className="hidden" />
+                                                    <input type='file' id="dropzone-file" name='file' required onChange={onChange} className="hidden" />
                                                 </Label>
                                             )}
                                         </div>
@@ -206,14 +207,14 @@ export default function AddCategoryModal() {
                                                 isLoading={state.loading}
                                                 className="inline-flex w-full justify-center rounded-md bg-gray-900 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 sm:ml-3 sm:w-auto"
                                             >
-                                                {state.loading ? 'Adding...' : 'Add category'}
+                                                {state.loading ? t('loadingButton') : t('addButton')}
                                             </Button>
                                             <Button
                                                 onClick={closeHandler}
                                                 type="button"
                                                 className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                                             >
-                                                Cancel
+                                                {t('cancelButton')}
                                             </Button>
                                         </div>
                                     </form>

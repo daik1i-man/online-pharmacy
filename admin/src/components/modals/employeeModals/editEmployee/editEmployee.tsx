@@ -6,15 +6,17 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { editEmployee } from '@/requestFunctions/edit.employee';
 import { Button, Select, SelectItem } from '@nextui-org/react'
 import { ChangeEvent, useEffect, useState } from 'react'
+import { editEmployeeProps } from '@/types/types';
 import { AsYouType } from 'libphonenumber-js'
 import { admins } from '../addEmployee/types'
-import { editEmployeeProps } from '@/types/types';
+import { useTranslations } from 'next-intl'
 
 export default function EditEmployeeModal() {
     const queryClient = useQueryClient()
     const { openEditEmployeeModal, setOpenEditEmployeeModal, editCurrentEmployee } = useEditEmployeeContext()
     const [change, setChange] = useState(false)
     const [loading, setLoading] = useState(false)
+    const t = useTranslations('Pages.Emloyees.Modals.edit');
 
     const [data, setData] = useState({
         name: editCurrentEmployee?.name,
@@ -123,7 +125,7 @@ export default function EditEmployeeModal() {
                         <div className="sm:mx-auto sm:w-full sm:max-w-lg">
                             <div className="mt-3 sm:mt-0 py-6">
                                 <DialogTitle as="h1" className="text-2xl font-semibold leading-6 text-gray-900">
-                                    Edit Employee
+                                    {t('title')}
                                 </DialogTitle>
                             </div>
                         </div>
@@ -131,14 +133,14 @@ export default function EditEmployeeModal() {
                             <form className="space-y-6" action="#" method="POST" onSubmit={onSubmit}>
                                 <div>
                                     <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Full name
+                                        {t('fullName')}
                                     </label>
                                     <div className="mt-2">
                                         <input
                                             id="name"
                                             name="name"
                                             type="text"
-                                            placeholder='Full name'
+                                            placeholder='F.I.SH'
                                             autoComplete="name"
                                             value={data.name}
                                             onChange={onChange}
@@ -149,7 +151,7 @@ export default function EditEmployeeModal() {
                                 </div>
                                 <div className='my-2'>
                                     <label htmlFor="phoneNumber" className="block text-sm font-medium leading-6 text-gray-900">
-                                        Phone number
+                                        {t('phoneNumber')}
                                     </label>
                                     <div className="mt-2 relative items-center flex w-full rounded-md border-0 p-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400">
                                         <label htmlFor="phoneNumber" className=" border-r pr-4 pl-2">+998 </label>
@@ -169,11 +171,11 @@ export default function EditEmployeeModal() {
                                 <div className='flex max-w-xl items-center mx-auto justify-between'>
                                     <div>
                                         <label htmlFor="select" className="block mb-3 text-sm font-medium leading-6 text-gray-900">
-                                            Role
+                                            {t('role')}
                                         </label>
                                         <Select
                                             name='role'
-                                            label="Role"
+                                            label="Rolni tanlang"
                                             className="w-[230px]"
                                             onChange={onChange}
                                             placeholder={data.role}
@@ -187,7 +189,7 @@ export default function EditEmployeeModal() {
                                     </div>
                                     <div>
                                         <label htmlFor="number" className="block text-sm font-medium leading-6 text-gray-900">
-                                            Salary
+                                            {t('salary')}
                                         </label>
                                         <div className="mt-2">
                                             <div className="flex items-center ring-1 ring-gray-200 border-0 rounded-md p-1 px-2 pr-4 border-gray-900">
@@ -214,14 +216,14 @@ export default function EditEmployeeModal() {
                                         type="submit"
                                         className="inline-flex w-full justify-center disabled:opacity-50 disabled:hover:bg-gray-500 disabled:hover:cursor-pointer rounded-md bg-gray-900 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 sm:ml-3 sm:w-auto"
                                     >
-                                        {loading ? 'Saving...' : 'Save changes'}
+                                        {loading ? t('loadingButton') : t('addButton')}
                                     </Button>
                                     <Button
                                         onClick={closeHandler}
                                         type="button"
                                         className="mt-3 inline-flex w-full border-gray-300 justify-center rounded-md bg-white px-8 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:mt-0 sm:w-auto"
                                     >
-                                        Cancel
+                                        {t('cancelButton')}
                                     </Button>
                                 </div>
                             </form>
