@@ -8,7 +8,7 @@ export const takeTheOrder = async (id: string | null) => {
         return response
     } catch (error) {
         if (isAxiosError(error) && error.response) {
-            return error.response
+            throw error.response
         }
 
         throw error

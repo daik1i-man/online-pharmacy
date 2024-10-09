@@ -8,10 +8,23 @@
                 "buttonText": "Kirish",
                 "loadingButton": "Yuklanmoqda..."
             },
+            "successMessages": {
+                "successLogin": "Muvaffaqiyatli kirildi"
+            },
             "errorMessages": {
-                "adminNotFound": "Admin topilmadi!",
-                "invalidPassword": "Kiritilgan parol noto'g'ri!",
-                "networkError": "Server xatosi! Iltimos yana urinib ko'ring!"
+                "adminNotFound": {
+                    "title": "Admin topilmadi!",
+                    "description": "Kiritilgan admin topilmadi"
+                },
+                "invalidPassword": {
+                    "title": "Kiritilgan parol noto'g'ri!",
+                    "description": "Parolni yana bir tekshirib ko'ring!"
+                },
+                "networkError": {
+                    "title": "Serverda xatolik!",
+                    "description": "Ma'lumotlarni tog'rilab yana urinib ko'ring!",
+                    "tryButton": "Qayta yuborish"
+                }
             }
         },
         "Categories": {
@@ -33,7 +46,11 @@
                     "fileInputdescription": "Fayl yuklash uchun shu yerga bosing",
                     "cancelButton": "Bekor qilish",
                     "addButton": "Qo'shish",
-                    "loadingButton": "Qo'shilmoqda..."
+                    "loadingButton": "Qo'shilmoqda...",
+                    "messages": {
+                        "successMessage": "Muvaffaqiyatli qo'shildi",
+                        "errorMessage": "Qo'shishda xatolik yuz berdi"
+                    }
                 },
                 "edit": {
                     "title": "Kategoriyani tahrirlash",
@@ -45,14 +62,22 @@
                     "newFileButton": "Yangi fayl yuklash",
                     "cancelButton": "Bekor qilish",
                     "addButton": "O'zgarishlarni saqlash",
-                    "loadingButton": "Saqlanmoqda..."
+                    "loadingButton": "Saqlanmoqda...",
+                    "messages": {
+                        "successMessage": "O'zgarishlar muvaffaqiyatli saqlandi",
+                        "errorMessage": "O'zgarishlarni saqlashda xatolik yuz berdi"
+                    }
                 },
                 "delete": {
                     "title": "Kategoriyani o'chirish",
                     "description": "Haqiqatdan ham kategoriyani o'chirishni xohlaysizmi ?",
                     "cancelButton": "Bekor qilish",
                     "addButton": "O'chirish",
-                    "loadingButton": "O'chirilmoqda..."
+                    "loadingButton": "O'chirilmoqda...",
+                    "messages": {
+                        "successMessage": "Muvaffaqiyatli o'chirildi",
+                        "errorMessage": "O'chirishda xatolik yuz berdi"
+                    }
                 }
             }
         },
@@ -65,7 +90,8 @@
                 "totalPrice": "Umumiy qiymati",
                 "orderedDate": "Rasmiylashtirilgan sana",
                 "status": "Status",
-                "emptyContent": "Buyurtmalar ro'yxati bo'sh!"
+                "emptyContent": "Buyurtmalar ro'yxati bo'sh!",
+                "cancelAction": "Jarayonni yakunlash"
             },
             "Modals": {
                 "delete": {
@@ -73,7 +99,11 @@
                     "description": "Haqiqatdan ham jarayonni yakunlashni xohlaysizmi ?",
                     "cancelButton": "Bekor qilish",
                     "addButton": "Yakunlash",
-                    "loadingButton": "Yakunlanmoqda..."
+                    "loadingButton": "Yakunlanmoqda...",
+                    "messages": {
+                        "successMessage": "Jarayon muvaffaqiyatli yakunlandi",
+                        "errorMessage": "Jarayonni yakunlashda xatolik yuz berdi"
+                    }
                 }
             }
         },
@@ -93,7 +123,11 @@
                     "description": "Haqiqatdan ham mahsulotni o'chirishni xohlaysizmi ?",
                     "cancelButton": "Bekor qilish",
                     "addButton": "O'chirish",
-                    "loadingButton": "O'chirilmoqda..."
+                    "loadingButton": "O'chirilmoqda...",
+                    "messages": {
+                        "successMessage": "Muvaffaqiyatli o'chirildi",
+                        "errorMessage": "O'chirishda xatolik yuz berdi"
+                    }
                 }
             },
             "addProductPage": {
@@ -109,6 +143,10 @@
                     "addbutton": "Qo'shish",
                     "cancelButton": "Bekor qilish",
                     "loadingButton": "Qo'shilmoqda..."
+                },
+                "messages": {
+                    "successMessage": "Muvaffaqiyatli qo'shildi",
+                    "errorMessage": "Qo'shishda xatolik yuz berdi"
                 }
             },
             "editProductPage": {
@@ -125,6 +163,10 @@
                     "addbutton": "O'zgarishlarni saqlash",
                     "cancelButton": "Bekor qilish",
                     "loadingButton": "Saqlanmoqda..."
+                },
+                "messages": {
+                    "successMessage": "O'zgarishlar muvaffaqiyatli saqlandi",
+                    "errorMessage": "O'zgarishlarni saqlashda xatolik yuz berdi"
                 }
             }
         },
@@ -147,7 +189,11 @@
                     "salary": "Oyligi*",
                     "addButton": "Qo'shish",
                     "cancelButton": "Bekor qilish",
-                    "loadingButton": "Qo'shilmoqda..."
+                    "loadingButton": "Qo'shilmoqda...",
+                    "messages": {
+                        "successMessage": "Muvaffaqiyatli qo'shildi",
+                        "errorMessage": "Qo'shishda xatolik yuz berdi"
+                    }
                 },
                 "edit": {
                     "title": "Xodimni tahrirlash",
@@ -157,14 +203,22 @@
                     "salary": "Oyligi*",
                     "addButton": "O'zgarishlarni saqlash",
                     "cancelButton": "Bekor qilish",
-                    "loadingButton": "Saqlanmoqda..."
+                    "loadingButton": "Saqlanmoqda...",
+                    "messages": {
+                        "successMessage": "O'zgarishlar muvaffaqiyatli saqlandi",
+                        "errorMessage": "O'zgarishlarni saqlashda xatolik yuz berdi"
+                    }
                 },
                 "delete": {
                     "title": "Xodimni o'chirish",
                     "description": "Haqiqatdan ham xodimni o'chirish xohlaysizmi ?",
                     "cancelButton": "Bekor qilish",
                     "addButton": "O'chirish",
-                    "loadingButton": "O'chirilmoqda..."
+                    "loadingButton": "O'chirilmoqda...",
+                    "messages": {
+                        "successMessage": "Muvaffaqiyatli o'chirildi",
+                        "errorMessage": "O'chirishda xatolik yuz berdi"
+                    }
                 }
             }
         }
@@ -180,6 +234,10 @@
         "title": "Tizimdan chiqish",
         "description": "Haqiqatdan ham tizimdan chiqmoqmisiz ?",
         "addButton": "Chiqish",
-        "cancelButton": "Bekor qilish"
+        "cancelButton": "Bekor qilish",
+        "messages": {
+            "successMessage": "Siz tizimdan muvaffaqiyatli chiqdingiz",
+            "errorMessage": "Chiqishda xatolik yuz berdi"
+        }
     }
 }

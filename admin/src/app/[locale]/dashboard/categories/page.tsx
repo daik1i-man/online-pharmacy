@@ -12,26 +12,24 @@ import { useTranslations } from 'next-intl';
 import React from "react";
 
 export default function CategoriesPage() {
-    const [page, setPage] = React.useState(1);
     const t = useTranslations('Pages');
+    const [page, setPage] = React.useState(1);
     const { setOpenAddCategoryModal } = useAddCategoryModalContext()
     const { setOpenEditCategoryModal, setEditCurrentCategory } = useEditCategoryContext();
     const { setOpenDeleteCategoryModal, setDeletecurrentCategory } = useDeleteCategoryContext()
-    const [isMounted, setIsMounted] = React.useState(false);
     
-    React.useEffect(() => {
-        setIsMounted(true);
-    }, []);
-
-    if (!isMounted) {
-        return null
-    };
-    
-    const { data: categories } = useQuery({
+    const { data: categories, isLoading: loading } = useQuery({
         queryKey: ['categories'],
         queryFn: () => getCategories()
     })
 
+    const getCategoryMutation = useMutation({
+        mutationKey: ['currentCategory'],
+        mutationFn: (id: string) => getCategoryById(id),
+        onSuccess: (res) => {
+            setEditCurrentCategory(res)
+        }
+    })
 
     const rowsPerPage = 10;
 
@@ -43,14 +41,6 @@ export default function CategoriesPage() {
 
         return categories?.slice(start, end);
     }, [page, categories])
-
-    const getCategoryMutation = useMutation({
-        mutationKey: ['currentCategory'],
-        mutationFn: (id: string) => getCategoryById(id),
-        onSuccess: (res) => {
-            setEditCurrentCategory(res)
-        }
-    })
 
     const openDeleteModal = (currentCategoryId: string, img_url: string) => {
         setDeletecurrentCategory({ id: currentCategoryId, img_url });
@@ -92,22 +82,22 @@ export default function CategoriesPage() {
                         <TableColumn>{t('Categories.table.createdDate')}</TableColumn>
                         <TableColumn className="">
                             <Button
-                                className="my-2 bg-foreground text-gray-50 rounded-md"
+                                className="my-2 rounded-md"
                                 onClick={() => setOpenAddCategoryModal(true)}
                             >
                                 {t('Categories.table.addButton')}
                             </Button>
                         </TableColumn>
                     </TableHeader>
-                    <TableBody emptyContent={t('Categories.table.emptyContent')} items={items}>
+                    <TableBody emptyContent={loading ? t('Categories.table.emptyContent') : t('Categories.table.emptyContent')}>
                         {items?.map((category: any, i: number) => (
                             <TableRow key={category?.id} className="border-b">
                                 <TableCell
-                                    className="font-medium text-gray-900 dark:text-white text-center"
+                                    className="font-medium text-center"
                                 >
                                     {i + 1}
                                 </TableCell>
-                                <TableCell className="text-lg font-semibold text-gray-900">
+                                <TableCell className="text-lg font-semibold">
                                     {category?.name}
                                 </TableCell>
                                 <TableCell className="text-center">
@@ -115,10 +105,10 @@ export default function CategoriesPage() {
                                         width={55}
                                         alt="NextUI hero Image"
                                         src={category?.img_url}
-                                        className="rounded-md border p-1.5"
+                                        className="rounded-md border"
                                     />
                                 </TableCell>
-                                <TableCell className="text-md font-semibold text-gray-900">
+                                <TableCell className="text-md font-semibold">
                                     {category?.created_date}
                                 </TableCell>
                                 <TableCell className="w-28">

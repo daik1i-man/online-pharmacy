@@ -10,7 +10,7 @@ export const loginRequest = async ({ phoneNumber, password }: loginReuestFunctio
         })
     } catch (e) {
         if (isAxiosError(e) && e.response) {
-            return e.response
+            throw e.response
         }
 
         throw e

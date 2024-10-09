@@ -15,7 +15,7 @@ export const addEmployee = async (datas: addEmployeeProps) => {
         return response
     } catch (error) {
         if (isAxiosError(error) && error.response) {
-            return error.response
+            throw error.response
         }
 
         throw error

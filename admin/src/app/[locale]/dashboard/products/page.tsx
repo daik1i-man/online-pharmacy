@@ -11,19 +11,10 @@ import Link from "next/link";
 import React from "react";
 
 export default function ProductsPage() {
-    const { setDeleteCurrentProduct, setOpenDeleteProductModal } = useDeleteProductContext()
-    const { setCurrentProductId } = useEditProductContext()
     const [page, setPage] = React.useState(1);
     const t = useTranslations('Pages.Products');
-    const [isMounted, setIsMounted] = React.useState(false);
-
-    React.useEffect(() => {
-        setIsMounted(true);
-      }, []);
-    
-      if (!isMounted) {
-        return null
-      };
+    const { setCurrentProductId } = useEditProductContext()
+    const { setDeleteCurrentProduct, setOpenDeleteProductModal } = useDeleteProductContext()
 
     const { data: products } = useQuery({
         queryKey: ['products'],
@@ -51,20 +42,19 @@ export default function ProductsPage() {
     }
 
     return (
-        <div className="px-6 h-screen overflow-y-scroll">
-            <div className="sm:max-w-6xl xl:max-w-screen-2xl mx-auto mt-24 mb-4">
+        <div className="h-screen px-6 overflow-y-scroll">
+            <div className="mx-auto mt-24 mb-4 sm:max-w-6xl xl:max-w-screen-2xl">
                 <h1 className="text-2xl font-regular">{t('title')}</h1>
             </div>
             <div className="">
                 <Table
                     shadow="none"
                     border={1}
-                    className="sm:max-w-6xl xl:max-w-screen-2xl mx-auto border rounded-lg mb-8"
+                    className="mx-auto mb-8 border rounded-lg sm:max-w-6xl xl:max-w-screen-2xl"
                     aria-label="Example static collection table"
                     bottomContent={
-                        <div className="flex w-full justify-center">
+                        <div className="flex justify-center w-full">
                             <Pagination
-                                className="text-gray-50"
                                 showControls
                                 color="default"
                                 page={page}
@@ -76,13 +66,13 @@ export default function ProductsPage() {
                     <TableHeader>
                         <TableColumn className="text-center">#</TableColumn>
                         <TableColumn className="px-12 w-80">{t('table.photo')}</TableColumn>
-                        <TableColumn className="w-80 text-center">{t('table.category')}</TableColumn>
+                        <TableColumn className="text-center w-80">{t('table.category')}</TableColumn>
                         <TableColumn className="text-center w-80">{t('table.price')}</TableColumn>
                         <TableColumn className="">{t('table.quantity')}</TableColumn>
                         <TableColumn>
                             <Link href='products/add'>
                                 <Button
-                                    className="my-2 bg-foreground text-gray-50 rounded-md"
+                                    className="my-2 rounded-md"
                                 >
                                     {t('table.addButton')}
                                 </Button>
@@ -93,7 +83,7 @@ export default function ProductsPage() {
                         {items?.map((product: any, i: number) => (
                             <TableRow key={product.id} className="border-b">
                                 <TableCell
-                                    className="font-medium text-gray-900 dark:text-white w-20 text-center"
+                                    className="w-20 font-medium text-center"
                                 >
                                     {i + 1}
                                 </TableCell>
@@ -102,22 +92,22 @@ export default function ProductsPage() {
                                         width={55}
                                         alt="NextUI hero Image"
                                         src={product.img_url}
-                                        className="rounded-md border shadow-sm"
+                                        className="border rounded-md shadow-sm"
                                     />
                                 </TableCell>
-                                <TableCell className="text-base font-semibold text-gray-900">
+                                <TableCell className="text-base font-semibold">
                                     {product?.category}
                                 </TableCell>
-                                <TableCell className="text-base font-semibold text-gray-900 text-center">
+                                <TableCell className="text-base font-semibold text-center">
                                     {product?.price} UZS
                                 </TableCell>
-                                <TableCell className="text-base px-8 font-semibold text-gray-900">
+                                <TableCell className="px-8 text-base font-semibold">
                                     {product?.quantity}
                                 </TableCell>
                                 <TableCell className="w-28">
                                     <div className="flex items-center gap-x-8">
                                         <Link href={`products/${product?.id}/edit`} onClick={() => setCurrentProductId(product?.id)}>
-                                            <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                                            <span className="text-lg cursor-pointer text-danger active:opacity-50">
                                                 <svg
                                                     aria-hidden="true"
                                                     fill="none"
@@ -154,7 +144,7 @@ export default function ProductsPage() {
                                                 </svg>
                                             </span>
                                         </Link>
-                                        <span onClick={() => onClick(product?.id)} className="text-lg text-danger cursor-pointer active:opacity-50">
+                                        <span onClick={() => onClick(product?.id)} className="text-lg cursor-pointer text-danger active:opacity-50">
                                             <svg
                                                 aria-hidden="true"
                                                 fill="none"

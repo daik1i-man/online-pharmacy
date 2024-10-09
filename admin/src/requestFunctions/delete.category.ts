@@ -8,7 +8,7 @@ export const deleteCategory = async (id: string) => {
         return response
     } catch (error) {
         if (isAxiosError(error) && error.response) {
-            return error.response
+            throw error.response
         }
 
         throw error

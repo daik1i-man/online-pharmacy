@@ -2,17 +2,23 @@
 
 import { loginRequest } from '@/requestFunctions/login.request';
 import { useRouter, usePathname } from "next/navigation";
+import { ToastAction } from '@/components/ui/toast';
+import { useMutation } from '@tanstack/react-query';
 import { AsYouType } from 'libphonenumber-js'
+import { useToast } from "@/hooks/use-toast"
 import { Button } from "@nextui-org/react";
 import { useTranslations } from 'next-intl';
 import { useCookies } from 'react-cookie'
 import React from "react";
+import { loginReuestFunctionProps } from '@/types/types';
 
 export default function LocalePage() {
-  const t = useTranslations('Pages');
   const [cookies, setCookie] = useCookies(['admin'])
+  const t = useTranslations('Pages');
   const pathname = usePathname()
+  const { toast } = useToast()
   const router = useRouter()
+
   const [state, setState] = React.useState({
     phoneNumber: '',
     password: '',
@@ -20,16 +26,6 @@ export default function LocalePage() {
     loading: false,
     errorMessage: ''
   })
-
-  const [isMounted, setIsMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  if (!isMounted) {
-    return null
-  };
 
   const formatPhoneNumber = (value: string) => {
     const asYouType = new AsYouType('UZ')
@@ -52,74 +48,73 @@ export default function LocalePage() {
     }
   }
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
-    setState(prevState => ({
-      ...prevState,
-      loading: true,
-      errorMessage: '',
-    }))
-
-    const datas = {
-      phoneNumber: state.phoneNumber,
-      password: state.password
-    }
-
-    try {
-      const response = await loginRequest(datas)
-
-      if (response.status === 404) {
+  const loginMutation = useMutation({
+    mutationKey: ['login'],
+    mutationFn: (data: loginReuestFunctionProps) => loginRequest(data),
+    onSuccess: (response) => {
+      if (response.status === 200) {
+        toast({
+          title: t('Login.successMessages.successLogin'),
+        })
         setState(prevState => ({
           ...prevState,
           loading: false,
-          errorMessage: t('Login.errorMessages.adminNotFound')
-        }))
-      } else if (response.status === 409) {
-        setState(prevState => ({
-          ...prevState,
-          loading: false,
-          errorMessage: t('Login.errorMessages.invalidPassword')
-        }))
-      } else if (response.status === 200) {
-        setState(prevState => ({
-          ...prevState,
-          loading: false,
-          errorMessage: '',
         }))
         setCookie('admin', response.data?.admin.id)
         const locale = pathname.split('/')[1];
         router.push(`/${locale}/dashboard/categories`)
-        if (pathname === '/dashboard/categories') {
-          setState({ ...state, loading: false })
-        } else {
-          setState({ ...state, loading: true })
-        }
       }
-    } catch (err) {
-      setState(prevState => ({
-        ...prevState,
-        loading: false,
-        errorMessage: t('Login.errorMessages.networkError')
-      }))
+    },
+    onError: (error: any) => {
+      setState({ ...state, loading: false })
+      if (error.status === 404) {
+        toast({
+          title: t('Login.errorMessages.adminNotFound.title'),
+          description: t('Login.errorMessages.adminNotFound.description')
+        })
+      } else if (error.status === 409) {
+        toast({
+          title: t('Login.errorMessages.invalidPassword.title'),
+          description: t('Login.errorMessages.invalidPassword.description')
+        })
+      } else if (error.status === 500) {
+        toast({
+          title: t('Login.errorMessages.networkError.title'),
+          description: t('Login.errorMessages.networkError.description'),
+          action: <ToastAction
+            onClick={() => (data: loginReuestFunctionProps) => loginMutation.mutate(data)}
+            altText={t('Login.errorMessages.networkError.tryButton')}
+          >
+            t('Login.errorMessages.networkError.tryButton')
+          </ToastAction>
+        })
+      }
     }
+  })
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    setState({ ...state, loading: true })
+
+    const datas = { phoneNumber: state.phoneNumber, password: state.password }
+
+    loginMutation.mutate(datas)
   }
 
   return (
-    <div className="mt-64">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="text-center text-2xl font-bold text-gray-900">
-          {t('Login.title')}
-        </h2>
-      </div>
+    <div className="h-screen bg-transparent pt-72">
+      <h2 className="text-center text-2xl font-bold">
+        {t('Login.title')}
+      </h2>
       <div className="mt-10 sm:max-w-sm xl:max-w-md mx-auto focus:ring-1">
         <form className="space-y-6" onSubmit={onSubmit}>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+            <label htmlFor="email" className="block text-sm font-medium leading-6">
               {t('Login.inputsLabel.phoneNumber')}
             </label>
             <div className="mt-2">
-              <div className="relative items-center flex w-full rounded-md border-0 p-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400">
+              <div className="relative items-center flex w-full rounded-md border-0 p-1 shadow-sm ring-1 ring-inset ring-gray-700">
                 <label htmlFor="phoneNumber" className="font-semibold border-r pr-4 pl-2">+998 </label>
                 <input
                   id="phoneNumber"
@@ -130,7 +125,7 @@ export default function LocalePage() {
                   onChange={onChange}
                   autoComplete='new-password'
                   required
-                  className="w-full rounded-md border-0 py-2 px-3 focus:outline-none text-gray-900 shadow-sm focus:ring-0 focus:border-none placeholder:text-gray-400"
+                  className="w-full rounded-md border-0 py-2 px-3 focus:outline-none bg-transparent shadow-sm focus:ring-0"
                   maxLength={12}
                 />
               </div>
@@ -139,7 +134,7 @@ export default function LocalePage() {
           <p className='text-red-500 font-semibold'>{state.errorMessage}</p>
           <div>
             <div className="flex items-center justify-between">
-              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="password" className="block text-sm font-medium leading-6">
                 {t('Login.inputsLabel.password')}
               </label>
             </div>
@@ -152,7 +147,7 @@ export default function LocalePage() {
                 value={state.password}
                 onChange={onChange}
                 required
-                className="block w-full focus:outline-none rounded-md border-0 py-2.5 px-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-gray-400 placeholder:text-gray-400"
+                className="block w-full focus:outline-none rounded-md border-0 py-2.5 px-3 bg-transparent shadow-sm ring-1 ring-inset ring-gray-700 focus:ring-gray-600"
               />
               <div onClick={onClick}>
                 {state.show ? (
@@ -174,7 +169,8 @@ export default function LocalePage() {
             <Button
               isLoading={state.loading}
               type="submit"
-              className="flex w-full uppercase justify-center rounded-md bg-gray-900 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-800"
+              color='primary'
+              className="rounded-md w-full"
             >
               {state.loading ? t('Login.inputsLabel.loadingButton') : t('Login.inputsLabel.buttonText')}
             </Button>

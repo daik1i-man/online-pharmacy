@@ -17,21 +17,20 @@ export default function EmployyesPage() {
     const { setOpenDeleteEmployeeModal, setDeleteCurrentEmployee } = useDeleteEmployeeContext()
     const { setEditCurrentEmployee, setOpenEditEmployeeModal, editCurrentEmployee } = useEditEmployeeContext()
     const { setOpenAddEmployeeModal } = useAddEmployeeContext()
-    const [isMounted, setIsMounted] = React.useState(false);
     const [page, setPage] = React.useState(1);
     const t = useTranslations('Pages');
-
-    React.useEffect(() => {
-        setIsMounted(true);
-    }, []);
-
-    if (!isMounted) {
-        return null
-    };
 
     const { data: employees } = useQuery({
         queryKey: ['employees'],
         queryFn: getEmployees
+    })
+
+    const editEmployeeMutation = useMutation({
+        mutationKey: ['currentEmployee'],
+        mutationFn: (id: string | null) => getEmployeeById(id),
+        onSuccess: (res) => {
+            setEditCurrentEmployee(res)
+        }
     })
 
     const rowsPerPage = 10;
@@ -45,13 +44,6 @@ export default function EmployyesPage() {
         return employees?.slice(start, end);
     }, [page, employees])
 
-    const editEmployeeMutation = useMutation({
-        mutationKey: ['currentEmployee'],
-        mutationFn: (id: string | null) => getEmployeeById(id),
-        onSuccess: (res) => {
-            setEditCurrentEmployee(res)
-        }
-    })
 
 
     const editModalHandler = (id: string | null) => {
@@ -96,7 +88,7 @@ export default function EmployyesPage() {
                         <TableColumn className="text-center">
                             <Button
                                 onClick={() => setOpenAddEmployeeModal(true)}
-                                className="my-2 bg-foreground text-gray-50 rounded-md"
+                                className="my-2 rounded-md"
                             >
                                 {t('Emloyees.table.addButton')}
                             </Button>
@@ -106,20 +98,20 @@ export default function EmployyesPage() {
                         {items?.map((employee: any, i: number) => (
                             <TableRow key={employee.id} className="border-b">
                                 <TableCell
-                                    className="font-medium text-gray-900 dark:text-white w-20 text-center"
+                                    className="font-medium w-20 text-center"
                                 >
                                     {i + 1}
                                 </TableCell>
                                 <TableCell className="px-8">
                                     +998 {employee?.phone_number}
                                 </TableCell>
-                                <TableCell className="text-base text-gray-900">
+                                <TableCell className="text-base">
                                     {employee?.name}
                                 </TableCell>
-                                <TableCell className="text-base text-gray-900">
+                                <TableCell className="text-base">
                                     {employee?.role}
                                 </TableCell>
-                                <TableCell className="text-base text-center text-gray-900">
+                                <TableCell className="text-base text-center">
                                     {employee?.salary} UZS
                                 </TableCell>
                                 <TableCell className="w-28">

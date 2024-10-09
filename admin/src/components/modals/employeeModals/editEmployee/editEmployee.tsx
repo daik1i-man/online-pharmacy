@@ -1,7 +1,7 @@
 'use client'
 
 import { useEditEmployeeContext } from '@/context/employeeActionsContext/editEmployee/editEmployee';
-import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter } from "@nextui-org/react";
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { editEmployee } from '@/requestFunctions/edit.employee';
 import { Button, Select, SelectItem } from '@nextui-org/react'
@@ -9,9 +9,11 @@ import { ChangeEvent, useEffect, useState } from 'react'
 import { editEmployeeProps } from '@/types/types';
 import { AsYouType } from 'libphonenumber-js'
 import { admins } from '../addEmployee/types'
+import { useToast } from '@/hooks/use-toast';
 import { useTranslations } from 'next-intl'
 
 export default function EditEmployeeModal() {
+    const { toast } = useToast()
     const queryClient = useQueryClient()
     const { openEditEmployeeModal, setOpenEditEmployeeModal, editCurrentEmployee } = useEditEmployeeContext()
     const [change, setChange] = useState(false)
@@ -79,6 +81,16 @@ export default function EditEmployeeModal() {
             setLoading(false)
             queryClient.invalidateQueries({ queryKey: ['employees'] })
             setOpenEditEmployeeModal(false)
+            toast({
+                title: t('messages.successMessage')
+            })
+        },
+        onError: () => {
+            setLoading(false)
+            setOpenEditEmployeeModal(false)
+            toast({
+                title: t('messages.errorMessage')
+            })
         }
     })
 
@@ -110,29 +122,17 @@ export default function EditEmployeeModal() {
     }
 
     return (
-        <Dialog className="relative z-50" open={openEditEmployeeModal} onClose={closeHandler}>
-            <DialogBackdrop
-                transition
-                className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
-            />
-
-            <div className="fixed inset-0 z-50 w-screen overflow-y-auto">
-                <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                    <DialogPanel
-                        transition
-                        className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-2xl data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
-                    >
-                        <div className="sm:mx-auto sm:w-full sm:max-w-lg">
-                            <div className="mt-3 sm:mt-0 py-6">
-                                <DialogTitle as="h1" className="text-2xl font-semibold leading-6 text-gray-900">
-                                    {t('title')}
-                                </DialogTitle>
-                            </div>
-                        </div>
-                        <div className="mt-3 sm:mx-auto sm:w-full sm:max-w-lg">
-                            <form className="space-y-6" action="#" method="POST" onSubmit={onSubmit}>
+        <Modal size='xl' backdrop='blur' isOpen={openEditEmployeeModal} onOpenChange={setOpenEditEmployeeModal}>
+            <ModalContent>
+                {(onClose) => (
+                    <>
+                        <ModalHeader className="flex flex-col gap-1">
+                            {t('title')}
+                        </ModalHeader>
+                        <ModalBody>
+                            <form id='form' className="space-y-6" action="#" method="POST" onSubmit={onSubmit}>
                                 <div>
-                                    <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
+                                    <label htmlFor="name" className="block text-sm font-medium leading-6">
                                         {t('fullName')}
                                     </label>
                                     <div className="mt-2">
@@ -145,7 +145,7 @@ export default function EditEmployeeModal() {
                                             value={data.name}
                                             onChange={onChange}
                                             required
-                                            className="w-full rounded-md border-0 py-2.5 focus:ring-1 focus:ring-gray-300 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400"
+                                            className="w-full rounded-md border-0 py-2.5 bg-transparent focus:ring-1 focus:ring-gray-600 ring-gray-700 shadow-sm ring-1 ring-inset"
                                         />
                                     </div>
                                 </div>
@@ -153,8 +153,8 @@ export default function EditEmployeeModal() {
                                     <label htmlFor="phoneNumber" className="block text-sm font-medium leading-6 text-gray-900">
                                         {t('phoneNumber')}
                                     </label>
-                                    <div className="mt-2 relative items-center flex w-full rounded-md border-0 p-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400">
-                                        <label htmlFor="phoneNumber" className=" border-r pr-4 pl-2">+998 </label>
+                                    <div className="relative flex items-center w-full p-1 mt-2 border-0 rounded-md shadow-sm ring-1 ring-gray-700 ring-inset">
+                                        <label htmlFor="phoneNumber" className="pl-2 pr-4 border-r ">+998 </label>
                                         <input
                                             id="phoneNumber"
                                             name="phoneNumber"
@@ -163,14 +163,14 @@ export default function EditEmployeeModal() {
                                             value={data.phoneNumber}
                                             onChange={onChange}
                                             required
-                                            className="w-full border-0 py-2 px-3 focus:outline-none focus:ring-0 text-gray-900 shadow-sm  placeholder:text-gray-400"
+                                            className="w-full px-3 py-2 bg-transparent border-0 shadow-sm focus:outline-none focus:ring-0"
                                             maxLength={12}
                                         />
                                     </div>
                                 </div>
-                                <div className='flex max-w-xl items-center mx-auto justify-between'>
+                                <div className='flex items-center justify-between w-full mx-auto'>
                                     <div>
-                                        <label htmlFor="select" className="block mb-3 text-sm font-medium leading-6 text-gray-900">
+                                        <label htmlFor="select" className="block mb-3 text-sm font-medium leading-6">
                                             {t('role')}
                                         </label>
                                         <Select
@@ -188,11 +188,11 @@ export default function EditEmployeeModal() {
                                         </Select>
                                     </div>
                                     <div>
-                                        <label htmlFor="number" className="block text-sm font-medium leading-6 text-gray-900">
+                                        <label htmlFor="number" className="block text-sm font-medium leading-6">
                                             {t('salary')}
                                         </label>
                                         <div className="mt-2">
-                                            <div className="flex items-center ring-1 ring-gray-200 border-0 rounded-md p-1 px-2 pr-4 border-gray-900">
+                                            <div className="flex items-center p-1 px-2 pr-4 border-0 rounded-md ring-1 ring-gray-700">
                                                 <input
                                                     id="salary"
                                                     name="salary"
@@ -202,35 +202,39 @@ export default function EditEmployeeModal() {
                                                     value={data.salary}
                                                     onChange={onChange}
                                                     required
-                                                    className="block py-2.5 border-0 focus:ring-0 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                                                    className="block py-2.5 border-0 focus:ring-0 bg-transparent"
                                                 />
                                                 <span>UZS</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="py-3 sm:flex sm:flex-row-reverse sm:px-1">
-                                    <Button
-                                        disabled={!change}
-                                        isLoading={loading}
-                                        type="submit"
-                                        className="inline-flex w-full justify-center disabled:opacity-50 disabled:hover:bg-gray-500 disabled:hover:cursor-pointer rounded-md bg-gray-900 px-8 py-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 sm:ml-3 sm:w-auto"
-                                    >
-                                        {loading ? t('loadingButton') : t('addButton')}
-                                    </Button>
-                                    <Button
-                                        onClick={closeHandler}
-                                        type="button"
-                                        className="mt-3 inline-flex w-full border-gray-300 justify-center rounded-md bg-white px-8 py-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:mt-0 sm:w-auto"
-                                    >
-                                        {t('cancelButton')}
-                                    </Button>
-                                </div>
                             </form>
-                        </div>
-                    </DialogPanel>
-                </div>
-            </div>
-        </Dialog>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button
+                                onClick={closeHandler}
+                                type="button"
+                                className="rounded-md"
+                                color='default'
+                            >
+                                {t('cancelButton')}
+                            </Button>
+                            <Button
+                                disabled={!change}
+                                form='form'
+                                isLoading={loading}
+                                color='primary'
+                                type="submit"
+                                className="rounded-md disabled:opacity-50 disabled:hover:opacity-50"
+                            >
+                                {loading ? t('loadingButton') : t('addButton')}
+                            </Button>
+                        </ModalFooter>
+                    </>
+                )}
+            </ModalContent>
+        </Modal>
     )
 }
+

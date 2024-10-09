@@ -10,17 +10,8 @@ import React from "react";
 
 export default function OrdersPage() {
     const [page, setPage] = React.useState(1);
-    const { setOpenTakeOrderModal, setTakeCurrentOrder } = useTakeOrderContext()
     const t = useTranslations('Pages.Orders');
-    const [isMounted, setIsMounted] = React.useState(false);
-
-    React.useEffect(() => {
-        setIsMounted(true);
-    }, []);
-
-    if (!isMounted) {
-        return null
-    };
+    const { setOpenTakeOrderModal, setTakeCurrentOrder } = useTakeOrderContext()
 
     const { data: orders } = useQuery({ queryKey: ['orders'], queryFn: getOrders })
 
@@ -77,35 +68,34 @@ export default function OrdersPage() {
                         {items?.map((order: any, i: number) => (
                             <TableRow key={order.id} className="border-b">
                                 <TableCell
-                                    className="font-medium text-gray-900 dark:text-white w-20 text-center"
+                                    className="font-medium w-20 text-center"
                                 >
                                     {i + 1}
                                 </TableCell>
-                                <TableCell className="text-sm font-semibold text-gray-900">
+                                <TableCell className="text-sm font-semibold">
                                     {order?.last_name}
                                 </TableCell>
-                                <TableCell className="text-sm font-semibold text-gray-900">
+                                <TableCell className="text-sm font-semibold">
                                     {order?.first_name}
                                 </TableCell>
-                                <TableCell className="text-sm font-semibold text-gray-900">
+                                <TableCell className="text-sm font-semibold">
                                     {order?.phonenumber}
                                 </TableCell>
-                                <TableCell className="text-sm font-semibold text-gray-900">
+                                <TableCell className="text-sm font-semibold">
                                     {`${order?.total_price} UZS`}
                                 </TableCell>
-                                <TableCell className="text-sm font-semibold text-gray-900">
+                                <TableCell className="text-sm font-semibold">
                                     {order.ordered_time}
                                 </TableCell>
-                                <TableCell className="text-sm font-semibold text-gray-900">
+                                <TableCell className="text-sm font-semibold">
                                     <Chip className="capitalize" color='warning' size="sm" variant="flat">
                                         {order.status}
                                     </Chip>
                                 </TableCell>
                                 <TableCell className="text-center">
                                     <Button
-                                        onClick={() => onClick(order?.id)}
-                                        className="bg-gray-800 text-white">
-                                        Buyurtmani bekor qilish
+                                        onClick={() => onClick(order?.id)}>
+                                        {t('table.cancelAction')}
                                     </Button>
                                 </TableCell>
                             </TableRow>

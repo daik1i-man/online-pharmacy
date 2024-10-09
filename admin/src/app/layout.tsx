@@ -1,5 +1,6 @@
 'use client'
 
+import { Toaster } from "@/components/ui/toaster"
 import { CookiesProvider } from 'react-cookie'
 import { usePathname } from 'next/navigation';
 import { Providers } from "./providers"
@@ -14,13 +15,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <title>Admin Panel - Online Pharmacy</title>
         <meta name="description" content="Admin Panel - Online Pharmacy" />
+        <link rel="shortcut icon" href="/medicines.svg" type="image/x-icon" />
       </head>
       <body>
-        <CookiesProvider>
-          <Providers>
+        <Providers>
+          <CookiesProvider>
             {children}
-          </Providers>
-        </CookiesProvider>
+            <Toaster />
+          </CookiesProvider>
+        </Providers>
       </body>
     </html>
   );

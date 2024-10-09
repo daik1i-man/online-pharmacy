@@ -13,7 +13,7 @@ export const addCategory = async ({ categoryName, url, formattedDate }: addCateg
         return response
     } catch (error) {
         if (isAxiosError(error) && error.response) {
-            return error.response
+            throw error.response
         }
 
         throw error

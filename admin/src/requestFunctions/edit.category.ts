@@ -14,7 +14,7 @@ export const editCategory = async ({ id, categoryName, url, formattedDate }: edi
         return response
     } catch (error) {
         if (isAxiosError(error) && error.response) {
-            return error.response
+            throw error.response
         }
         
         throw new Error

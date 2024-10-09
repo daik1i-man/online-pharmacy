@@ -8,10 +8,23 @@
                 "buttonText": "Входить",
                 "loadingButton": "Загрузка..."
             },
+            "successMessages": {
+                "successLogin": "Вход выполнеён успешно"
+            },
             "errorMessages": {
-                "adminNotFound": "Админ не найден!",
-                "invalidPassword": "Введенный пароль неверен!",
-                "networkError": "Ошибка сервера! Пожалуйста, попробуйте еще раз!"
+                "adminNotFound": {
+                    "title": "Админ не найдён",
+                    "description": "Введённый админ не найдён"
+                },
+                "invalidPassword": {
+                    "title": "Неправильный пароль",
+                    "description": "Введённый пароль не правильно"
+                },
+                "networkError": {
+                    "title": "Ошибка в сервере",
+                    "description": "Пожалуйста попробуйте ещё раз",
+                    "tryButton": "Отправить заново"
+                }
             }
         },
         "Categories": {
@@ -33,7 +46,11 @@
                     "fileInputdescription": "Нажмите здесь, чтобы загрузить файл",
                     "cancelButton": "Отмена",
                     "addButton": "Добавлять",
-                    "loadingButton": "Загрузка..."
+                    "loadingButton": "Загрузка...",
+                    "messages": {
+                        "successMessage": "Успешно добавлено",
+                        "errorMessage": "Ошибка при добавлении"
+                    }
                 },
                 "edit": {
                     "title": "Редактировать категорию",
@@ -45,14 +62,22 @@
                     "newFileButton": "Загрузить новый файл",
                     "cancelButton": "Отмена",
                     "addButton": "Сохранить изменения",
-                    "loadingButton": "Сохранение..."
+                    "loadingButton": "Сохранение...",
+                    "messages": {
+                        "successMessage": "Изменении успешно сохранено",
+                        "errorMessage": "Ошибка при сохранении"
+                    }
                 },
                 "delete": {
                     "title": "Удалить категорию",
                     "description": "Вы действительно хотите удалить эту категорию?",
                     "cancelButton": "Отмена",
                     "addButton": "Удалить",
-                    "loadingButton": "Удаление..."
+                    "loadingButton": "Удаление...",
+                    "messages": {
+                        "successMessage": "Успешно удалено",
+                        "errorMessage": "Ошибка при удалении"
+                    }
                 }
             }
         },
@@ -65,7 +90,8 @@
                 "totalPrice": "Общая стоимость",
                 "orderedDate": "Дата оформления",
                 "status": "Статус",
-                "emptyContent": "Список заказов пуст!"
+                "emptyContent": "Список заказов пуст!",
+                "cancelAction": "Завершить процесс"
             },
             "Modals": {
                 "delete": {
@@ -73,7 +99,11 @@
                     "description": "Вы действительно хотите завершить процесс?",
                     "cancelButton": "Отмена",
                     "addButton": "Завершить",
-                    "loadingButton": "Завершение..."
+                    "loadingButton": "Завершение...",
+                    "messages": {
+                        "successMessage": "Успешно удалено",
+                        "errorMessage": "Ошибка при удалении"
+                    }
                 }
             }
         },
@@ -91,9 +121,13 @@
                 "delete": {
                     "title": "Удалить продукт",
                     "description": "Вы действительно хотите удалить товар?",
-                    "cancelButton": "Bekor qilish",
-                    "addButton": "O'chirish",
-                    "loadingButton": "O'chirilmoqda..."
+                    "cancelButton": "Отмена",
+                    "addButton": "Удалить",
+                    "loadingButton": "Удаление...",
+                    "messages": {
+                        "successMessage": "Успешно удалено",
+                        "errorMessage": "Ошибка при удалении"
+                    }
                 }
             },
             "addProductPage": {
@@ -109,6 +143,10 @@
                     "addbutton": "Добавить",
                     "cancelButton": "Отмена",
                     "loadingButton": "Добавляется..."
+                },
+                "messages": {
+                    "successMessage": "Успешно добавлено",
+                    "errorMessage": "Ошибка при добавлении"
                 }
             },
             "editProductPage": {
@@ -125,6 +163,10 @@
                     "addbutton": "Сохранить изменении",
                     "cancelButton": "Отмена",
                     "loadingButton": "Загрузка..."
+                },
+                "messages": {
+                    "successMessage": "Изменении успешно сохранено",
+                    "errorMessage": "Ошибка при сохранении"
                 }
             }
         },
@@ -147,7 +189,11 @@
                     "salary": "Зарплата*",
                     "addButton": "Добавить",
                     "cancelButton": "Отмена",
-                    "loadingButton": "Загрузка..."
+                    "loadingButton": "Загрузка...",
+                    "messages": {
+                        "successMessage": "Успешно добавлено",
+                        "errorMessage": "Ошибка при добавлении"
+                    }
                 },
                 "edit": {
                     "title": "Редактировать сотрудника",
@@ -157,14 +203,22 @@
                     "salary": "Зарплата*",
                     "addButton": "Сохранить изменении",
                     "cancelButton": "Отмена",
-                    "loadingButton": "Загрузка..."
+                    "loadingButton": "Загрузка...",
+                    "messages": {
+                        "successMessage": "Изменении успешно сохранено",
+                        "errorMessage": "Ошибка при сохранении"
+                    }
                 },
                 "delete": {
                     "title": "Удалить сотрудника",
                     "description": "Вы действительно хотите удалить сотрудника ?",
                     "cancelButton": "Отмена",
                     "addButton": "Удалить",
-                    "loadingButton": "Загрузка..."
+                    "loadingButton": "Загрузка...",
+                    "messages": {
+                        "successMessage": "Успешно удалено",
+                        "errorMessage": "Ошибка при удалении"
+                    }
                 }
             }
         }
@@ -180,6 +234,10 @@
         "title": "Выход из системы",
         "description": "Вы действительно хотите выход из системы ?",
         "addButton": "Выходить",
-        "cancelButton": "Отмена"
+        "cancelButton": "Отмена",
+        "messages": {
+            "successMessage": "Вы успешно выходили из системы",
+            "errorMessage": "Ошибка при выходе из системы"
+        }
     }
 }
