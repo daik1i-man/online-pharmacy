@@ -8,6 +8,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useToast } from "@/hooks/use-toast";
 import { useTranslations } from 'next-intl'
 import { useCookies } from 'react-cookie'
+import { format } from 'date-fns'
 import { useState } from 'react'
 
 
@@ -32,14 +33,16 @@ export default function LogoutModal() {
             setOpenLogoutModal(false)
             removeCookie('admin', { path: '/' })
             toast({
-                title: t('messages.successMessage')
+                title: t('messages.successMessage'),
+                description: format(new Date(), 'dd.MM.yyyy HH:mm')
             })
         },
         onError() {
             setLoading(false)
             setOpenLogoutModal(false)
             toast({
-                title: t('messages.errorMessage')
+                title: t('messages.errorMessage'),
+                description: format(new Date(), 'dd.MM.yyyy HH:mm')
             })
         },
     })

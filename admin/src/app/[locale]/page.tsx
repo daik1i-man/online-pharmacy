@@ -2,6 +2,7 @@
 
 import { loginRequest } from '@/requestFunctions/login.request';
 import { useRouter, usePathname } from "next/navigation";
+import { loginReuestFunctionProps } from '@/types/types';
 import { ToastAction } from '@/components/ui/toast';
 import { useMutation } from '@tanstack/react-query';
 import { AsYouType } from 'libphonenumber-js'
@@ -9,8 +10,8 @@ import { useToast } from "@/hooks/use-toast"
 import { Button } from "@nextui-org/react";
 import { useTranslations } from 'next-intl';
 import { useCookies } from 'react-cookie'
+import { format } from 'date-fns';
 import React from "react";
-import { loginReuestFunctionProps } from '@/types/types';
 
 export default function LocalePage() {
   const [cookies, setCookie] = useCookies(['admin'])
@@ -52,18 +53,17 @@ export default function LocalePage() {
     mutationKey: ['login'],
     mutationFn: (data: loginReuestFunctionProps) => loginRequest(data),
     onSuccess: (response) => {
-      if (response.status === 200) {
-        toast({
-          title: t('Login.successMessages.successLogin'),
-        })
-        setState(prevState => ({
-          ...prevState,
-          loading: false,
-        }))
-        setCookie('admin', response.data?.admin.id)
-        const locale = pathname.split('/')[1];
-        router.push(`/${locale}/dashboard/categories`)
-      }
+      toast({
+        title: t('Login.successMessages.successLogin'),
+        description: format(new Date(), 'dd.MM.yyyy HH:mm')
+      })
+      setState(prevState => ({
+        ...prevState,
+        loading: false,
+      }))
+      setCookie('admin', response.data?.admin.id)
+      const locale = pathname.split('/')[1];
+      router.push(`/${locale}/dashboard/categories`)
     },
     onError: (error: any) => {
       setState({ ...state, loading: false })

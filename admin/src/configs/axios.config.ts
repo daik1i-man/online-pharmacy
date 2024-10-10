@@ -1,9 +1,9 @@
 import axios, { AxiosRequestConfig } from 'axios'
 
-//http://localhost:5000
+//https://api.opharm.uz
 
 const axiosOptions: AxiosRequestConfig = {
-    baseURL: 'https://api.opharm.uz',
+    baseURL: 'http://localhost:5000',
     timeout: 10000,
     withCredentials: true
 }

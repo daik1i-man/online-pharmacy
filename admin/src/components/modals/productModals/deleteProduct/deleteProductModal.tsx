@@ -6,6 +6,7 @@ import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { deleteProduct } from '@/requestFunctions/delete.product';
 import { useToast } from '@/hooks/use-toast';
 import { useTranslations } from 'next-intl'
+import { format } from 'date-fns'
 import { useState } from 'react'
 
 export default function DeleteProductModal() {
@@ -24,14 +25,16 @@ export default function DeleteProductModal() {
             setLoading(false)
             setOpenDeleteProductModal(false)
             toast({
-                title: t('messages.successMessage')
+                title: t('messages.successMessage'),
+                description: format(new Date(), 'dd.MM.yyyy HH:mm')
             })
         },
         onError() {
             setLoading(false)
             setOpenDeleteProductModal(false)
             toast({
-                title: t('messages.errorMessage')
+                title: t('messages.errorMessage'),
+                description: format(new Date(), 'dd.MM.yyyy HH:mm')
             })
         },
     })

@@ -6,6 +6,7 @@ import { deleteCategory } from '@/requestFunctions/delete.category'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useToast } from '@/hooks/use-toast';
 import { useTranslations } from 'next-intl'
+import { format } from 'date-fns';
 import { useState } from 'react'
 
 export default function DeleteCategoryModal() {
@@ -24,14 +25,16 @@ export default function DeleteCategoryModal() {
             setOpenDeleteCategoryModal(false)
             queryClient.invalidateQueries({ queryKey: ['categories'] })
             toast({
-                title: t('messages.successMessage')
+                title: t('messages.successMessage'),
+                description: format(new Date(), 'dd.MM.yyyy HH:mm')
             })
         },
         onError() {
             setLoading(false)
             setOpenDeleteCategoryModal(false)
             toast({
-                title: t('messages.errorMessage')
+                title: t('messages.errorMessage'),
+                description: format(new Date(), 'dd.MM.yyyy HH:mm')
             })
         },
     })

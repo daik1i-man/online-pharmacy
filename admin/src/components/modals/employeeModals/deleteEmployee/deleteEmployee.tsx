@@ -6,6 +6,7 @@ import { deleteEmployee } from '@/requestFunctions/delete.employee'
 import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { useToast } from '@/hooks/use-toast';
 import { useTranslations } from 'next-intl'
+import { format } from 'date-fns'
 import { useState } from 'react'
 
 export default function DeleteEmployeeModal() {
@@ -24,14 +25,16 @@ export default function DeleteEmployeeModal() {
             queryClient.removeQueries({ queryKey: ['employees'] })
             setOpenDeleteEmployeeModal(false)
             toast({
-                title: t('messages.successMessage')
+                title: t('messages.successMessage'),
+                description: format(new Date(), 'dd.MM.yyyy HH:mm')
             })
         },
         onError() {
             setLoading(false)
             setOpenDeleteEmployeeModal(false)
             toast({
-                title: t('messages.successMessage')
+                title: t('messages.successMessage'),
+                description: format(new Date(), 'dd.MM.yyyy HH:mm')
             })
         },
     })

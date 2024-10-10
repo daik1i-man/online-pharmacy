@@ -9,7 +9,7 @@
                 "loadingButton": "Yuklanmoqda..."
             },
             "successMessages": {
-                "successLogin": "Muvaffaqiyatli kirildi"
+                "successLogin": "Tizimga muvaffaqiyatli kirildi"
             },
             "errorMessages": {
                 "adminNotFound": {

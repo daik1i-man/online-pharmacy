@@ -6,6 +6,7 @@ import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { takeTheOrder } from '@/requestFunctions/take.order';
 import { useToast } from "@/hooks/use-toast";
 import { useTranslations } from 'next-intl'
+import { format } from 'date-fns'
 import { useState } from 'react'
 
 export default function TakeOrderModal() {
@@ -22,7 +23,9 @@ export default function TakeOrderModal() {
         onSuccess: () => {
             queryClient.removeQueries({ queryKey: ['orders'] })
             toast({
-                title: t('messages.successMessage')
+                title: t('messages.successMessage'),
+                description: format(new Date(), 'dd.MM.yyyy HH:mm')
+
             })
             setOpenTakeOrderModal(false)
             setLoading(false)
@@ -30,7 +33,8 @@ export default function TakeOrderModal() {
         onError: () => {
             queryClient.removeQueries({ queryKey: ['orders'] })
             toast({
-                title: t('messages.errorMessage')
+                title: t('messages.errorMessage'),
+                description: format(new Date(), 'dd.MM.yyyy HH:mm')
             })
             setOpenTakeOrderModal(false)
             setLoading(false)

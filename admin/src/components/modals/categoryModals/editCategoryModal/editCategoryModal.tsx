@@ -84,7 +84,8 @@ export default function EditCategoryModal() {
                 loading: false
             }))
             toast({
-                title: t('messages.successMessage')
+                title: t('messages.successMessage'),
+                description: format(new Date(), 'dd.MM.yyyy HH:mm')
             })
         },
         onError: () => {
@@ -96,7 +97,8 @@ export default function EditCategoryModal() {
             }))
             setOpenEditCategoryModal(false)
             toast({
-                title: t('messages.errorMessage')
+                title: t('messages.errorMessage'),
+                description: format(new Date(), 'dd.MM.yyyy HH:mm')
             })
         }
     })

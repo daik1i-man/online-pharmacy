@@ -11,6 +11,7 @@ import { AsYouType } from 'libphonenumber-js'
 import { admins } from '../addEmployee/types'
 import { useToast } from '@/hooks/use-toast';
 import { useTranslations } from 'next-intl'
+import { format } from 'date-fns'
 
 export default function EditEmployeeModal() {
     const { toast } = useToast()
@@ -82,14 +83,16 @@ export default function EditEmployeeModal() {
             queryClient.invalidateQueries({ queryKey: ['employees'] })
             setOpenEditEmployeeModal(false)
             toast({
-                title: t('messages.successMessage')
+                title: t('messages.successMessage'),
+                description: format(new Date(), 'dd.MM.yyyy HH:mm')
             })
         },
         onError: () => {
             setLoading(false)
             setOpenEditEmployeeModal(false)
             toast({
-                title: t('messages.errorMessage')
+                title: t('messages.errorMessage'),
+                description: format(new Date(), 'dd.MM.yyyy HH:mm')
             })
         }
     })

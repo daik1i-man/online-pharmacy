@@ -10,6 +10,7 @@ import { ChangeEvent, useState } from 'react'
 import { useToast } from '@/hooks/use-toast'
 import { useTranslations } from 'next-intl'
 import { admins } from './types'
+import { format } from 'date-fns'
 
 export default function AddEmployeeModal() {
     const { toast } = useToast()
@@ -76,7 +77,8 @@ export default function AddEmployeeModal() {
             setLoading(false)
             setOpenAddEmployeeModal(false)
             toast({
-                title: t('messages.successMessage')
+                title: t('messages.successMessage'),
+                description: format(new Date(), 'dd.MM.yyyy HH:mm')
             })
         },
         onError: () => {
@@ -90,7 +92,8 @@ export default function AddEmployeeModal() {
             setLoading(false)
             setOpenAddEmployeeModal(false)
             toast({
-                title: t('messages.errorMessage')
+                title: t('messages.errorMessage'),
+                description: format(new Date(), 'dd.MM.yyyy HH:mm')
             })
         }
     })

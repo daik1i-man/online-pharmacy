@@ -9,7 +9,7 @@
                 "loadingButton": "Загрузка..."
             },
             "successMessages": {
-                "successLogin": "Вход выполнеён успешно"
+                "successLogin": "Вход выполнён успешно"
             },
             "errorMessages": {
                 "adminNotFound": {
