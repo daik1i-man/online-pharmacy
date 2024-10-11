@@ -148,16 +148,16 @@ export default function Add() {
     }
 
     return (
-        <div className='h-screen overflow-y-scroll'>
-            <div className="px-8 mx-auto mt-32 max-w-7xl">
+        <div className='px-6 h-screen overflow-y-scroll w-full max-w-screen-[1480px] justify-center'>
+            <div className="px-8 mx-auto mt-32">
                 <h1 className="text-3xl font-semibold leading-6">
                     {t('title')}
                 </h1>
             </div>
-            <div className="px-8 mx-auto mt-12 max-w-7xl">
+            <div className="px-8 mx-auto mt-12">
                 <form className="space-y-6" method="POST" onSubmit={onSubmit}>
-                    <div className='flex items-center justify-between'>
-                        <div className='w-[550px]'>
+                    <div className='flex items-center gap-x-12 justify-between'>
+                        <div className='w-1/2'>
                             <p className='block mb-3 text-sm font-medium leading-6' />
                             {state.file === null ? (
                                 <Label

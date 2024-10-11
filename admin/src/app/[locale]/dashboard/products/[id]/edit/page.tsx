@@ -154,7 +154,7 @@ export default function Edit() {
 
         onSubmitMutation.mutate({
             img_url: url,
-            category: state.selectedCategory,
+            category: state.selectedCategory ? state.selectedCategory : product?.category,
             price: state.price,
             quantity: state.quantity,
             id: id,
@@ -164,16 +164,16 @@ export default function Edit() {
     }
 
     return (
-        <div className='h-screen overflow-y-scroll'>
-            <div className="px-8 mx-auto mt-32 max-w-7xl">
+        <div className='px-6 h-screen overflow-y-scroll w-full max-w-screen-[1480px] justify-center'>
+            <div className="px-8 mx-auto mt-32">
                 <h1 className="text-3xl font-semibold leading-6">
                     {t('title')}
                 </h1>
             </div>
-            <div className="px-8 mx-auto mt-12 max-w-7xl">
+            <div className="px-8 mx-auto mt-12">
                 <form className="space-y-6" method="POST" onSubmit={onSubmit}>
-                    <div className='flex items-center justify-between'>
-                        <div className='w-[550px]'>
+                    <div className='flex items-center gap-x-12 justify-between'>
+                        <div className='w-1/2'>
                             <div className={`my-2 border rounded-md relative`}>
                                 {state.file === null ? (
                                     (loading ? (
@@ -206,7 +206,7 @@ export default function Edit() {
                             </div>
                             <div className={`text-end my-4 ${state.file === null ? 'block' : 'hidden'}`}>
                                 <label
-                                    className='py-1.5 px-2 text-[14px] rounded-md cursor-pointer backdrop-blur-lg'
+                                    className='py-1.5 px-2 text-[14px] rounded-md cursor-pointer'
                                     htmlFor="dropzone-file">
                                     {t('inputsLabel.newFileButton')}
                                 </label>

@@ -34,7 +34,10 @@ export interface editCategoryProps {
 
 export interface MyContextProps {
     openLogoutModal: boolean,
-    setOpenLogoutModal: (openLogoutModal: boolean) => void
+    setOpenLogoutModal: (openLogoutModal: boolean) => void,
+    sidebarState: string | null,
+    setSidebarState: (sidebarState: string | null) => void,
+    sidebarStateHandler: (state: string) => void
 }
 
 export interface notificationContextProps {

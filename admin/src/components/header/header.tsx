@@ -106,9 +106,9 @@ export default function Header() {
                         <div className="flex justify-end gap-x-4 h-[80px] items-center">
                             <div className="flex gap-x-4 items-center dark:border py-1.5 px-6 rounded-md">
                                 <div>
-                                    <h1 className="text-[16px] font-medium">{admin.name}</h1>
+                                    <h1 className="text-[16px] font-medium">{admin?.name}</h1>
                                 </div>
-                                <div className="rounded-full bg-[#0076FF] text-[20px] font-bold text-gray-50 py-[10px] px-[20px]">{admin.name.substring(0, 1)}</div>
+                                <div className="rounded-full bg-[#0076FF] text-[20px] font-bold text-gray-50 py-[10px] px-[20px]">{admin?.name.substring(0, 1)}</div>
                             </div>
                         </div>
                     )}
